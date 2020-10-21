@@ -17,15 +17,19 @@
  */
 package io.ballerinalang.quoter.segment;
 
+import io.ballerinalang.quoter.QuoterException;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Node factory API call generation segment.
  * Number of parameters may be zero or more.
  * Method call of format: "NodeFactory.methodName(param1, param2)"
  */
-public class NodeFactorySegment extends Segment {
+public class NodeFactorySegment extends Segment implements Iterable<Segment> {
     private final String methodName;
     private final List<Segment> parameters;
 
@@ -51,5 +55,15 @@ public class NodeFactorySegment extends Segment {
         stringBuilder.append(")");
 
         return stringBuilder;
+    }
+
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public Iterator<Segment> iterator() {
+        return Objects.requireNonNull(parameters.iterator());
+    }
+
+    public String getMethodName() {
+        return methodName;
     }
 }

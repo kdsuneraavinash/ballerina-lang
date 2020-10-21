@@ -38,6 +38,8 @@ public abstract class SegmentFormatter {
                 return new DefaultFormatter();
             case "template":
                 return TemplateFormatter.fromConfig(config);
+            case "variable":
+                return new VariableFormatter();
             default:
                 throw new QuoterException("Unknown formatter name.");
         }

@@ -30,7 +30,7 @@ Change the properties in the [`quoter-config.properties`](src/main/resources/quo
 |`external.input.file`| `source-code.bal` | Input source file |
 |`external.output.file`| `generated-syntax-api.txt` | Output file |
 |`external.output.sys.out`| `false` | Whether to print out to the stdout as well. |
-|`external.formatter.name`| `template` | Formatter to use. Choices: `template`, `default`, `none` |
+|`external.formatter.name`| `template` | Formatter to use. Choices: `template`, `variable`, `default`, `none` |
 |`internal.node.children`*| `parameter-names.json` | JSON file containing the generated parameter names |
 |`internal.formatter.template`*| `template.txt` | Template file to use if `external.formatter.name` is `template` |
 |`internal.formatter.template.tab.start`| 2 | Initial indent of code if `external.formatter.name` is `template`|
@@ -41,7 +41,7 @@ If used with the template file, the code will get replaced on `%s`.
 
 ### Step 3:
 
-Put the source code in the input file. This is `source-code.bal` by default but you may use any file name.
+Put the source code in the input file. This is `source-code.bal` by default, but you may use any file name.
 
 ### Step 4:
 
