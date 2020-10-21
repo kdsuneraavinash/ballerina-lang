@@ -17,8 +17,6 @@
  */
 package io.ballerinalang.quoter;
 
-import io.ballerinalang.quoter.utils.FileReaderUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -68,12 +66,16 @@ public class QuoterConfig {
      * Loads the properties from the resources.
      */
     private static Properties loadConfig() {
-        try {
+        String path = QUOTER_GEN_CONFIG_PROPERTIES;
+        ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
+
+        try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
+            if (inputStream == null) throw new QuoterException("File not found: " + path);
             Properties props = new Properties();
-            props.load(FileReaderUtils.readResourceAsInputStream(QUOTER_GEN_CONFIG_PROPERTIES));
+            props.load(inputStream);
             return props;
         } catch (IOException e) {
-            throw new QuoterException("Project properties loading failed.");
+            throw new QuoterException("Project properties loading failed. Reason: " + e, e);
         }
     }
 }

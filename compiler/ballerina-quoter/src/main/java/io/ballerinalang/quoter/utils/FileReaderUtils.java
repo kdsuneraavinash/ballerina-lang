@@ -30,9 +30,15 @@ public class FileReaderUtils {
      * Reads a file path content from the resources directory.
      */
     public static String readFileAsResource(String path) {
-        InputStream inputStream = readResourceAsInputStream(path);
-        Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
-        return scanner.hasNext() ? scanner.next() : "";
+        ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
+
+        try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
+            if (inputStream == null) throw new QuoterException("File not found: " + path);
+            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+            return scanner.hasNext() ? scanner.next() : "";
+        } catch (IOException e) {
+            throw new QuoterException("Failed to read " + path + ". Error: " + e.getMessage(), e);
+        }
     }
 
 
@@ -43,21 +49,6 @@ public class FileReaderUtils {
         try (InputStream inputStream = new FileInputStream(path)) {
             Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
             return scanner.hasNext() ? scanner.next() : "";
-        } catch (IOException e) {
-            throw new QuoterException("Failed to read " + path + ". Error: " + e.getMessage(), e);
-        }
-    }
-
-
-    /**
-     * Reads a resource file as a input stream.
-     */
-    public static InputStream readResourceAsInputStream(String path) {
-        ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
-
-        try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
-            if (inputStream == null) throw new QuoterException("File not found: " + path);
-            return inputStream;
         } catch (IOException e) {
             throw new QuoterException("Failed to read " + path + ". Error: " + e.getMessage(), e);
         }

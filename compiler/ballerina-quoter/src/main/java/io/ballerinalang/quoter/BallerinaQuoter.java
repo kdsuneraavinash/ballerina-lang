@@ -50,6 +50,7 @@ public class BallerinaQuoter {
 
         } catch (QuoterException exception) {
             System.out.println("There was an Exception when parsing. Please check your code.\nError: " + exception);
+            throw exception;
         }
     }
 
@@ -79,16 +80,15 @@ public class BallerinaQuoter {
      * Output the final output in the way specified in the configurations.
      */
     private static void outputString(QuoterConfig config, String content) {
-        if (config.getBooleanOrThrow(EXTERNAL_OUTPUT_SYS_OUT)) {
-            System.out.println(content);
-            return;
-        }
-
         String outputFileName = config.getOrThrow(EXTERNAL_OUTPUT_FILE);
         try (OutputStream outputStream = new FileOutputStream(outputFileName)) {
             outputStream.write(content.getBytes());
         } catch (IOException e) {
             throw new QuoterException("Failed to write " + outputFileName + ". Error: " + e.getMessage(), e);
+        }
+
+        if (config.getBooleanOrThrow(EXTERNAL_OUTPUT_SYS_OUT)) {
+            System.out.println(content);
         }
     }
 }

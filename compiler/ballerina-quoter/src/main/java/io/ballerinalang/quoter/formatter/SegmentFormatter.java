@@ -36,7 +36,7 @@ public abstract class SegmentFormatter {
                 return new NoFormatter();
             case "default":
                 return new DefaultFormatter();
-            case "class":
+            case "template":
                 return TemplateFormatter.fromConfig(config);
             default:
                 throw new QuoterException("Unknown formatter name.");
