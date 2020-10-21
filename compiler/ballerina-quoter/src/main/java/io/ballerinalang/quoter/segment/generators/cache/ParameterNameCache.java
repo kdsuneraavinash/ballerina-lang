@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import io.ballerinalang.quoter.BallerinaQuoter;
 import io.ballerinalang.quoter.QuoterConfig;
 import io.ballerinalang.quoter.QuoterException;
+import io.ballerinalang.quoter.utils.FileReaderUtils;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -48,25 +49,15 @@ public class ParameterNameCache {
      * Create the cache from the file defined in the config.
      */
     public static ParameterNameCache fromConfig(QuoterConfig config) {
-        ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
         String jsonFile = config.getOrThrow(EXTERNAL_NODE_CHILDREN_JSON);
+        InputStream inputStream = FileReaderUtils.readResourceAsInputStream(jsonFile);
+        
+        Gson gson = new Gson();
+        InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 
-        try (InputStream inputStream = classLoader.getResourceAsStream(jsonFile)) {
-            if (inputStream == null) {
-                String errorMessage = "Parameter cache map file not found: " + EXTERNAL_NODE_CHILDREN_JSON;
-                throw new QuoterException(errorMessage);
-            }
-
-            Gson gson = new Gson();
-            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-
-            Type SIGNATURE_FORMAT = new TypeToken<Map<String, List<String>>>() {
-            }.getType();
-            return new ParameterNameCache(gson.fromJson(reader, SIGNATURE_FORMAT));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new QuoterException("Parameter cache file reading failed: " + e.getMessage());
-        }
+        Type SIGNATURE_FORMAT = new TypeToken<Map<String, List<String>>>() {
+        }.getType();
+        return new ParameterNameCache(gson.fromJson(reader, SIGNATURE_FORMAT));
     }
 
     /**

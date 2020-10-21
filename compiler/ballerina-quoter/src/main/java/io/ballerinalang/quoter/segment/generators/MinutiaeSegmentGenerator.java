@@ -31,7 +31,7 @@ public class MinutiaeSegmentGenerator {
      * Converts a MinutiaeList to a Segment.
      * Used as `MinutiaeSegmentGenerator.createMinutiaeList(token.leadingMinutiae())`
      */
-    static Segment createMinutiaeListSegment(MinutiaeList minutiaeList) {
+    public static Segment createMinutiaeListSegment(MinutiaeList minutiaeList) {
         if (minutiaeList.isEmpty()) return SegmentGenerator.createFactoryCallSegment("createEmptyMinutiaeList");
 
         // If the list is not empty, create the factory segment and add every minutiae segment

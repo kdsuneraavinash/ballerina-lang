@@ -24,9 +24,9 @@ import io.ballerinalang.quoter.segment.Segment;
 import io.ballerina.tools.text.TextDocument;
 import io.ballerina.tools.text.TextDocuments;
 import io.ballerinalang.quoter.segment.generators.NodeSegmentGenerator;
+import io.ballerinalang.quoter.utils.FileReaderUtils;
 
 import java.io.*;
-import java.util.Scanner;
 
 import static io.ballerinalang.quoter.QuoterConfig.*;
 
@@ -72,13 +72,7 @@ public class BallerinaQuoter {
      */
     private static String readInputFile(QuoterConfig config) {
         String inputFileName = config.getOrThrow(EXTERNAL_INPUT_FILE);
-
-        try (InputStream inputStream = new FileInputStream(inputFileName)) {
-            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
-            return scanner.hasNext() ? scanner.next() : "";
-        } catch (IOException e) {
-            throw new QuoterException("Failed to read " + inputFileName + ". Error: " + e.getMessage(), e);
-        }
+        return FileReaderUtils.readFile(inputFileName);
     }
 
     /**

@@ -28,7 +28,7 @@ public class TokenSegmentGenerator {
      * Converts Token to Segment.
      * Handles minutia of the token as well.
      */
-    static NodeFactorySegment createTokenSegment(Token token) {
+    public static NodeFactorySegment createTokenSegment(Token token) {
         // Decide on the method and add all parameters required, except for minutiae parameters.
         // If there are no minutiae and the token constructor supports calling without minutiae, use that call.
         NodeFactorySegment root;

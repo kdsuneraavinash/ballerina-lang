@@ -15,17 +15,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package io.ballerinalang.quoter.formatter;
 
-import io.ballerinalang.quoter.BallerinaQuoter;
 import io.ballerinalang.quoter.QuoterConfig;
-import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.segment.Segment;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
+import io.ballerinalang.quoter.utils.FileReaderUtils;
 
 import static io.ballerinalang.quoter.QuoterConfig.INTERNAL_FORMATTER_TEMPLATE;
 import static io.ballerinalang.quoter.QuoterConfig.INTERNAL_FORMATTER_TEMPLATE_TAB_START;
@@ -49,20 +43,9 @@ public class TemplateFormatter extends DefaultFormatter {
     public static TemplateFormatter fromConfig(QuoterConfig config) {
         String inputFileName = config.getOrThrow(INTERNAL_FORMATTER_TEMPLATE);
         int tabStart = Integer.parseInt(config.getOrThrow(INTERNAL_FORMATTER_TEMPLATE_TAB_START));
-        ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
 
-        try (InputStream inputStream = classLoader.getResourceAsStream(inputFileName)) {
-            if (inputStream == null) {
-                String errorMessage = "Class formatter template file not found: " + INTERNAL_FORMATTER_TEMPLATE;
-                throw new QuoterException(errorMessage);
-            }
-
-            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
-            String input = scanner.hasNext() ? scanner.next() : "";
-            return new TemplateFormatter(input, tabStart);
-        } catch (IOException e) {
-            throw new QuoterException("Failed to read " + inputFileName + ". Error: " + e.getMessage(), e);
-        }
+        String input = FileReaderUtils.readFileAsResource(inputFileName);
+        return new TemplateFormatter(input, tabStart);
     }
 
     @Override

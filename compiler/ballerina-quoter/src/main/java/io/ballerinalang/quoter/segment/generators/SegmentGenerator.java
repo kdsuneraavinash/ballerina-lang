@@ -17,7 +17,6 @@
  */
 package io.ballerinalang.quoter.segment.generators;
 
-import io.ballerina.compiler.syntax.tree.SeparatedNodeList;
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
 import io.ballerinalang.quoter.segment.*;
 

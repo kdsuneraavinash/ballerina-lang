@@ -36,9 +36,9 @@ public class NonTerminalSegmentGenerator {
     private final MethodCache methodCache;
     private final NodeSegmentGenerator nodeSegmentGenerator;
 
-    NonTerminalSegmentGenerator(NodeSegmentGenerator nodeSegmentGenerator,
-                                ParameterNameCache parameterNameCache,
-                                MethodCache methodCache) {
+    public NonTerminalSegmentGenerator(NodeSegmentGenerator nodeSegmentGenerator,
+                                       ParameterNameCache parameterNameCache,
+                                       MethodCache methodCache) {
         this.nodeSegmentGenerator = nodeSegmentGenerator;
         this.parameterNameCache = parameterNameCache;
         this.methodCache = methodCache;
@@ -48,7 +48,7 @@ public class NonTerminalSegmentGenerator {
      * Converts every NonTerminalNode to a Segment.
      * Uses reflection to find the required factory method call in runtime.
      */
-    Segment createSegment(NonTerminalNode node) {
+    public Segment createSegment(NonTerminalNode node) {
         Method method = getNonTerminalNodeProcessMethod(node);
         Type[] parameterTypes = method.getParameterTypes();
         NodeFactorySegment root = SegmentGenerator.createFactoryCallSegment(method.getName());
