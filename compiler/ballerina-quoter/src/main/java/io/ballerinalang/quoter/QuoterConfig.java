@@ -28,7 +28,7 @@ import java.util.Properties;
 public class QuoterConfig {
     public static final String INTERNAL_FORMATTER_TEMPLATE = "internal.formatter.template";
     public static final String INTERNAL_FORMATTER_TEMPLATE_TAB_START = "internal.formatter.template.tab.start";
-    public static final String EXTERNAL_NODE_CHILDREN_JSON = "external.node.children";
+    public static final String INTERNAL_NODE_CHILDREN_JSON = "internal.node.children";
     public static final String EXTERNAL_INPUT_FILE = "external.input.file";
     public static final String EXTERNAL_OUTPUT_FILE = "external.output.file";
     public static final String EXTERNAL_OUTPUT_SYS_OUT = "external.output.sys.out";

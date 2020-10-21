@@ -28,7 +28,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static io.ballerinalang.quoter.QuoterConfig.EXTERNAL_NODE_CHILDREN_JSON;
+import static io.ballerinalang.quoter.QuoterConfig.INTERNAL_NODE_CHILDREN_JSON;
 
 
 /**
@@ -48,7 +48,7 @@ public class ParameterNameCache {
      * Create the cache from the file defined in the config.
      */
     public static ParameterNameCache fromConfig(QuoterConfig config) {
-        String jsonFile = config.getOrThrow(EXTERNAL_NODE_CHILDREN_JSON);
+        String jsonFile = config.getOrThrow(INTERNAL_NODE_CHILDREN_JSON);
         ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
 
         try (InputStream inputStream = classLoader.getResourceAsStream(jsonFile)) {

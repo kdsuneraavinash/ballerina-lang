@@ -27,11 +27,11 @@ Change the properties in the [`quoter-config.properties`](src/main/resources/quo
 
 | Property Key | Default Value | Description|
 |-|-|--|
-|`external.node.children`*| `parameter-names.json` | JSON file containing the generated parameter names |
 |`external.input.file`| `source-code.bal` | Input source file |
 |`external.output.file`| `generated-syntax-api.txt` | Output file |
 |`external.output.sys.out`| `false` | Whether to print out to the stdout as well. |
 |`external.formatter.name`| `template` | Formatter to use. Choices: `template`, `default`, `none` |
+|`internal.node.children`*| `parameter-names.json` | JSON file containing the generated parameter names |
 |`internal.formatter.template`*| `template.txt` | Template file to use if `external.formatter.name` is `template` |
 |`internal.formatter.template.tab.start`| 2 | Initial indent of code if `external.formatter.name` is `template`|
 
