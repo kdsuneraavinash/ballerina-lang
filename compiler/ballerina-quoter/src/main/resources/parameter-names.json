@@ -5,6 +5,7 @@
     "eofToken"
   ],
   "FunctionDefinitionNode": [
+    "kind",
     "metadata",
     "qualifierList",
     "functionKeyword",
@@ -82,6 +83,7 @@
     "semicolonToken"
   ],
   "ExpressionStatementNode": [
+    "kind",
     "expression",
     "semicolonToken"
   ],
@@ -148,16 +150,19 @@
     "onFailClause"
   ],
   "BinaryExpressionNode": [
+    "kind",
     "lhsExpr",
     "operator",
     "rhsExpr"
   ],
   "BracedExpressionNode": [
+    "kind",
     "openParen",
     "expression",
     "closeParen"
   ],
   "CheckExpressionNode": [
+    "kind",
     "checkKeyword",
     "expression"
   ],
@@ -433,6 +438,7 @@
     "namedWorkerDeclarations"
   ],
   "BasicLiteralNode": [
+    "kind",
     "literalToken"
   ],
   "SimpleNameReferenceNode": [
@@ -444,9 +450,11 @@
     "identifier"
   ],
   "BuiltinSimpleNameReferenceNode": [
+    "kind",
     "name"
   ],
   "TrapExpressionNode": [
+    "kind",
     "trapKeyword",
     "expression"
   ],
@@ -524,6 +532,7 @@
     "expression"
   ],
   "TemplateExpressionNode": [
+    "kind",
     "type",
     "startBacktick",
     "content",
@@ -991,10 +1000,12 @@
     "documentationLines"
   ],
   "MarkdownDocumentationLineNode": [
+    "kind",
     "hashToken",
     "documentElements"
   ],
   "MarkdownParameterDocumentationLineNode": [
+    "kind",
     "hashToken",
     "plusToken",
     "parameterName",

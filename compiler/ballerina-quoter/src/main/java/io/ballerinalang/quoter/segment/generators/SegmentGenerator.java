@@ -15,22 +15,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.factory;
+package io.ballerinalang.quoter.segment.generators;
 
+import io.ballerina.compiler.syntax.tree.SeparatedNodeList;
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
-import io.ballerinalang.quoter.segment.CodeSegment;
-import io.ballerinalang.quoter.segment.NodeFactorySegment;
-import io.ballerinalang.quoter.segment.StringSegment;
-import io.ballerinalang.quoter.segment.SyntaxKindSegment;
+import io.ballerinalang.quoter.segment.*;
 
 /**
  * Handles base segment creation through helper methods.
  */
-public class SegmentFactory {
+public class SegmentGenerator {
     /**
      * Creates a factory method with the given method name.
      */
-    public static NodeFactorySegment createNodeFactoryMethodSegment(String methodName) {
+    public static NodeFactorySegment createFactoryCallSegment(String methodName) {
         return new NodeFactorySegment(methodName);
     }
 
@@ -60,5 +58,13 @@ public class SegmentFactory {
      */
     public static CodeSegment createNullSegment() {
         return createCodeSegment("null");
+    }
+
+
+    /**
+     * Helper function to create a separated node list segment.
+     */
+    public static SeparatedNodeListSegment createSeparatedNodeListSegment() {
+        return new SeparatedNodeListSegment();
     }
 }

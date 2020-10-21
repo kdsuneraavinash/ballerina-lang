@@ -24,12 +24,19 @@ import io.ballerinalang.quoter.segment.Segment;
  * For each ( character, indent increases and ) decreases indent.
  * Each parameter is given in a new line.
  */
-public class NewLineParenFormatter implements SegmentFormatter {
+public class DefaultFormatter extends SegmentFormatter {
     private static final char OPEN_PAREN = '(';
     private static final char CLOSE_PAREN = ')';
     private static final char COMMA = ',';
     private static final char QUOTE = '"';
     private static final char ESCAPE = '\\';
+
+    /**
+     * Initial tab depth to start the formatter.
+     */
+    protected int getInitialDepth() {
+        return 0;
+    }
 
     /**
      * Special case because of SeparatedNodeList cast.
@@ -58,7 +65,7 @@ public class NewLineParenFormatter implements SegmentFormatter {
 
         boolean isCurrentlyInStringLiteral = false;
         boolean foundCommaInCurrentParen = false;
-        int depth = 0;
+        int depth = getInitialDepth();
 
         for (int position = 0; position < input.length(); position++) {
             char character = input.charAt(position);

@@ -15,16 +15,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.formatter;
-
-import io.ballerinalang.quoter.segment.Segment;
+package io.ballerinalang.quoter;
 
 /**
- * Empty formatter.
+ * Error raised by exceptions in this project.
  */
-public class NoFormatter extends SegmentFormatter {
-    @Override
-    public String format(Segment segment) {
-        return segment.toString();
+public class QuoterException extends RuntimeException {
+    public QuoterException(String msg) {
+        super(msg);
+    }
+
+    public QuoterException(String msg, Throwable cause) {
+        super(msg, cause);
     }
 }

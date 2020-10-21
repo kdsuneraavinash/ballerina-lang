@@ -1,0 +1,11 @@
+import io.ballerina.compiler.syntax.tree.Node;
+import io.ballerina.compiler.syntax.tree.NodeFactory;
+import io.ballerina.compiler.syntax.tree.SeparatedNodeList;
+import io.ballerina.compiler.syntax.tree.SyntaxKind;
+
+class QuoterTest {
+    public static void main(String[] args) {
+        Node node = %s;
+        System.out.println(node.toSourceCode());
+    }
+}

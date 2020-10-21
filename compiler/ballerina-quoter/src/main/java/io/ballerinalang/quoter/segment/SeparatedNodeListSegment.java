@@ -15,16 +15,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.formatter;
-
-import io.ballerinalang.quoter.segment.Segment;
+package io.ballerinalang.quoter.segment;
 
 /**
- * Empty formatter.
+ * Method call of format: "(SeparatedNodeList)NodeFactory.methodName(param1, param2)"
  */
-public class NoFormatter extends SegmentFormatter {
+public class SeparatedNodeListSegment extends NodeFactorySegment {
+    public SeparatedNodeListSegment() {
+        super("createSeparatedNodeList");
+    }
+
     @Override
-    public String format(Segment segment) {
-        return segment.toString();
+    public StringBuilder stringBuilder() {
+        return new StringBuilder().append("(SeparatedNodeList)").append(super.stringBuilder());
     }
 }

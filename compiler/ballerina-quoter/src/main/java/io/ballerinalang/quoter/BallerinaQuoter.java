@@ -19,29 +19,82 @@
 package io.ballerinalang.quoter;
 
 import io.ballerina.compiler.syntax.tree.*;
-import io.ballerinalang.quoter.formatter.NewLineParenFormatter;
 import io.ballerinalang.quoter.formatter.SegmentFormatter;
 import io.ballerinalang.quoter.segment.Segment;
 import io.ballerina.tools.text.TextDocument;
 import io.ballerina.tools.text.TextDocuments;
-import io.ballerinalang.quoter.factory.NodeSegmentFactory;
+import io.ballerinalang.quoter.segment.generators.NodeSegmentGenerator;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.*;
+import java.util.Scanner;
+
+import static io.ballerinalang.quoter.QuoterConfig.*;
 
 public class BallerinaQuoter {
     public static void main(String[] args) {
         try {
-            SegmentFormatter formatter = new NewLineParenFormatter();
-            String code = "var x= 4;";
-            TextDocument sourceCodeDocument = TextDocuments.from(code);
-            Node syntaxTreeNode = SyntaxTree.from(sourceCodeDocument).rootNode();
-            Segment segment = NodeSegmentFactory.createNodeSegment(syntaxTreeNode);
-            String generatedCode = formatter.format(segment);
-            System.out.println(generatedCode);
-        } catch (Exception exception) {
+            // 1) Load quoter properties
+            QuoterConfig quoterConfig = QuoterConfig.getInstance();
+            // 2) Get the input file code
+            String sourceCode = readInputFile(quoterConfig);
+            // 3) Create the factory
+            NodeSegmentGenerator factory = NodeSegmentGenerator.fromConfig(quoterConfig);
+            // 4) Get the formatter
+            SegmentFormatter formatter = SegmentFormatter.getFormatter(quoterConfig);
+
+            // 5) Execute the generator
+            String generatedCode = execute(sourceCode, factory, formatter);
+
+            // 6) Output the generated code
+            outputString(quoterConfig, generatedCode);
+
+        } catch (QuoterException exception) {
             System.out.println("There was an Exception when parsing. Please check your code.\nError: " + exception);
+        }
+    }
+
+    /**
+     * Execute the generator.
+     * sourceCode -> [nodeSegmentFactory] -> segment -> [formatter] -> generatedCode
+     */
+    private static String execute(String sourceCode, NodeSegmentGenerator nodeSegmentGenerator, SegmentFormatter formatter) {
+        // Create syntax tree
+        TextDocument sourceCodeDocument = TextDocuments.from(sourceCode);
+        Node syntaxTreeNode = SyntaxTree.from(sourceCodeDocument).rootNode();
+        // Convert tree to segment
+        Segment segment = nodeSegmentGenerator.createNodeSegment(syntaxTreeNode);
+        // Format using the formatter
+        return formatter.format(segment);
+    }
+
+    /**
+     * Read input from the file specified in the configurations.
+     */
+    private static String readInputFile(QuoterConfig config) {
+        String inputFileName = config.getOrThrow(EXTERNAL_INPUT_FILE);
+
+        try (InputStream inputStream = new FileInputStream(inputFileName)) {
+            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+            return scanner.hasNext() ? scanner.next() : "";
+        } catch (IOException e) {
+            throw new QuoterException("Failed to read " + inputFileName + ". Error: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Output the final output in the way specified in the configurations.
+     */
+    private static void outputString(QuoterConfig config, String content) {
+        if (config.getBooleanOrThrow(EXTERNAL_OUTPUT_SYS_OUT)) {
+            System.out.println(content);
+            return;
+        }
+
+        String outputFileName = config.getOrThrow(EXTERNAL_OUTPUT_FILE);
+        try (OutputStream outputStream = new FileOutputStream(outputFileName)) {
+            outputStream.write(content.getBytes());
+        } catch (IOException e) {
+            throw new QuoterException("Failed to write " + outputFileName + ". Error: " + e.getMessage(), e);
         }
     }
 }

@@ -30,6 +30,7 @@ public class NodeFactorySegment extends Segment {
     private final List<Segment> parameters;
 
     public NodeFactorySegment(String methodName) {
+        assert methodName.startsWith("create");
         this.methodName = methodName;
         this.parameters = new ArrayList<>();
     }

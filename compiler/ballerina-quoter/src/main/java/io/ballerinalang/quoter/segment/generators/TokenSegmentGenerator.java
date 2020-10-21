@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.factory;
+package io.ballerinalang.quoter.segment.generators;
 
 import io.ballerina.compiler.syntax.tree.*;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
@@ -23,12 +23,12 @@ import io.ballerinalang.quoter.segment.NodeFactorySegment;
 /**
  * Handles Tokens(Leaf Nodes) to Segment conversion.
  */
-public class TokenSegmentFactory {
+public class TokenSegmentGenerator {
     /**
      * Converts Token to Segment.
      * Handles minutia of the token as well.
      */
-    public static NodeFactorySegment createTokenSegment(Token token) {
+    static NodeFactorySegment createTokenSegment(Token token) {
         // Decide on the method and add all parameters required, except for minutiae parameters.
         // If there are no minutiae and the token constructor supports calling without minutiae, use that call.
         NodeFactorySegment root;
@@ -36,25 +36,25 @@ public class TokenSegmentFactory {
 
         // Decide on factory call and add parameters(except minutiae)
         if (token instanceof LiteralValueToken) {
-            root = SegmentFactory.createNodeFactoryMethodSegment("createLiteralValueToken");
-            root.addParameter(SegmentFactory.createSyntaxKindSegment(token.kind()));
-            root.addParameter(SegmentFactory.createStringSegment(token.text()));
+            root = SegmentGenerator.createFactoryCallSegment("createLiteralValueToken");
+            root.addParameter(SegmentGenerator.createSyntaxKindSegment(token.kind()));
+            root.addParameter(SegmentGenerator.createStringSegment(token.text()));
         } else if (token instanceof IdentifierToken) {
-            root = SegmentFactory.createNodeFactoryMethodSegment("createIdentifierToken");
-            root.addParameter(SegmentFactory.createStringSegment(token.text()));
+            root = SegmentGenerator.createFactoryCallSegment("createIdentifierToken");
+            root.addParameter(SegmentGenerator.createStringSegment(token.text()));
             if (noMinutiae) return root;
         } else if (token instanceof DocumentationLineToken) {
-            root = SegmentFactory.createNodeFactoryMethodSegment("createDocumentationLineToken");
-            root.addParameter(SegmentFactory.createStringSegment(token.text()));
+            root = SegmentGenerator.createFactoryCallSegment("createDocumentationLineToken");
+            root.addParameter(SegmentGenerator.createStringSegment(token.text()));
         } else {
-            root = SegmentFactory.createNodeFactoryMethodSegment("createToken");
-            root.addParameter(SegmentFactory.createSyntaxKindSegment(token.kind()));
+            root = SegmentGenerator.createFactoryCallSegment("createToken");
+            root.addParameter(SegmentGenerator.createSyntaxKindSegment(token.kind()));
             if (noMinutiae) return root;
         }
 
         // Add leading and trailing minutiae parameters to the call.
-        root.addParameter(MinutiaeSegmentFactory.createMinutiaeListSegment(token.leadingMinutiae()));
-        root.addParameter(MinutiaeSegmentFactory.createMinutiaeListSegment(token.trailingMinutiae()));
+        root.addParameter(MinutiaeSegmentGenerator.createMinutiaeListSegment(token.leadingMinutiae()));
+        root.addParameter(MinutiaeSegmentGenerator.createMinutiaeListSegment(token.trailingMinutiae()));
         return root;
     }
 }

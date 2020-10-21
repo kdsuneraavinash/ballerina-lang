@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.factory;
+package io.ballerinalang.quoter.segment.generators;
 
 import io.ballerina.compiler.syntax.tree.Minutiae;
 import io.ballerina.compiler.syntax.tree.MinutiaeList;
@@ -26,16 +26,16 @@ import io.ballerinalang.quoter.segment.Segment;
 /**
  * Handles Minutiae to Segment conversion.
  */
-public class MinutiaeSegmentFactory {
+public class MinutiaeSegmentGenerator {
     /**
      * Converts a MinutiaeList to a Segment.
      * Used as `MinutiaeSegmentGenerator.createMinutiaeList(token.leadingMinutiae())`
      */
-    public static Segment createMinutiaeListSegment(MinutiaeList minutiaeList) {
-        if (minutiaeList.isEmpty()) return SegmentFactory.createNodeFactoryMethodSegment("createEmptyMinutiaeList");
+    static Segment createMinutiaeListSegment(MinutiaeList minutiaeList) {
+        if (minutiaeList.isEmpty()) return SegmentGenerator.createFactoryCallSegment("createEmptyMinutiaeList");
 
         // If the list is not empty, create the factory segment and add every minutiae segment
-        NodeFactorySegment minutiaeListMethod = SegmentFactory.createNodeFactoryMethodSegment("createMinutiaeList");
+        NodeFactorySegment minutiaeListMethod = SegmentGenerator.createFactoryCallSegment("createMinutiaeList");
         minutiaeList.forEach(minutiae -> minutiaeListMethod.addParameter(createMinutiaeSegment(minutiae)));
         return minutiaeListMethod;
     }
@@ -60,8 +60,8 @@ public class MinutiaeSegmentFactory {
         }
 
         // All minutiae factory methods accept only the text
-        NodeFactorySegment nodeFactorySegment = SegmentFactory.createNodeFactoryMethodSegment(factoryMethod);
-        nodeFactorySegment.addParameter(SegmentFactory.createStringSegment(minutiae.text()));
+        NodeFactorySegment nodeFactorySegment = SegmentGenerator.createFactoryCallSegment(factoryMethod);
+        nodeFactorySegment.addParameter(SegmentGenerator.createStringSegment(minutiae.text()));
         return nodeFactorySegment;
     }
 }

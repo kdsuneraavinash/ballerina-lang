@@ -18,7 +18,7 @@
 
 apply from: "$rootDir/gradle/javaProject.gradle"
 
-description = 'Ballerina - Syntax Tree Generator'
+description = 'Ballerina - Syntax API Quoter'
 
 task quoter(type: JavaExec) {
     main = "io.ballerinalang.quoter.BallerinaQuoter"
