@@ -19,7 +19,6 @@ package io.ballerinalang.quoter.formatter;
 
 import io.ballerinalang.quoter.formatter.variable.NonTerminalVariableNode;
 import io.ballerinalang.quoter.formatter.variable.VariableNode;
-import io.ballerinalang.quoter.formatter.variable.TerminalVariableNode;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
 
@@ -45,6 +44,13 @@ public class VariableFormatter extends SegmentFormatter {
         if (!(segment instanceof NodeFactorySegment)) return segment.toString();
         queue.add(new NonTerminalVariableNode((NodeFactorySegment) segment, null));
 
+        // Add each child 2 times and on the second time it is added to the node list.
+        // This is to ensure that a node will be added only after all the nodes that
+        // should be defined first is added.
+        // This algorithm is a slight variation of BFS.
+        //
+        // Eg Order of processing for A(B(C())) tree: A -> B -> A[x] -> C -> B[x] -> C[X]
+        // So, A, B, C are defined in this order: c = C(), b = B(c), a = A(b)
         while (!queue.isEmpty()) {
             VariableNode current = queue.remove();
 
