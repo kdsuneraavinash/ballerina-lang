@@ -23,96 +23,96 @@ import org.testng.annotations.Test;
 public class SegmentGeneratorStatementsTest extends AbstractQuoterTest {
     @Test
     public void testBlockStatement() {
-        testAssertionFiles("statements/block-stmt", "block_stmt_source_01");
-        testAssertionFiles("statements/block-stmt", "block_stmt_source_02");
-        testAssertionFiles("statements/block-stmt", "block_stmt_source_03");
+        testAssertionFiles("parser/statements/block-stmt", "block_stmt_source_01");
+        testAssertionFiles("parser/statements/block-stmt", "block_stmt_source_02");
+        testAssertionFiles("parser/statements/block-stmt", "block_stmt_source_03");
     }
 
     @Test
     public void testCallStatement() {
-        testAssertionFiles("statements/call-stmt", "call_stmt_source_01");
-        testAssertionFiles("statements/call-stmt", "call_stmt_source_02");
-        testAssertionFiles("statements/call-stmt", "call_stmt_source_05");
-        testAssertionFiles("statements/call-stmt", "call_stmt_source_06");
+        testAssertionFiles("parser/statements/call-stmt", "call_stmt_source_01");
+        testAssertionFiles("parser/statements/call-stmt", "call_stmt_source_02");
+        testAssertionFiles("parser/statements/call-stmt", "call_stmt_source_05");
+        testAssertionFiles("parser/statements/call-stmt", "call_stmt_source_06");
     }
 
     @Test
     public void testDestructuringAssignment() {
-        testAssertionFiles("statements/destructuring-assignment", "error_binding_pattern_source_01");
-        testAssertionFiles("statements/destructuring-assignment", "mapping_binding_pattern_source_01");
+        testAssertionFiles("parser/statements/destructuring-assignment", "error_binding_pattern_source_01");
+        testAssertionFiles("parser/statements/destructuring-assignment", "mapping_binding_pattern_source_01");
     }
 
     @Test
     public void testDoStatement() {
-        testAssertionFiles("statements/do-stmt", "do_stmt_source_01");
-        testAssertionFiles("statements/do-stmt", "do_stmt_source_02");
-        testAssertionFiles("statements/do-stmt", "do_stmt_source_03");
+        testAssertionFiles("parser/statements/do-stmt", "do_stmt_source_01");
+        testAssertionFiles("parser/statements/do-stmt", "do_stmt_source_02");
+        testAssertionFiles("parser/statements/do-stmt", "do_stmt_source_03");
     }
 
     @Test
     public void testFailStatement() {
-        testAssertionFiles("statements/fail-stmt", "fail_stmt_source_01");
-        testAssertionFiles("statements/fail-stmt", "fail_stmt_source_02");
+        testAssertionFiles("parser/statements/fail-stmt", "fail_stmt_source_01");
+        testAssertionFiles("parser/statements/fail-stmt", "fail_stmt_source_02");
     }
 
     @Test
     public void testForEachStatement() {
-        testAssertionFiles("statements/forEach-stmt", "forEach_stmt_source_01");
-        testAssertionFiles("statements/forEach-stmt", "forEach_stmt_source_02");
-        testAssertionFiles("statements/forEach-stmt", "forEach_stmt_source_03");
+        testAssertionFiles("parser/statements/forEach-stmt", "forEach_stmt_source_01");
+        testAssertionFiles("parser/statements/forEach-stmt", "forEach_stmt_source_02");
+        testAssertionFiles("parser/statements/forEach-stmt", "forEach_stmt_source_03");
     }
 
     @Test
     public void testForkStatement() {
-        testAssertionFiles("statements/fork-stmt", "fork_stmt_source_01");
-        testAssertionFiles("statements/fork-stmt", "fork_stmt_source_02");
-        testAssertionFiles("statements/fork-stmt", "fork_stmt_source_03");
+        testAssertionFiles("parser/statements/fork-stmt", "fork_stmt_source_01");
+        testAssertionFiles("parser/statements/fork-stmt", "fork_stmt_source_02");
+        testAssertionFiles("parser/statements/fork-stmt", "fork_stmt_source_03");
     }
 
     @Test
     public void testIfElseStatement() {
-        testAssertionFiles("statements/if-else", "if_else_source_01");
-        testAssertionFiles("statements/if-else", "if_else_source_02");
+        testAssertionFiles("parser/statements/if-else", "if_else_source_01");
+        testAssertionFiles("parser/statements/if-else", "if_else_source_02");
     }
 
     @Test
     public void testLockStatement() {
-        testAssertionFiles("statements/lock-stmt", "lock_stmt_source_01");
-        testAssertionFiles("statements/lock-stmt", "lock_stmt_source_02");
-        testAssertionFiles("statements/lock-stmt", "lock_stmt_source_03");
+        testAssertionFiles("parser/statements/lock-stmt", "lock_stmt_source_01");
+        testAssertionFiles("parser/statements/lock-stmt", "lock_stmt_source_02");
+        testAssertionFiles("parser/statements/lock-stmt", "lock_stmt_source_03");
     }
 
     @Test
     public void testMatchStatement() {
         // TODO: Check if valid bugs
-        testAssertionFiles("statements/match-stmt", "match_stmt_source_01");
-        testAssertionFiles("statements/match-stmt", "match_stmt_source_02");
-        testAssertionFiles("statements/match-stmt", "match_stmt_source_05");
-        testAssertionFiles("statements/match-stmt", "match_stmt_source_08");
-        testAssertionFiles("statements/match-stmt", "match_stmt_source_14");
-        testAssertionFiles("statements/match-stmt", "match_stmt_source_16");
+        testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_01");
+        testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_02");
+        testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_05");
+        testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_08");
+        testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_14");
+        testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_16");
     }
 
     @Test
     public void testTransactionStatement() {
-        testAssertionFiles("statements/transaction-stmt", "retry_stmt_source_01");
-        testAssertionFiles("statements/transaction-stmt", "retry_stmt_source_02");
-        testAssertionFiles("statements/transaction-stmt", "retry_stmt_source_05");
-        testAssertionFiles("statements/transaction-stmt", "rollback_stmt_source_01");
-        testAssertionFiles("statements/transaction-stmt", "transaction_stmt_source_01");
-        testAssertionFiles("statements/transaction-stmt", "transaction_stmt_source_03");
-        testAssertionFiles("statements/transaction-stmt", "transactional_worker_source_01");
+        testAssertionFiles("parser/statements/transaction-stmt", "retry_stmt_source_01");
+        testAssertionFiles("parser/statements/transaction-stmt", "retry_stmt_source_02");
+        testAssertionFiles("parser/statements/transaction-stmt", "retry_stmt_source_05");
+        testAssertionFiles("parser/statements/transaction-stmt", "rollback_stmt_source_01");
+        testAssertionFiles("parser/statements/transaction-stmt", "transaction_stmt_source_01");
+        testAssertionFiles("parser/statements/transaction-stmt", "transaction_stmt_source_03");
+        testAssertionFiles("parser/statements/transaction-stmt", "transactional_worker_source_01");
     }
 
     @Test
     public void testWhileStatement() {
-        testAssertionFiles("statements/while-stmt", "while_stmt_source_01");
-        testAssertionFiles("statements/while-stmt", "while_stmt_source_02");
-        testAssertionFiles("statements/while-stmt", "while_stmt_source_04");
+        testAssertionFiles("parser/statements/while-stmt", "while_stmt_source_01");
+        testAssertionFiles("parser/statements/while-stmt", "while_stmt_source_02");
+        testAssertionFiles("parser/statements/while-stmt", "while_stmt_source_04");
     }
 
     @Test
     public void testXmlnsDeclarationStatement() {
-        testAssertionFiles("statements/xmlns-decl-stmt", "xmlns_decl_stmt_source_01");
+        testAssertionFiles("parser/statements/xmlns-decl-stmt", "xmlns_decl_stmt_source_01");
     }
 }

@@ -24,69 +24,69 @@ public class SegmentGeneratorActionsTest extends AbstractQuoterTest{
 
     @Test
     public void testBracedAction() {
-        testAssertionFiles("actions/braced-action", "braced_action_source_01");
-        testAssertionFiles("actions/braced-action", "braced_action_source_02");
+        testAssertionFiles("parser/actions/braced-action", "braced_action_source_01");
+        testAssertionFiles("parser/actions/braced-action", "braced_action_source_02");
     }
 
     @Test
     public void testCheckAction() {
-        testAssertionFiles("actions/check-action", "check_action_source_01");
+        testAssertionFiles("parser/actions/check-action", "check_action_source_01");
     }
 
     @Test
     public void testCommitAction() {
-        testAssertionFiles("actions/commit-action", "commit_action_source_01");
+        testAssertionFiles("parser/actions/commit-action", "commit_action_source_01");
     }
 
     @Test
     public void testQueryAction() {
-        testAssertionFiles("actions/query-action", "query_action_source_01");
-        testAssertionFiles("actions/query-action", "query_action_source_02");
-        testAssertionFiles("actions/query-action", "query_action_source_04");
-        testAssertionFiles("actions/query-action", "query_action_source_05");
+        testAssertionFiles("parser/actions/query-action", "query_action_source_01");
+        testAssertionFiles("parser/actions/query-action", "query_action_source_02");
+        testAssertionFiles("parser/actions/query-action", "query_action_source_04");
+        testAssertionFiles("parser/actions/query-action", "query_action_source_05");
     }
 
     @Test
     public void testReceiveAction() {
         // TODO incompatible types: ReceiveFieldsNode cannot be converted to SimpleNameReferenceNode?
-        testAssertionFiles("actions/receive-action", "receive_action_source_01");
-        testAssertionFiles("actions/receive-action", "receive_action_source_02");
-        testAssertionFiles("actions/receive-action", "receive_action_source_03");
+        testAssertionFiles("parser/actions/receive-action", "receive_action_source_01");
+        testAssertionFiles("parser/actions/receive-action", "receive_action_source_02");
+        testAssertionFiles("parser/actions/receive-action", "receive_action_source_03");
     }
 
     @Test
     public void testRemoteMethodCallAction() {
-        testAssertionFiles("actions/remote-method-call-action", "remote_method_call_source_01");
-        testAssertionFiles("actions/remote-method-call-action", "remote_method_call_source_02");
-        testAssertionFiles("actions/remote-method-call-action", "remote_method_call_source_03");
-        testAssertionFiles("actions/remote-method-call-action", "remote_method_call_source_05");
-        testAssertionFiles("actions/remote-method-call-action", "remote_method_call_source_06");
-        testAssertionFiles("actions/remote-method-call-action", "remote_method_call_source_07");
-        testAssertionFiles("actions/remote-method-call-action", "remote_method_call_source_08");
+        testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_01");
+        testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_02");
+        testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_03");
+        testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_05");
+        testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_06");
+        testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_07");
+        testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_08");
     }
 
     @Test
     public void testSendAction() {
-        testAssertionFiles("actions/send-action", "send_action_source_01");
-        testAssertionFiles("actions/send-action", "send_action_source_02");
+        testAssertionFiles("parser/actions/send-action", "send_action_source_01");
+        testAssertionFiles("parser/actions/send-action", "send_action_source_02");
     }
 
     @Test
     public void testStartAction() {
-        testAssertionFiles("actions/start-action", "start_action_source_01");
-        testAssertionFiles("actions/start-action", "start_action_source_03");
+        testAssertionFiles("parser/actions/start-action", "start_action_source_01");
+        testAssertionFiles("parser/actions/start-action", "start_action_source_03");
     }
 
     @Test
     public void testTrapAction() {
-        testAssertionFiles("actions/trap-action", "trap_action_source_01");
+        testAssertionFiles("parser/actions/trap-action", "trap_action_source_01");
     }
 
     @Test
     public void testWaitAction() {
-        testAssertionFiles("actions/wait-action", "wait_action_source_01");
-        testAssertionFiles("actions/wait-action", "wait_action_source_02");
-        testAssertionFiles("actions/wait-action", "wait_action_source_03");
-        testAssertionFiles("actions/wait-action", "wait_action_source_05");
+        testAssertionFiles("parser/actions/wait-action", "wait_action_source_01");
+        testAssertionFiles("parser/actions/wait-action", "wait_action_source_02");
+        testAssertionFiles("parser/actions/wait-action", "wait_action_source_03");
+        testAssertionFiles("parser/actions/wait-action", "wait_action_source_05");
     }
 }

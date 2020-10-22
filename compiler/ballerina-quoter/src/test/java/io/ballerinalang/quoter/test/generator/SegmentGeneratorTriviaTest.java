@@ -23,6 +23,6 @@ import org.testng.annotations.Test;
 public class SegmentGeneratorTriviaTest extends AbstractQuoterTest {
     @Test
     public void test() {
-        testAssertionFiles("trivia", "trivia_source_01");
+        testAssertionFiles("parser/trivia", "trivia_source_01");
     }
 }

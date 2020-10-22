@@ -24,9 +24,9 @@ public class SegmentGeneratorModuleDeclarationsTest extends AbstractQuoterTest {
     @Test
     public void testArrayType() {
         // TODO: Fails because NodeFactory.createEnumDeclarationNode rejects null qualifier (but they can be null)
-        testAssertionFiles("module_declarations", "function_name_new");
-        testAssertionFiles("module_declarations", "function_name_old");
-        testAssertionFiles("module_declarations", "module_declarations_new");
-        testAssertionFiles("module_declarations", "module_declarations_old");
+        testAssertionFiles("parser/module_declarations", "function_name_new");
+        testAssertionFiles("parser/module_declarations", "function_name_old");
+        testAssertionFiles("parser/module_declarations", "module_declarations_new");
+        testAssertionFiles("parser/module_declarations", "module_declarations_old");
     }
 }

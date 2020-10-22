@@ -23,119 +23,115 @@ import org.testng.annotations.Test;
 public class SegmentGeneratorExpressionsTest extends AbstractQuoterTest{
     @Test
     public void testAnonFunc() {
-        testAssertionFiles("expressions/anon-func", "anon_func_source_01");
-        testAssertionFiles("expressions/anon-func", "anon_func_source_02");
-        testAssertionFiles("expressions/anon-func", "anon_func_source_04");
-        testAssertionFiles("expressions/anon-func", "anon_func_source_07");
-        testAssertionFiles("expressions/anon-func", "anon_func_source_09");
-        testAssertionFiles("expressions/anon-func", "anon_func_source_11");
+        testAssertionFiles("parser/expressions/anon-func", "anon_func_source_01");
+        testAssertionFiles("parser/expressions/anon-func", "anon_func_source_02");
+        testAssertionFiles("parser/expressions/anon-func", "anon_func_source_04");
+        testAssertionFiles("parser/expressions/anon-func", "anon_func_source_07");
+        testAssertionFiles("parser/expressions/anon-func", "anon_func_source_09");
+        testAssertionFiles("parser/expressions/anon-func", "anon_func_source_11");
     }
 
     @Test
     public void testBasicLiterals() {
-        testAssertionFiles("expressions/basic-literals", "float_literal_source_01");
-        testAssertionFiles("expressions/basic-literals", "float_literal_source_02");
-        testAssertionFiles("expressions/basic-literals", "float_literal_source_03");
-        testAssertionFiles("expressions/basic-literals", "float_literal_source_04");
-        testAssertionFiles("expressions/basic-literals", "float_literal_source_05");
-        testAssertionFiles("expressions/basic-literals", "nil_literal_source_01");
-        testAssertionFiles("expressions/basic-literals", "nil_literal_source_02");
-        testAssertionFiles("expressions/basic-literals", "nil_literal_source_03");
-        testAssertionFiles("expressions/basic-literals", "nil_literal_source_04");
+        testAssertionFiles("parser/expressions/basic-literals", "float_literal_source_01");
+        testAssertionFiles("parser/expressions/basic-literals", "float_literal_source_02");
+        testAssertionFiles("parser/expressions/basic-literals", "float_literal_source_03");
+        testAssertionFiles("parser/expressions/basic-literals", "float_literal_source_04");
+        testAssertionFiles("parser/expressions/basic-literals", "float_literal_source_05");
+        testAssertionFiles("parser/expressions/basic-literals", "nil_literal_source_01");
+        testAssertionFiles("parser/expressions/basic-literals", "nil_literal_source_02");
+        testAssertionFiles("parser/expressions/basic-literals", "nil_literal_source_03");
+        testAssertionFiles("parser/expressions/basic-literals", "nil_literal_source_04");
     }
 
     @Test
     public void testByteArrayLiteral() {
-        testAssertionFiles("expressions/byte-array-literal", "base16_literal_source_01");
-        testAssertionFiles("expressions/byte-array-literal", "base64_literal_source_01");
+        testAssertionFiles("parser/expressions/byte-array-literal", "base16_literal_source_01");
+        testAssertionFiles("parser/expressions/byte-array-literal", "base64_literal_source_01");
     }
 
     @Test
     public void testCheckExpr() {
-        testAssertionFiles("expressions/check-expr", "check_expr_source_01");
-        testAssertionFiles("expressions/check-expr", "check_expr_source_02");
-        testAssertionFiles("expressions/check-expr", "check_expr_source_03");
+        testAssertionFiles("parser/expressions/check-expr", "check_expr_source_01");
+        testAssertionFiles("parser/expressions/check-expr", "check_expr_source_02");
+        testAssertionFiles("parser/expressions/check-expr", "check_expr_source_03");
     }
 
     @Test
     public void testErrorConstructorExpr() {
-        testAssertionFiles("expressions/error-constructor-expr", "error_constructor_expr_source_01");
+        testAssertionFiles("parser/expressions/error-constructor-expr", "error_constructor_expr_source_01");
     }
 
     @Test
     public void testFuncCall() {
-        testAssertionFiles("expressions/func-call", "func_call_source_12");
+        testAssertionFiles("parser/expressions/func-call", "func_call_source_12");
     }
 
     @Test
     public void testNewExpr() {
-        testAssertionFiles("expressions/new-expr", "explicit-new-with-object-keyword-with-no-args");
-        testAssertionFiles("expressions/new-expr", "explicit-new-with-object-keyword-with-one-args");
+        testAssertionFiles("parser/expressions/new-expr", "explicit-new-with-object-keyword-with-no-args");
+        testAssertionFiles("parser/expressions/new-expr", "explicit-new-with-object-keyword-with-one-args");
     }
 
     @Test
     public void testObjectConstructor() {
-        testAssertionFiles("expressions/object-constructor", "object-constructor-with-annotations");
-        testAssertionFiles("expressions/object-constructor", "object-constructor-with-basic-object-fields");
-        testAssertionFiles("expressions/object-constructor", "object-constructor-with-client-keyword");
-        testAssertionFiles("expressions/object-constructor", "object-constructor-with-type-reference");
-        testAssertionFiles("expressions/object-constructor", "object_constructor_source_05");
-        testAssertionFiles("expressions/object-constructor", "object_constructor_source_08");
+        testAssertionFiles("parser/expressions/object-constructor", "object-constructor-with-annotations");
+        testAssertionFiles("parser/expressions/object-constructor", "object-constructor-with-basic-object-fields");
+        testAssertionFiles("parser/expressions/object-constructor", "object-constructor-with-client-keyword");
+        testAssertionFiles("parser/expressions/object-constructor", "object-constructor-with-type-reference");
+        testAssertionFiles("parser/expressions/object-constructor", "object_constructor_source_05");
+        testAssertionFiles("parser/expressions/object-constructor", "object_constructor_source_08");
     }
 
     @Test
     public void testServiceConstructorExpression() {
-        testAssertionFiles("expressions/service-constructor-expression", "service_constructor_expr_source_01");
-        testAssertionFiles("expressions/service-constructor-expression", "service_constructor_expr_source_02");
+        testAssertionFiles("parser/expressions/service-constructor-expression", "service_constructor_expr_source_01");
+        testAssertionFiles("parser/expressions/service-constructor-expression", "service_constructor_expr_source_02");
     }
 
     @Test
     public void testStringTemplate() {
         // TODO: Fails because of string template bug
-        testAssertionFiles("expressions/string-template", "string_template_source_01");
-        testAssertionFiles("expressions/string-template", "string_template_source_02");
-        testAssertionFiles("expressions/string-template", "string_template_source_03");
-        testAssertionFiles("expressions/string-template", "string_template_source_04");
+        testAssertionFiles("parser/expressions/string-template", "string_template_source_01");
+        testAssertionFiles("parser/expressions/string-template", "string_template_source_02");
     }
 
     @Test
     public void testTransactionalExpr() {
-        testAssertionFiles("expressions/transactional-expr", "transactional_expr_source_01");
+        testAssertionFiles("parser/expressions/transactional-expr", "transactional_expr_source_01");
     }
 
     @Test
     public void testTrapExpr() {
-        testAssertionFiles("expressions/trap-expr", "trap_expr_source_01");
-        testAssertionFiles("expressions/trap-expr", "trap_expr_source_02");
-        testAssertionFiles("expressions/trap-expr", "trap_expr_source_03");
+        testAssertionFiles("parser/expressions/trap-expr", "trap_expr_source_01");
+        testAssertionFiles("parser/expressions/trap-expr", "trap_expr_source_02");
+        testAssertionFiles("parser/expressions/trap-expr", "trap_expr_source_03");
     }
 
     @Test
     public void testTypeofExpr() {
-        testAssertionFiles("expressions/typeof-expr", "typeof_expr_source_01");
-        testAssertionFiles("expressions/typeof-expr", "typeof_expr_source_02");
-        testAssertionFiles("expressions/typeof-expr", "typeof_expr_source_03");
+        testAssertionFiles("parser/expressions/typeof-expr", "typeof_expr_source_01");
+        testAssertionFiles("parser/expressions/typeof-expr", "typeof_expr_source_02");
+        testAssertionFiles("parser/expressions/typeof-expr", "typeof_expr_source_03");
     }
 
     @Test
     public void testXmlTemplate() {
         // TODO: Fails because of string template bug
-        testAssertionFiles("expressions/xml-template", "xml_template_source_01");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_02");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_06");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_07");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_11");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_12");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_14");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_15");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_16");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_21");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_23");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_25");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_26");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_27");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_28");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_29");
-        testAssertionFiles("expressions/xml-template", "xml_template_source_30");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_01");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_02");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_06");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_07");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_11");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_12");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_14");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_15");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_16");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_21");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_23");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_25");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_26");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_29");
+        testAssertionFiles("parser/expressions/xml-template", "xml_template_source_30");
     }
 }

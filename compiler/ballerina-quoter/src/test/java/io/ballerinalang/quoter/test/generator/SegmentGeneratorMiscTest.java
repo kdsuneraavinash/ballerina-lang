@@ -24,82 +24,82 @@ public class SegmentGeneratorMiscTest extends AbstractQuoterTest {
     @Test
     public void testAmbiguity() {
         // TODO: Fails because of string interpolation bug
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_01");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_04");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_05");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_07");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_08");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_12");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_14");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_15");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_17");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_19");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_20");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_21");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_22");
-        testAssertionFiles("misc/ambiguity", "ambiguity_source_23");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_01");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_04");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_05");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_07");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_08");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_12");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_14");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_15");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_17");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_19");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_20");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_21");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_22");
+        testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_23");
     }
 
     @Test
     public void testAnnotations() {
-        testAssertionFiles("misc/annotations", "annotations_source_01");
-        testAssertionFiles("misc/annotations", "annotations_source_02");
-        testAssertionFiles("misc/annotations", "annotations_source_04");
-        testAssertionFiles("misc/annotations", "annotations_source_07");
+        testAssertionFiles("parser/misc/annotations", "annotations_source_01");
+        testAssertionFiles("parser/misc/annotations", "annotations_source_02");
+        testAssertionFiles("parser/misc/annotations", "annotations_source_04");
+        testAssertionFiles("parser/misc/annotations", "annotations_source_07");
     }
 
     @Test
     public void testDocumentation() {
         // TODO: Fails because service name of a service can be null
-        testAssertionFiles("misc/documentation", "doc_source_01");
-        testAssertionFiles("misc/documentation", "doc_source_02");
-        testAssertionFiles("misc/documentation", "doc_source_03");
-        testAssertionFiles("misc/documentation", "doc_source_04");
-        testAssertionFiles("misc/documentation", "doc_source_05");
-        testAssertionFiles("misc/documentation", "doc_source_06");
-        testAssertionFiles("misc/documentation", "doc_source_07");
-        testAssertionFiles("misc/documentation", "doc_source_08");
-        testAssertionFiles("misc/documentation", "doc_source_09");
-        testAssertionFiles("misc/documentation", "doc_source_10");
-        testAssertionFiles("misc/documentation", "doc_source_11");
-        testAssertionFiles("misc/documentation", "doc_source_12");
-        testAssertionFiles("misc/documentation", "doc_source_14");
-        testAssertionFiles("misc/documentation", "doc_source_15");
-        testAssertionFiles("misc/documentation", "doc_source_16");
-        testAssertionFiles("misc/documentation", "doc_source_17");
+        testAssertionFiles("parser/misc/documentation", "doc_source_01");
+        testAssertionFiles("parser/misc/documentation", "doc_source_02");
+        testAssertionFiles("parser/misc/documentation", "doc_source_03");
+        testAssertionFiles("parser/misc/documentation", "doc_source_04");
+        testAssertionFiles("parser/misc/documentation", "doc_source_05");
+        testAssertionFiles("parser/misc/documentation", "doc_source_06");
+        testAssertionFiles("parser/misc/documentation", "doc_source_07");
+        testAssertionFiles("parser/misc/documentation", "doc_source_08");
+        testAssertionFiles("parser/misc/documentation", "doc_source_09");
+        testAssertionFiles("parser/misc/documentation", "doc_source_10");
+        testAssertionFiles("parser/misc/documentation", "doc_source_11");
+        testAssertionFiles("parser/misc/documentation", "doc_source_12");
+        testAssertionFiles("parser/misc/documentation", "doc_source_14");
+        testAssertionFiles("parser/misc/documentation", "doc_source_15");
+        testAssertionFiles("parser/misc/documentation", "doc_source_16");
+        testAssertionFiles("parser/misc/documentation", "doc_source_17");
     }
 
     @Test
     public void testQuotedIdentifiers() {
-        testAssertionFiles("misc/quoted-identifiers", "alphanumeric_identifier_source");
-        testAssertionFiles("misc/quoted-identifiers", "invalid_identifier_source_02");
-        testAssertionFiles("misc/quoted-identifiers", "special_char_identifier_source");
-        testAssertionFiles("misc/quoted-identifiers", "unicode_char_identifier_source");
-        testAssertionFiles("misc/quoted-identifiers", "unicode_codepoint_source");
+        testAssertionFiles("parser/misc/quoted-identifiers", "alphanumeric_identifier_source");
+        testAssertionFiles("parser/misc/quoted-identifiers", "invalid_identifier_source_02");
+        testAssertionFiles("parser/misc/quoted-identifiers", "special_char_identifier_source");
+        testAssertionFiles("parser/misc/quoted-identifiers", "unicode_char_identifier_source");
+        testAssertionFiles("parser/misc/quoted-identifiers", "unicode_codepoint_source");
     }
 
     @Test
     public void testTypedBindingPatterns() {
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_01");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_02");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_03");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_04");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_05");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_06");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_10");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_11");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_14");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_15");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_17");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_19");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_20");
-        testAssertionFiles("misc/typed-binding-patterns", "typed_binding_patterns_source_21");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_01");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_02");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_03");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_04");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_05");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_06");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_10");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_11");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_14");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_15");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_17");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_19");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_20");
+        testAssertionFiles("parser/misc/typed-binding-patterns", "typed_binding_patterns_source_21");
     }
 
     @Test
     public void testWorkerDeclaration() {
-        testAssertionFiles("misc/worker-decl", "worker_decl_source_01");
-        testAssertionFiles("misc/worker-decl", "worker_decl_source_02");
-        testAssertionFiles("misc/worker-decl", "worker_decl_source_04");
+        testAssertionFiles("parser/misc/worker-decl", "worker_decl_source_01");
+        testAssertionFiles("parser/misc/worker-decl", "worker_decl_source_02");
+        testAssertionFiles("parser/misc/worker-decl", "worker_decl_source_04");
     }
 }
