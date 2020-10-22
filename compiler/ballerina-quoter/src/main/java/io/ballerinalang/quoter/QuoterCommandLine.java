@@ -19,10 +19,18 @@ package io.ballerinalang.quoter;
 
 import io.ballerinalang.quoter.config.QuoterCmdConfig;
 import io.ballerinalang.quoter.config.QuoterConfig;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
+/**
+ * CLI Entry point of the programme.
+ */
 public class QuoterCommandLine {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Options options = QuoterCmdConfig.getCommandLineOptions();
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -33,9 +41,8 @@ public class QuoterCommandLine {
             QuoterConfig config = new QuoterCmdConfig(cmd);
             BallerinaQuoter.run(config);
         } catch (ParseException e) {
-            System.out.println(e.getMessage());
             formatter.printHelp("./gradlew quoter -Props=\"[OPTIONS]\"", options);
-            System.exit(1);
+            throw e;
         }
     }
 }

@@ -1828,5 +1828,4 @@ public class SegmentGeneratorBbeExamplesTest extends AbstractQuoterTest {
     }
 
 
-
 }

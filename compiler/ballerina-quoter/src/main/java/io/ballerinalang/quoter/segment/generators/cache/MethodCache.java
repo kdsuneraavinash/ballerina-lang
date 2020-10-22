@@ -45,7 +45,9 @@ public class MethodCache {
     }
 
     public Method getMethod(String name) {
-        if (cache.containsKey(name)) return cache.get(name);
+        if (cache.containsKey(name)) {
+            return cache.get(name);
+        }
         throw new QuoterException("Failed to find method " + name);
     }
 }

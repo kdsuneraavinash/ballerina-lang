@@ -18,7 +18,11 @@
 package io.ballerinalang.quoter.segment.generators;
 
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
-import io.ballerinalang.quoter.segment.*;
+import io.ballerinalang.quoter.segment.CodeSegment;
+import io.ballerinalang.quoter.segment.NodeFactorySegment;
+import io.ballerinalang.quoter.segment.SeparatedNodeListSegment;
+import io.ballerinalang.quoter.segment.StringSegment;
+import io.ballerinalang.quoter.segment.SyntaxKindSegment;
 
 /**
  * Handles base segment creation through helper methods.

@@ -17,12 +17,15 @@
  */
 package io.ballerinalang.quoter.segment.generators;
 
-import io.ballerina.compiler.syntax.tree.*;
-import io.ballerinalang.quoter.config.QuoterConfig;
+import io.ballerina.compiler.syntax.tree.Node;
+import io.ballerina.compiler.syntax.tree.NodeFactory;
+import io.ballerina.compiler.syntax.tree.NonTerminalNode;
+import io.ballerina.compiler.syntax.tree.Token;
 import io.ballerinalang.quoter.QuoterException;
-import io.ballerinalang.quoter.segment.generators.cache.ParameterNameCache;
+import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.segment.Segment;
 import io.ballerinalang.quoter.segment.generators.cache.MethodCache;
+import io.ballerinalang.quoter.segment.generators.cache.ParameterNameCache;
 
 /**
  * Handles Node to Segment conversion.

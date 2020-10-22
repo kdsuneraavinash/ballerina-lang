@@ -18,15 +18,23 @@
 
 package io.ballerinalang.quoter;
 
-import io.ballerina.compiler.syntax.tree.*;
+import io.ballerina.compiler.syntax.tree.Node;
+import io.ballerina.compiler.syntax.tree.SyntaxTree;
+import io.ballerina.tools.text.TextDocument;
+import io.ballerina.tools.text.TextDocuments;
 import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.formatter.SegmentFormatter;
 import io.ballerinalang.quoter.segment.Segment;
-import io.ballerina.tools.text.TextDocument;
-import io.ballerina.tools.text.TextDocuments;
 import io.ballerinalang.quoter.segment.generators.NodeSegmentGenerator;
 
+/**
+ * Ballerina Quoter programme main class.
+ * CLI will run via QuoterCommandLine
+ */
 public class BallerinaQuoter {
+    /**
+     * Run the process with the given configurations.
+     */
     public static void run(QuoterConfig config) {
         try {
             // 1) Get the input file code
@@ -43,8 +51,7 @@ public class BallerinaQuoter {
             config.writeToOutputFile(generatedCode);
 
         } catch (QuoterException exception) {
-            System.out.println("There was an Exception when parsing. Please check your code.\nError: " + exception);
-            throw exception;
+            throw new QuoterException("There was an Exception when parsing. Please check your code.", exception);
         }
     }
 
@@ -52,7 +59,8 @@ public class BallerinaQuoter {
      * Execute the generator.
      * sourceCode -> [nodeSegmentFactory] -> segment -> [formatter] -> generatedCode
      */
-    private static String execute(String sourceCode, NodeSegmentGenerator nodeSegmentGenerator, SegmentFormatter formatter) {
+    private static String execute(String sourceCode, NodeSegmentGenerator nodeSegmentGenerator,
+                                  SegmentFormatter formatter) {
         // Create syntax tree
         TextDocument sourceCodeDocument = TextDocuments.from(sourceCode);
         Node syntaxTreeNode = SyntaxTree.from(sourceCodeDocument).rootNode();

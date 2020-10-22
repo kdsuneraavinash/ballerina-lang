@@ -20,7 +20,7 @@ package io.ballerinalang.quoter.segment;
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
 
 /**
- * Syntax kind segment which has the format:
+ * Syntax kind segment which has the format.
  * "SyntaxKind.ABC_KIND"
  */
 public class SyntaxKindSegment extends Segment {

@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
+/**
+ * Reused file IO utils.
+ */
 public class FileReaderUtils {
     /**
      * Reads a file path content from the resources directory.
@@ -32,7 +35,9 @@ public class FileReaderUtils {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
-            if (inputStream == null) throw new QuoterException("File not found: " + path);
+            if (inputStream == null) {
+                throw new QuoterException("File not found: " + path);
+            }
             Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
             return scanner.hasNext() ? scanner.next() : "";
         } catch (IOException e) {

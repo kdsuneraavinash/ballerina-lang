@@ -31,9 +31,9 @@ import java.util.Objects;
  */
 public class NonTerminalVariableNode extends VariableNode implements Iterable<Segment> {
     private static Map<String, Integer> variableCount;
-    private int variableIndex;
     private final NodeFactorySegment generated;
     private final NodeFactorySegment original;
+    private int variableIndex;
 
     public NonTerminalVariableNode(NodeFactorySegment original, NonTerminalVariableNode parent) {
         super(parent);
@@ -75,8 +75,11 @@ public class NonTerminalVariableNode extends VariableNode implements Iterable<Se
     @Override
     public void markAsVisited() {
         String type = getType();
-        if (variableCount.containsKey(type)) variableCount.put(type, variableCount.get(type) + 1);
-        else variableCount.put(type, 0);
+        if (variableCount.containsKey(type)) {
+            variableCount.put(type, variableCount.get(type) + 1);
+        } else {
+            variableCount.put(type, 0);
+        }
         variableIndex = variableCount.get(type);
         super.markAsVisited();
     }
@@ -93,7 +96,9 @@ public class NonTerminalVariableNode extends VariableNode implements Iterable<Se
     public String toString() {
         String spacedDeclaration = generated.toString().replace(",", ", ");
         // TODO: Fix the return type of createSeparatedNodeList
-        if (getType().equals("SeparatedNodeList")) spacedDeclaration = "(SeparatedNodeList) " + spacedDeclaration;
+        if (getType().equals("SeparatedNodeList")) {
+            spacedDeclaration = "(SeparatedNodeList) " + spacedDeclaration;
+        }
         return String.format("%s %s = %s;", getType(), getParameterRepresentation(), spacedDeclaration);
     }
 

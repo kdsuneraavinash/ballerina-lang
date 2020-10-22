@@ -33,7 +33,9 @@ public class MinutiaeSegmentGenerator {
      * Used as `MinutiaeSegmentGenerator.createMinutiaeList(token.leadingMinutiae())`
      */
     public static Segment createMinutiaeListSegment(MinutiaeList minutiaeList) {
-        if (minutiaeList.isEmpty()) return SegmentGenerator.createFactoryCallSegment("createEmptyMinutiaeList");
+        if (minutiaeList.isEmpty()) {
+            return SegmentGenerator.createFactoryCallSegment("createEmptyMinutiaeList");
+        }
 
         // If the list is not empty, create the factory segment and add every minutiae segment
         NodeFactorySegment minutiaeListMethod = SegmentGenerator.createFactoryCallSegment("createMinutiaeList");

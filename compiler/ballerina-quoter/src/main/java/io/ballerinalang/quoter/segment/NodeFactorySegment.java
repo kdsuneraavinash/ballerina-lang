@@ -47,7 +47,9 @@ public class NodeFactorySegment extends Segment implements Iterable<Segment> {
         stringBuilder.append("NodeFactory.").append(methodName).append("(");
         // Create comma separated parameter list.
         for (int i = 0; i < parameters.size(); i++) {
-            if (i != 0) stringBuilder.append(",");
+            if (i != 0) {
+                stringBuilder.append(",");
+            }
             stringBuilder.append(parameters.get(i).stringBuilder());
         }
         stringBuilder.append(")");

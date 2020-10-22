@@ -18,11 +18,15 @@
 
 package io.ballerinalang.quoter.config;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+
 import java.util.Objects;
 
-import org.apache.commons.cli.*;
-
-
+/**
+ * Configuration file for CLI application.
+ */
 public class QuoterCmdConfig extends QuoterPropertiesConfig {
     private final String formatterTemplate;
     private final String formatterTemplateTabStart;
@@ -42,6 +46,9 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
         this.formatterName = cmd.getOptionValue('f');
     }
 
+    /**
+     * Generate the CLI options.
+     */
     public static Options getCommandLineOptions() {
         Options options = new Options();
         addArgument(options, "input", "input file path");
@@ -82,7 +89,9 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
     }
 
     private String overrideGet(String key, String override) {
-        if (Objects.isNull(override)) return super.getOrThrow(key);
+        if (Objects.isNull(override)) {
+            return super.getOrThrow(key);
+        }
         return override;
     }
 }

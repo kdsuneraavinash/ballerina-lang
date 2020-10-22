@@ -22,7 +22,11 @@ import io.ballerinalang.quoter.formatter.variable.VariableNode;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * Formats the code so that each line will have one method call.
@@ -41,7 +45,9 @@ public class VariableFormatter extends SegmentFormatter {
         ArrayList<String> lines = new ArrayList<>();
         Queue<VariableNode> queue = new ArrayDeque<>();
 
-        if (!(segment instanceof NodeFactorySegment)) return segment.toString();
+        if (!(segment instanceof NodeFactorySegment)) {
+            return segment.toString();
+        }
         queue.add(new NonTerminalVariableNode((NodeFactorySegment) segment, null));
 
         // Add each child 2 times and on the second time it is added to the node list.

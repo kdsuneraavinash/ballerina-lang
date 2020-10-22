@@ -18,7 +18,7 @@
 package io.ballerinalang.quoter.segment;
 
 /**
- * Method call of format: "(SeparatedNodeList)NodeFactory.methodName(param1, param2)"
+ * Method call of format: "(SeparatedNodeList)NodeFactory.methodName(param1, param2)".
  */
 public class SeparatedNodeListSegment extends NodeFactorySegment {
     public SeparatedNodeListSegment() {

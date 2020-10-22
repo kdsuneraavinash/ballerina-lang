@@ -20,7 +20,7 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
-public class SegmentGeneratorActionsTest extends AbstractQuoterTest{
+public class SegmentGeneratorActionsTest extends AbstractQuoterTest {
 
     @Test
     public void testBracedAction() {

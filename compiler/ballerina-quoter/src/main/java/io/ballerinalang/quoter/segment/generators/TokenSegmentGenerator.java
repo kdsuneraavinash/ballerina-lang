@@ -17,7 +17,10 @@
  */
 package io.ballerinalang.quoter.segment.generators;
 
-import io.ballerina.compiler.syntax.tree.*;
+import io.ballerina.compiler.syntax.tree.DocumentationLineToken;
+import io.ballerina.compiler.syntax.tree.IdentifierToken;
+import io.ballerina.compiler.syntax.tree.LiteralValueToken;
+import io.ballerina.compiler.syntax.tree.Token;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 
 /**
@@ -42,14 +45,18 @@ public class TokenSegmentGenerator {
         } else if (token instanceof IdentifierToken) {
             root = SegmentGenerator.createFactoryCallSegment("createIdentifierToken");
             root.addParameter(SegmentGenerator.createStringSegment(token.text()));
-            if (noMinutiae) return root;
+            if (noMinutiae) {
+                return root;
+            }
         } else if (token instanceof DocumentationLineToken) {
             root = SegmentGenerator.createFactoryCallSegment("createDocumentationLineToken");
             root.addParameter(SegmentGenerator.createStringSegment(token.text()));
         } else {
             root = SegmentGenerator.createFactoryCallSegment("createToken");
             root.addParameter(SegmentGenerator.createSyntaxKindSegment(token.kind()));
-            if (noMinutiae) return root;
+            if (noMinutiae) {
+                return root;
+            }
         }
 
         // Add leading and trailing minutiae parameters to the call.

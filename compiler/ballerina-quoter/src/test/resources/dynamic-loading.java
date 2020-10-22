@@ -1,7 +1,7 @@
 package templatepkg;
 
+import io.ballerina.compiler.syntax.tree.Node;
 import io.ballerinalang.quoter.test.TemplateCode;
-import io.ballerina.compiler.syntax.tree.*;
 
 public class TemplateCodeImpl implements TemplateCode {
     @Override

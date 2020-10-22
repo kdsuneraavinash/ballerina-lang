@@ -38,18 +38,6 @@ public class QuoterPropertiesConfig extends QuoterConfig {
     }
 
     /**
-     * Load the property of the given key.
-     * Throws if not found.
-     */
-    @Override
-    public String getOrThrow(String key) {
-        if (Objects.isNull(key)) throw new QuoterException("The QuoterConfig key must not be null");
-        String value = this.props.getProperty(key);
-        if (Objects.isNull(value)) throw new QuoterException("The value of QuoterConfig key '" + key + "' is null");
-        return value;
-    }
-
-    /**
      * Loads the properties from the resources.
      */
     private static Properties loadConfig() {
@@ -57,12 +45,30 @@ public class QuoterPropertiesConfig extends QuoterConfig {
         ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
 
         try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
-            if (inputStream == null) throw new QuoterException("File not found: " + path);
+            if (inputStream == null) {
+                throw new QuoterException("File not found: " + path);
+            }
             Properties props = new Properties();
             props.load(inputStream);
             return props;
         } catch (IOException e) {
             throw new QuoterException("Project properties loading failed. Reason: " + e, e);
         }
+    }
+
+    /**
+     * Load the property of the given key.
+     * Throws if not found.
+     */
+    @Override
+    public String getOrThrow(String key) {
+        if (Objects.isNull(key)) {
+            throw new QuoterException("The QuoterConfig key must not be null");
+        }
+        String value = this.props.getProperty(key);
+        if (Objects.isNull(value)) {
+            throw new QuoterException("The value of QuoterConfig key '" + key + "' is null");
+        }
+        return value;
     }
 }

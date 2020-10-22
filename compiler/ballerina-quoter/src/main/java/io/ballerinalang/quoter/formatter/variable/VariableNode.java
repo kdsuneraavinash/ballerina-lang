@@ -25,8 +25,8 @@ import io.ballerinalang.quoter.segment.Segment;
  * Node denoting a segment in segment tree for variable formatter.
  */
 public abstract class VariableNode {
-    private boolean visited;
     protected final NonTerminalVariableNode parent;
+    private boolean visited;
 
     protected VariableNode(NonTerminalVariableNode parent) {
         this.parent = parent;
@@ -60,7 +60,7 @@ public abstract class VariableNode {
     }
 
     /**
-     * Adds the parameter to the parent
+     * Adds the parameter to the parent.
      */
     protected void addToParent() {
         if (parent != null) {

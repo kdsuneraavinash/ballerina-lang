@@ -17,7 +17,12 @@
  */
 package io.ballerinalang.quoter.segment.generators;
 
-import io.ballerina.compiler.syntax.tree.*;
+import io.ballerina.compiler.syntax.tree.ChildNodeEntry;
+import io.ballerina.compiler.syntax.tree.Node;
+import io.ballerina.compiler.syntax.tree.NodeList;
+import io.ballerina.compiler.syntax.tree.NonTerminalNode;
+import io.ballerina.compiler.syntax.tree.SeparatedNodeList;
+import io.ballerina.compiler.syntax.tree.SyntaxKind;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
 import io.ballerinalang.quoter.segment.generators.cache.MethodCache;
@@ -29,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Converts non terminal into a segment
+ * Converts non terminal into a segment.
  */
 public class NonTerminalSegmentGenerator {
     private final ParameterNameCache parameterNameCache;

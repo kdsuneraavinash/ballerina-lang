@@ -17,15 +17,16 @@
  */
 package io.ballerinalang.quoter.formatter;
 
-import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.QuoterException;
+import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.segment.Segment;
 
 import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.EXTERNAL_FORMATTER_NAME;
 
+/**
+ * Base formatter.
+ */
 public abstract class SegmentFormatter {
-    public abstract String format(Segment segment);
-
     /**
      * Creates a formatter based on the configuration option.
      */
@@ -44,4 +45,6 @@ public abstract class SegmentFormatter {
                 throw new QuoterException("Unknown formatter name: " + formatterName);
         }
     }
+
+    public abstract String format(Segment segment);
 }

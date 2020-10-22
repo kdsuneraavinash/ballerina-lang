@@ -19,7 +19,8 @@ package io.ballerinalang.quoter.segment.generators.cache;
 
 import io.ballerinalang.quoter.config.QuoterConfig;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 
 /**

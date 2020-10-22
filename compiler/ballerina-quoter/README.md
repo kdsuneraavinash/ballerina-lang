@@ -46,7 +46,7 @@ Put the source code in the input file. This is `input.bal` by default, but you m
 Run the following command. This will generate the output at the given location.
 
 ```bash
-./gradle quoter
+./gradlew quoter
 ```
 
 When running the command you can give additional arguments to override the properties stated in the `quoter-config.properties`.

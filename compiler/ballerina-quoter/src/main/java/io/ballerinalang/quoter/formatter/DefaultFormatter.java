@@ -52,8 +52,12 @@ public class DefaultFormatter extends SegmentFormatter {
      */
     private boolean commaInsideParenPresent(StringBuilder input, int position) {
         for (int i = position + 1; i < input.length(); i++) {
-            if (input.charAt(i) == CLOSE_PAREN) return false;
-            if (input.charAt(i) == COMMA || input.charAt(i) == OPEN_PAREN) return true;
+            if (input.charAt(i) == CLOSE_PAREN) {
+                return false;
+            }
+            if (input.charAt(i) == COMMA || input.charAt(i) == OPEN_PAREN) {
+                return true;
+            }
         }
         return false;
     }
@@ -85,11 +89,14 @@ public class DefaultFormatter extends SegmentFormatter {
                 // Opening parenthesis
                 output.append(character);
                 foundCommaInCurrentParen = commaInsideParenPresent(input, position);
-                if (foundCommaInCurrentParen) output.append('\n').append("\t".repeat(++depth));
+                if (foundCommaInCurrentParen) {
+                    output.append('\n').append("\t".repeat(++depth));
+                }
             } else if (character == CLOSE_PAREN) {
                 // Closing parentheses
-                if (input.charAt(position - 1) != OPEN_PAREN && foundCommaInCurrentParen)
+                if (input.charAt(position - 1) != OPEN_PAREN && foundCommaInCurrentParen) {
                     output.append('\n').append("\t".repeat(--depth));
+                }
                 foundCommaInCurrentParen = true;
                 output.append(character);
             } else if (character == COMMA) {
