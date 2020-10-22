@@ -424,7 +424,7 @@ public class TypeChecker {
      * @return True if left hand value is less than right hand side value, else false.
      */
     public static boolean checkDecimalLessThan(DecimalValue lhsValue, DecimalValue rhsValue) {
-        return checkDecimalGreaterThanOrEqual(rhsValue, lhsValue);
+        return !checkDecimalEqual(lhsValue, rhsValue) && checkDecimalGreaterThanOrEqual(rhsValue, lhsValue);
     }
 
     /**
@@ -435,7 +435,7 @@ public class TypeChecker {
      * @return True if left hand value is less than or equal right hand side value, else false.
      */
     public static boolean checkDecimalLessThanOrEqual(DecimalValue lhsValue, DecimalValue rhsValue) {
-        return checkDecimalGreaterThan(rhsValue, lhsValue);
+        return checkDecimalEqual(lhsValue, rhsValue) || checkDecimalGreaterThan(rhsValue, lhsValue);
     }
 
     /**
@@ -1481,6 +1481,12 @@ public class TypeChecker {
         unresolvedTypes.add(pair);
 
         BObjectType sourceObjectType = (BObjectType) sourceType;
+
+        if (Flags.isFlagOn(targetType.flags, Flags.ISOLATED) &&
+                !Flags.isFlagOn(sourceObjectType.flags, Flags.ISOLATED)) {
+            return false;
+        }
+
         Map<String, Field> targetFields = targetType.getFields();
         Map<String, Field> sourceFields = sourceObjectType.getFields();
         AttachedFunctionType[] targetFuncs = targetType.getAttachedFunctions();

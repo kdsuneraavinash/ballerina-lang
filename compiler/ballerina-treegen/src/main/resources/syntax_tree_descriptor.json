@@ -195,7 +195,8 @@
                 },
                 {
                     "name": "serviceName",
-                    "type": "IdentifierToken"
+                    "type": "IdentifierToken",
+                    "isOptional": true
                 },
                 {
                     "name": "onKeyword",
@@ -1488,11 +1489,13 @@
                 },
                 {
                     "name": "equalsToken",
-                    "type": "Token"
+                    "type": "Token",
+                    "isOptional": true
                 },
                 {
                     "name": "initializer",
-                    "type": "ExpressionNode"
+                    "type": "ExpressionNode",
+                    "isOptional": true
                 },
                 {
                     "name": "semicolonToken",
@@ -3027,7 +3030,8 @@
                 },
                 {
                     "name": "peerWorker",
-                    "type": "NameReferenceNode"
+                    "type": "NameReferenceNode",
+                    "isOptional": true
                 }
             ]
         },
@@ -3518,7 +3522,8 @@
                 },
                 {
                     "name": "qualifier",
-                    "type": "Token"
+                    "type": "Token",
+                    "isOptional": true
                 },
                 {
                     "name": "enumKeywordToken",
