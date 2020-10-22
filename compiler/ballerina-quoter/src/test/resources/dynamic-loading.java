@@ -1,6 +1,6 @@
 package templatepkg;
 
-import io.ballerina.compiler.syntax.tree.Node;
+import io.ballerina.compiler.syntax.tree.*;
 import io.ballerinalang.quoter.test.TemplateCode;
 
 public class TemplateCodeImpl implements TemplateCode {
