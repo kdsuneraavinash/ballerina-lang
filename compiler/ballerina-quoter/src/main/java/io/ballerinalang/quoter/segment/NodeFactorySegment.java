@@ -17,8 +17,6 @@
  */
 package io.ballerinalang.quoter.segment;
 
-import io.ballerinalang.quoter.QuoterException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

@@ -17,18 +17,9 @@
  */
 package io.ballerinalang.quoter.segment.generators.cache;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import io.ballerinalang.quoter.BallerinaQuoter;
 import io.ballerinalang.quoter.config.QuoterConfig;
-import io.ballerinalang.quoter.QuoterException;
 
-import java.io.*;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-
-import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.INTERNAL_NODE_CHILDREN_JSON;
 
 
 /**
@@ -48,21 +39,7 @@ public class ParameterNameCache {
      * Create the cache from the file defined in the config.
      */
     public static ParameterNameCache fromConfig(QuoterConfig config) {
-        String jsonFile = config.getOrThrow(INTERNAL_NODE_CHILDREN_JSON);
-        ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
-
-        try (InputStream inputStream = classLoader.getResourceAsStream(jsonFile)) {
-            if (inputStream == null) throw new QuoterException("File not found: " + jsonFile);
-
-            Gson gson = new Gson();
-            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-
-            Type SIGNATURE_FORMAT = new TypeToken<Map<String, List<String>>>() {
-            }.getType();
-            return new ParameterNameCache(gson.fromJson(reader, SIGNATURE_FORMAT));
-        } catch (IOException e) {
-            throw new QuoterException("Failed to read " + jsonFile + ". Error: " + e.getMessage(), e);
-        }
+        return new ParameterNameCache(config.readNodeChildrenJson());
     }
 
     /**

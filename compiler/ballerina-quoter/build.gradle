@@ -21,8 +21,12 @@ apply from: "$rootDir/gradle/javaProject.gradle"
 description = 'Ballerina - Syntax API Quoter'
 
 task quoter(type: JavaExec) {
-    main = "io.ballerinalang.quoter.BallerinaQuoter"
+    main = "io.ballerinalang.quoter.QuoterCommandLine"
     classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty('rops')) {
+        //noinspection GroovyAssignabilityCheck
+        args(project.property('rops').split(' '))
+    }
 }
 
 dependencies {
@@ -31,8 +35,11 @@ dependencies {
     implementation('com.google.code.gson:gson') {
         because("To read the JSON file with the syntax information")
     }
+    implementation(group: 'commons-cli', name: 'commons-cli', version: '1.3.1') {
+        because("To handle command line arguments")
+    }
     testImplementation 'org.testng:testng'
-    testImplementation (group: 'net.openhft', name: 'compiler', version: '2.4.0') {
+    testImplementation(group: 'net.openhft', name: 'compiler', version: '2.4.0') {
         because("To dynamically compile and test generated code")
     }
 }

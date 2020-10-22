@@ -20,35 +20,27 @@ package io.ballerinalang.quoter;
 
 import io.ballerina.compiler.syntax.tree.*;
 import io.ballerinalang.quoter.config.QuoterConfig;
-import io.ballerinalang.quoter.config.QuoterPropertiesConfig;
 import io.ballerinalang.quoter.formatter.SegmentFormatter;
 import io.ballerinalang.quoter.segment.Segment;
 import io.ballerina.tools.text.TextDocument;
 import io.ballerina.tools.text.TextDocuments;
 import io.ballerinalang.quoter.segment.generators.NodeSegmentGenerator;
-import io.ballerinalang.quoter.utils.FileReaderUtils;
-
-import java.io.*;
-
-import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.*;
 
 public class BallerinaQuoter {
-    public static void main(String[] args) {
+    public static void run(QuoterConfig config) {
         try {
-            // 1) Load quoter properties
-            QuoterConfig config = new QuoterPropertiesConfig();
-            // 2) Get the input file code
-            String sourceCode = readInputFile(config);
-            // 3) Create the factory
+            // 1) Get the input file code
+            String sourceCode = config.readInputFile();
+            // 2) Create the factory
             NodeSegmentGenerator factory = NodeSegmentGenerator.fromConfig(config);
-            // 4) Get the formatter
+            // 3) Get the formatter
             SegmentFormatter formatter = SegmentFormatter.getFormatter(config);
 
-            // 5) Execute the generator
+            // 4) Execute the generator
             String generatedCode = execute(sourceCode, factory, formatter);
 
-            // 6) Output the generated code
-            outputString(config, generatedCode);
+            // 5) Output the generated code
+            config.writeToOutputFile(generatedCode);
 
         } catch (QuoterException exception) {
             System.out.println("There was an Exception when parsing. Please check your code.\nError: " + exception);
@@ -68,29 +60,5 @@ public class BallerinaQuoter {
         Segment segment = nodeSegmentGenerator.createNodeSegment(syntaxTreeNode);
         // Format using the formatter
         return formatter.format(segment);
-    }
-
-    /**
-     * Read input from the file specified in the configurations.
-     */
-    private static String readInputFile(QuoterConfig config) {
-        String inputFileName = config.getOrThrow(EXTERNAL_INPUT_FILE);
-        return FileReaderUtils.readFile(inputFileName);
-    }
-
-    /**
-     * Output the final output in the way specified in the configurations.
-     */
-    private static void outputString(QuoterConfig config, String content) {
-        String outputFileName = config.getOrThrow(EXTERNAL_OUTPUT_FILE);
-        try (OutputStream outputStream = new FileOutputStream(outputFileName)) {
-            outputStream.write(content.getBytes());
-        } catch (IOException e) {
-            throw new QuoterException("Failed to write " + outputFileName + ". Error: " + e.getMessage(), e);
-        }
-
-        if (config.getBooleanOrThrow(EXTERNAL_OUTPUT_SYS_OUT)) {
-            System.out.println(content);
-        }
     }
 }

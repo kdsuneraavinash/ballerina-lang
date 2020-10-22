@@ -19,10 +19,8 @@ package io.ballerinalang.quoter.formatter;
 
 import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.segment.Segment;
-import io.ballerinalang.quoter.utils.FileReaderUtils;
 
-import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.INTERNAL_FORMATTER_TEMPLATE;
-import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.INTERNAL_FORMATTER_TEMPLATE_TAB_START;
+import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.EXTERNAL_FORMATTER_TEMPLATE_TAB_START;
 
 /**
  * Formatter that inserts the default formatter output in a template.
@@ -41,11 +39,9 @@ public class TemplateFormatter extends DefaultFormatter {
      * Create the formatter via config.
      */
     public static TemplateFormatter fromConfig(QuoterConfig config) {
-        String inputFileName = config.getOrThrow(INTERNAL_FORMATTER_TEMPLATE);
-        int tabStart = Integer.parseInt(config.getOrThrow(INTERNAL_FORMATTER_TEMPLATE_TAB_START));
-
-        String input = FileReaderUtils.readFileAsResource(inputFileName);
-        return new TemplateFormatter(input, tabStart);
+        int tabStart = Integer.parseInt(config.getOrThrow(EXTERNAL_FORMATTER_TEMPLATE_TAB_START));
+        String template = config.readTemplateFile();
+        return new TemplateFormatter(template, tabStart);
     }
 
     @Override

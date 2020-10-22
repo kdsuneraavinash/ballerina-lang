@@ -18,29 +18,28 @@
 package io.ballerinalang.quoter.test;
 
 import io.ballerinalang.quoter.config.QuoterConfig;
-
-import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.*;
+import io.ballerinalang.quoter.utils.FileReaderUtils;
 
 public class TestQuoterConfig extends QuoterConfig {
-    private final String internalFormatterTemplate;
-    private final String internalFormatterTemplateTabStart;
+    private final String externalFormatterTemplate;
+    private final String externalFormatterTemplateTabStart;
     private final String externalFormatterName;
 
-    public TestQuoterConfig(String internalFormatterTemplate,
-                            int internalFormatterTemplateTabStart,
+    public TestQuoterConfig(String externalFormatterTemplate,
+                            int externalFormatterTemplateTabStart,
                             String externalFormatterName) {
-        this.internalFormatterTemplate = internalFormatterTemplate;
-        this.internalFormatterTemplateTabStart = String.valueOf(internalFormatterTemplateTabStart);
+        this.externalFormatterTemplate = externalFormatterTemplate;
+        this.externalFormatterTemplateTabStart = String.valueOf(externalFormatterTemplateTabStart);
         this.externalFormatterName = externalFormatterName;
     }
 
     @Override
     public String getOrThrow(String key) {
         switch (key) {
-            case INTERNAL_FORMATTER_TEMPLATE:
-                return internalFormatterTemplate;
-            case INTERNAL_FORMATTER_TEMPLATE_TAB_START:
-                return internalFormatterTemplateTabStart;
+            case EXTERNAL_FORMATTER_TEMPLATE:
+                return externalFormatterTemplate;
+            case EXTERNAL_FORMATTER_TEMPLATE_TAB_START:
+                return externalFormatterTemplateTabStart;
             case INTERNAL_NODE_CHILDREN_JSON:
                 return "parameter-names.json";
             case EXTERNAL_FORMATTER_NAME:
@@ -48,5 +47,10 @@ public class TestQuoterConfig extends QuoterConfig {
             default:
                 throw new RuntimeException("Unknown key: " + key);
         }
+    }
+
+    @Override
+    public String readTemplateFile() {
+        return FileReaderUtils.readFileAsResource(getOrThrow(EXTERNAL_FORMATTER_TEMPLATE));
     }
 }

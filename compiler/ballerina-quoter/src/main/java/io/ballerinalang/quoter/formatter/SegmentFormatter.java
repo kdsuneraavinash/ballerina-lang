@@ -41,7 +41,7 @@ public abstract class SegmentFormatter {
             case "variable":
                 return new VariableFormatter();
             default:
-                throw new QuoterException("Unknown formatter name.");
+                throw new QuoterException("Unknown formatter name: " + formatterName);
         }
     }
 }

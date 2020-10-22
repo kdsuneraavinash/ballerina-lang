@@ -23,25 +23,23 @@ python generate-parameter-names.py
 
 ### Step 2:
 
-Change the properties in the [`quoter-config.properties`](src/main/resources/quoter-config.properties) to customize the output.
+Change the default properties in the [`quoter-config.properties`](src/main/resources/quoter-config.properties) to customize the output.
 
 | Property Key | Default Value | Description|
 |-|-|--|
-|`external.input.file`| `source-code.bal` | Input source file |
-|`external.output.file`| `generated-syntax-api.txt` | Output file |
+|`external.input.file`| `input.bal` | Input source file |
+|`external.output.file`| `output.txt` | Output file |
 |`external.output.sys.out`| `false` | Whether to print out to the stdout as well. |
 |`external.formatter.name`| `template` | Formatter to use. Choices: `template`, `variable`, `default`, `none` |
-|`internal.node.children`*| `parameter-names.json` | JSON file containing the generated parameter names |
-|`internal.formatter.template`*| `template.txt` | Template file to use if `external.formatter.name` is `template` |
-|`internal.formatter.template.tab.start`| 2 | Initial indent of code if `external.formatter.name` is `template`|
+|`external.formatter.template`*| `template.txt` | Template file to use if `external.formatter.name` is `template` |
+|`external.formatter.template.tab.start`| 2 | Initial indent of code if `external.formatter.name` is `template`|
+|`internal.node.children`| `parameter-names.json` | JSON file containing the generated parameter names. This path points to the `resources` directory. |
 
-If used with the template file, the code will get replaced on `%s`.
-
-*These file paths point to the resources directory. Other paths refer to the project directory. 
+If used with the template formatter, the code will get replaced on `%s` in the template file given.
 
 ### Step 3:
 
-Put the source code in the input file. This is `source-code.bal` by default, but you may use any file name.
+Put the source code in the input file. This is `input.bal` by default, but you may use any file name.
 
 ### Step 4:
 
@@ -50,3 +48,25 @@ Run the following command. This will generate the output at the given location.
 ```bash
 ./gradle quoter
 ```
+
+When running the command you can give additional arguments to override the properties stated in the `quoter-config.properties`.
+
+```bash
+usage: ./gradlew quoter -Props="[OPTIONS]"
+ -f,--formatter <arg>   formatter name (none,default,template,variable)
+ -i,--input <arg>       input file path
+ -o,--output <arg>      output file path
+ -p,--position <arg>    tab position to start (applicable only in template
+                        formatter)
+ -s,--stdout            output to stdout
+ -t,--template <arg>    template to use (applicable only in template
+                        formatter)
+```
+
+#### Examples:
+
+`./gradlew quoter -Props="-f default"` - Override and use default formatter
+
+`./gradlew quoter -Props="-i code.bal -s true"` - Read from `code.bal` and output generated code to stdout as well  
+
+`./gradlew quoter -Props="-f template -t Template.java -p 2"` - Use the template formatter with `Template.java` as template and 2 as the starting tab space

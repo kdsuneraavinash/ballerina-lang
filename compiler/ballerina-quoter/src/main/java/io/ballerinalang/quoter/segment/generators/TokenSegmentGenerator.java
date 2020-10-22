@@ -18,7 +18,6 @@
 package io.ballerinalang.quoter.segment.generators;
 
 import io.ballerina.compiler.syntax.tree.*;
-import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 
 /**

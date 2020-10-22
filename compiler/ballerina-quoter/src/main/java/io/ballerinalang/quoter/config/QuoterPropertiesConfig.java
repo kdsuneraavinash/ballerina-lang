@@ -29,16 +29,9 @@ import java.util.Properties;
  * Singleton that represent a set of config properties loaded from a config file.
  */
 public class QuoterPropertiesConfig extends QuoterConfig {
-    public static final String INTERNAL_FORMATTER_TEMPLATE = "internal.formatter.template";
-    public static final String INTERNAL_FORMATTER_TEMPLATE_TAB_START = "internal.formatter.template.tab.start";
-    public static final String INTERNAL_NODE_CHILDREN_JSON = "internal.node.children";
-    public static final String EXTERNAL_INPUT_FILE = "external.input.file";
-    public static final String EXTERNAL_OUTPUT_FILE = "external.output.file";
-    public static final String EXTERNAL_OUTPUT_SYS_OUT = "external.output.sys.out";
-    public static final String EXTERNAL_FORMATTER_NAME = "external.formatter.name";
-    private static final String QUOTER_GEN_CONFIG_PROPERTIES = "quoter-config.properties";
+    protected static final String QUOTER_GEN_CONFIG_PROPERTIES = "quoter-config.properties";
 
-    private final Properties props;
+    protected final Properties props;
 
     public QuoterPropertiesConfig() {
         this.props = loadConfig();
