@@ -19,6 +19,8 @@
 package io.ballerinalang.quoter;
 
 import io.ballerina.compiler.syntax.tree.*;
+import io.ballerinalang.quoter.config.QuoterConfig;
+import io.ballerinalang.quoter.config.QuoterPropertiesConfig;
 import io.ballerinalang.quoter.formatter.SegmentFormatter;
 import io.ballerinalang.quoter.segment.Segment;
 import io.ballerina.tools.text.TextDocument;
@@ -28,25 +30,25 @@ import io.ballerinalang.quoter.utils.FileReaderUtils;
 
 import java.io.*;
 
-import static io.ballerinalang.quoter.QuoterConfig.*;
+import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.*;
 
 public class BallerinaQuoter {
     public static void main(String[] args) {
         try {
             // 1) Load quoter properties
-            QuoterConfig quoterConfig = QuoterConfig.getInstance();
+            QuoterConfig config = new QuoterPropertiesConfig();
             // 2) Get the input file code
-            String sourceCode = readInputFile(quoterConfig);
+            String sourceCode = readInputFile(config);
             // 3) Create the factory
-            NodeSegmentGenerator factory = NodeSegmentGenerator.fromConfig(quoterConfig);
+            NodeSegmentGenerator factory = NodeSegmentGenerator.fromConfig(config);
             // 4) Get the formatter
-            SegmentFormatter formatter = SegmentFormatter.getFormatter(quoterConfig);
+            SegmentFormatter formatter = SegmentFormatter.getFormatter(config);
 
             // 5) Execute the generator
             String generatedCode = execute(sourceCode, factory, formatter);
 
             // 6) Output the generated code
-            outputString(quoterConfig, generatedCode);
+            outputString(config, generatedCode);
 
         } catch (QuoterException exception) {
             System.out.println("There was an Exception when parsing. Please check your code.\nError: " + exception);

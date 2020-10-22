@@ -20,7 +20,7 @@ package io.ballerinalang.quoter.segment.generators.cache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.ballerinalang.quoter.BallerinaQuoter;
-import io.ballerinalang.quoter.QuoterConfig;
+import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.QuoterException;
 
 import java.io.*;
@@ -28,7 +28,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static io.ballerinalang.quoter.QuoterConfig.INTERNAL_NODE_CHILDREN_JSON;
+import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.INTERNAL_NODE_CHILDREN_JSON;
 
 
 /**

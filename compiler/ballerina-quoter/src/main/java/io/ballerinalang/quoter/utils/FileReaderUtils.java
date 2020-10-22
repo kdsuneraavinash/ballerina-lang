@@ -17,7 +17,6 @@
  */
 package io.ballerinalang.quoter.utils;
 
-import io.ballerinalang.quoter.BallerinaQuoter;
 import io.ballerinalang.quoter.QuoterException;
 
 import java.io.FileInputStream;
@@ -30,7 +29,7 @@ public class FileReaderUtils {
      * Reads a file path content from the resources directory.
      */
     public static String readFileAsResource(String path) {
-        ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
             if (inputStream == null) throw new QuoterException("File not found: " + path);

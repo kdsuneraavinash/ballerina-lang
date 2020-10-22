@@ -17,11 +17,11 @@
  */
 package io.ballerinalang.quoter.formatter;
 
-import io.ballerinalang.quoter.QuoterConfig;
+import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.segment.Segment;
 
-import static io.ballerinalang.quoter.QuoterConfig.EXTERNAL_FORMATTER_NAME;
+import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.EXTERNAL_FORMATTER_NAME;
 
 public abstract class SegmentFormatter {
     public abstract String format(Segment segment);

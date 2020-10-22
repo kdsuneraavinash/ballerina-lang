@@ -20,6 +20,7 @@ package io.ballerinalang.quoter.segment.generators;
 import io.ballerina.compiler.syntax.tree.Minutiae;
 import io.ballerina.compiler.syntax.tree.MinutiaeList;
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
+import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
 
@@ -54,9 +55,9 @@ public class MinutiaeSegmentGenerator {
         } else if (minutiae.kind() == SyntaxKind.END_OF_LINE_MINUTIAE) {
             factoryMethod = "createEndOfLineMinutiae";
         } else if (minutiae.kind() == SyntaxKind.INVALID_NODE_MINUTIAE) {
-            throw new RuntimeException("Invalid node minutiae found with text: " + minutiae.text());
+            throw new QuoterException("Invalid node minutiae found with text: " + minutiae.text());
         } else {
-            throw new RuntimeException("Unexpected Minutiae found");
+            throw new QuoterException("Unexpected Minutiae found");
         }
 
         // All minutiae factory methods accept only the text
