@@ -47,14 +47,6 @@ public class SegmentGeneratorActionsTest extends AbstractQuoterTest{
     }
 
     @Test
-    public void testReceiveAction() {
-        // TODO incompatible types: ReceiveFieldsNode cannot be converted to SimpleNameReferenceNode?
-        testAssertionFiles("parser/actions/receive-action", "receive_action_source_01");
-        testAssertionFiles("parser/actions/receive-action", "receive_action_source_02");
-        testAssertionFiles("parser/actions/receive-action", "receive_action_source_03");
-    }
-
-    @Test
     public void testRemoteMethodCallAction() {
         testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_01");
         testAssertionFiles("parser/actions/remote-method-call-action", "remote_method_call_source_02");

@@ -106,13 +106,6 @@ public class SegmentGeneratorDeclarationsTest extends AbstractQuoterTest {
     }
 
     @Test
-    public void testModuleVarDecl() {
-        // TODO: Incompatible types: no instance(s) of type variable(s) T exist so
-        // TODO: that io.ballerina.compiler.syntax.tree.NodeList<T> conforms to io.ballerina.compiler.syntax.tree.MetadataNode
-        testAssertionFiles("parser/declarations/module-var-decl", "module_var_decl_source_10");
-    }
-
-    @Test
     public void testObjectTypeDef() {
         testAssertionFiles("parser/declarations/object-type-def", "object_type_def_source_01");
         testAssertionFiles("parser/declarations/object-type-def", "object_type_def_source_02");

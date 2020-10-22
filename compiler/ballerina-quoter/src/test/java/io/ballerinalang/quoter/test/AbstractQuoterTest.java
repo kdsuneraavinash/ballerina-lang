@@ -90,6 +90,4 @@ public class AbstractQuoterTest {
     protected void testAssertionFiles(String directory, String filePrefix) {
         testForSameOutput(directory + "/" + filePrefix + ".bal");
     }
-
-
 }
