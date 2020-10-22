@@ -32,6 +32,15 @@ dependencies {
         because("To read the JSON file with the syntax information")
     }
     testImplementation 'org.testng:testng'
+    testImplementation (group: 'net.openhft', name: 'compiler', version: '2.4.0') {
+        because("To dynamically compile and test generated code")
+    }
+}
+
+test {
+    useTestNG() {
+        suites 'src/test/resources/testng.xml'
+    }
 }
 
 ext.moduleName = 'io.ballerina.quoter'

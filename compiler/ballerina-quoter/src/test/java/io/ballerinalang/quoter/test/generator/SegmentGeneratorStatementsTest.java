@@ -1,0 +1,118 @@
+/*
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+package io.ballerinalang.quoter.test.generator;
+
+import io.ballerinalang.quoter.test.AbstractQuoterTest;
+import org.testng.annotations.Test;
+
+public class SegmentGeneratorStatementsTest extends AbstractQuoterTest {
+    @Test
+    public void testBlockStatement() {
+        testAssertionFiles("statements/block-stmt", "block_stmt_source_01");
+        testAssertionFiles("statements/block-stmt", "block_stmt_source_02");
+        testAssertionFiles("statements/block-stmt", "block_stmt_source_03");
+    }
+
+    @Test
+    public void testCallStatement() {
+        testAssertionFiles("statements/call-stmt", "call_stmt_source_01");
+        testAssertionFiles("statements/call-stmt", "call_stmt_source_02");
+        testAssertionFiles("statements/call-stmt", "call_stmt_source_05");
+        testAssertionFiles("statements/call-stmt", "call_stmt_source_06");
+    }
+
+    @Test
+    public void testDestructuringAssignment() {
+        testAssertionFiles("statements/destructuring-assignment", "error_binding_pattern_source_01");
+        testAssertionFiles("statements/destructuring-assignment", "mapping_binding_pattern_source_01");
+    }
+
+    @Test
+    public void testDoStatement() {
+        testAssertionFiles("statements/do-stmt", "do_stmt_source_01");
+        testAssertionFiles("statements/do-stmt", "do_stmt_source_02");
+        testAssertionFiles("statements/do-stmt", "do_stmt_source_03");
+    }
+
+    @Test
+    public void testFailStatement() {
+        testAssertionFiles("statements/fail-stmt", "fail_stmt_source_01");
+        testAssertionFiles("statements/fail-stmt", "fail_stmt_source_02");
+    }
+
+    @Test
+    public void testForEachStatement() {
+        testAssertionFiles("statements/forEach-stmt", "forEach_stmt_source_01");
+        testAssertionFiles("statements/forEach-stmt", "forEach_stmt_source_02");
+        testAssertionFiles("statements/forEach-stmt", "forEach_stmt_source_03");
+    }
+
+    @Test
+    public void testForkStatement() {
+        testAssertionFiles("statements/fork-stmt", "fork_stmt_source_01");
+        testAssertionFiles("statements/fork-stmt", "fork_stmt_source_02");
+        testAssertionFiles("statements/fork-stmt", "fork_stmt_source_03");
+    }
+
+    @Test
+    public void testIfElseStatement() {
+        testAssertionFiles("statements/if-else", "if_else_source_01");
+        testAssertionFiles("statements/if-else", "if_else_source_02");
+    }
+
+    @Test
+    public void testLockStatement() {
+        testAssertionFiles("statements/lock-stmt", "lock_stmt_source_01");
+        testAssertionFiles("statements/lock-stmt", "lock_stmt_source_02");
+        testAssertionFiles("statements/lock-stmt", "lock_stmt_source_03");
+    }
+
+    @Test
+    public void testMatchStatement() {
+        // TODO: Check if valid bugs
+        testAssertionFiles("statements/match-stmt", "match_stmt_source_01");
+        testAssertionFiles("statements/match-stmt", "match_stmt_source_02");
+        testAssertionFiles("statements/match-stmt", "match_stmt_source_05");
+        testAssertionFiles("statements/match-stmt", "match_stmt_source_08");
+        testAssertionFiles("statements/match-stmt", "match_stmt_source_14");
+        testAssertionFiles("statements/match-stmt", "match_stmt_source_16");
+    }
+
+    @Test
+    public void testTransactionStatement() {
+        testAssertionFiles("statements/transaction-stmt", "retry_stmt_source_01");
+        testAssertionFiles("statements/transaction-stmt", "retry_stmt_source_02");
+        testAssertionFiles("statements/transaction-stmt", "retry_stmt_source_05");
+        testAssertionFiles("statements/transaction-stmt", "rollback_stmt_source_01");
+        testAssertionFiles("statements/transaction-stmt", "transaction_stmt_source_01");
+        testAssertionFiles("statements/transaction-stmt", "transaction_stmt_source_03");
+        testAssertionFiles("statements/transaction-stmt", "transactional_worker_source_01");
+    }
+
+    @Test
+    public void testWhileStatement() {
+        testAssertionFiles("statements/while-stmt", "while_stmt_source_01");
+        testAssertionFiles("statements/while-stmt", "while_stmt_source_02");
+        testAssertionFiles("statements/while-stmt", "while_stmt_source_04");
+    }
+
+    @Test
+    public void testXmlnsDeclarationStatement() {
+        testAssertionFiles("statements/xmlns-decl-stmt", "xmlns_decl_stmt_source_01");
+    }
+}
