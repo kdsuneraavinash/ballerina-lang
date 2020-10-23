@@ -41,6 +41,8 @@ public abstract class SegmentFormatter {
                 return TemplateFormatter.fromConfig(config);
             case "variable":
                 return new VariableFormatter();
+            case "group":
+                return new GroupedVarFormatter();
             default:
                 throw new QuoterException("Unknown formatter name: " + formatterName);
         }

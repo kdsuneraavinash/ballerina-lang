@@ -35,7 +35,6 @@ public class TokenSegmentGenerator {
         // Decide on the method and add all parameters required, except for minutiae parameters.
         // If there are no minutiae and the token constructor supports calling without minutiae, use that call.
         NodeFactorySegment root;
-        boolean noMinutiae = token.leadingMinutiae().isEmpty() && token.trailingMinutiae().isEmpty();
 
         // Decide on factory call and add parameters(except minutiae)
         if (token instanceof LiteralValueToken) {
@@ -45,18 +44,12 @@ public class TokenSegmentGenerator {
         } else if (token instanceof IdentifierToken) {
             root = SegmentGenerator.createFactoryCallSegment("createIdentifierToken");
             root.addParameter(SegmentGenerator.createStringSegment(token.text()));
-            if (noMinutiae) {
-                return root;
-            }
         } else if (token instanceof DocumentationLineToken) {
             root = SegmentGenerator.createFactoryCallSegment("createDocumentationLineToken");
             root.addParameter(SegmentGenerator.createStringSegment(token.text()));
         } else {
             root = SegmentGenerator.createFactoryCallSegment("createToken");
             root.addParameter(SegmentGenerator.createSyntaxKindSegment(token.kind()));
-            if (noMinutiae) {
-                return root;
-            }
         }
 
         // Add leading and trailing minutiae parameters to the call.

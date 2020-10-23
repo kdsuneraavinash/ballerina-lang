@@ -30,7 +30,7 @@ Change the default properties in the [`quoter-config.properties`](src/main/resou
 |`external.input.file`| `input.bal` | Input source file |
 |`external.output.file`| `output.txt` | Output file |
 |`external.output.sys.out`| `false` | Whether to print out to the stdout as well. |
-|`external.formatter.name`| `template` | Formatter to use. Choices: `template`, `variable`, `default`, `none` |
+|`external.formatter.name`| `template` | Formatter to use. Choices: `template`, `variable`, `default`, `none`, `group` |
 |`external.formatter.template`*| `template.txt` | Template file to use if `external.formatter.name` is `template` |
 |`external.formatter.template.tab.start`| 2 | Initial indent of code if `external.formatter.name` is `template`|
 |`internal.node.children`| `parameter-names.json` | JSON file containing the generated parameter names. This path points to the `resources` directory. |
@@ -53,7 +53,7 @@ When running the command you can give additional arguments to override the prope
 
 ```bash
 usage: ./gradlew quoter -Props="[OPTIONS]"
- -f,--formatter <arg>   formatter name (none,default,template,variable)
+ -f,--formatter <arg>   formatter name (none,default,template,variable,group)
  -i,--input <arg>       input file path
  -o,--output <arg>      output file path
  -p,--position <arg>    tab position to start (applicable only in template

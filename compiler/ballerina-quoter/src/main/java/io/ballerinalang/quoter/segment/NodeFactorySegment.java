@@ -66,4 +66,8 @@ public class NodeFactorySegment extends Segment implements Iterable<Segment> {
     public String getMethodName() {
         return methodName;
     }
+
+    public String getType() {
+        return methodName.substring(6);
+    }
 }
