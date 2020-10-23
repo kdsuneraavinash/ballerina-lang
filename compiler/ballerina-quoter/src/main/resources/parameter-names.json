@@ -4,8 +4,8 @@
     "members",
     "eofToken"
   ],
+  "ModuleMemberDeclarationNode": [],
   "FunctionDefinitionNode": [
-    "kind",
     "metadata",
     "qualifierList",
     "functionKeyword",
@@ -47,6 +47,7 @@
     "expressions",
     "serviceBody"
   ],
+  "StatementNode": [],
   "AssignmentStatementNode": [
     "varRef",
     "equalsToken",
@@ -83,7 +84,6 @@
     "semicolonToken"
   ],
   "ExpressionStatementNode": [
-    "kind",
     "expression",
     "semicolonToken"
   ],
@@ -149,20 +149,18 @@
     "blockStatement",
     "onFailClause"
   ],
+  "ExpressionNode": [],
   "BinaryExpressionNode": [
-    "kind",
     "lhsExpr",
     "operator",
     "rhsExpr"
   ],
   "BracedExpressionNode": [
-    "kind",
     "openParen",
     "expression",
     "closeParen"
   ],
   "CheckExpressionNode": [
-    "kind",
     "checkKeyword",
     "expression"
   ],
@@ -221,6 +219,7 @@
     "initializer",
     "semicolonToken"
   ],
+  "ParameterNode": [],
   "DefaultableParameterNode": [
     "annotations",
     "typeName",
@@ -251,6 +250,7 @@
     "versionKeyword",
     "versionNumber"
   ],
+  "MappingFieldNode": [],
   "SpecificFieldNode": [
     "readonlyKeyword",
     "fieldName",
@@ -261,6 +261,7 @@
     "ellipsis",
     "valueExpr"
   ],
+  "FunctionArgumentNode": [],
   "NamedArgumentNode": [
     "argumentName",
     "equalsToken",
@@ -373,6 +374,7 @@
     "isKeyword",
     "typeDescriptor"
   ],
+  "ActionNode": [],
   "RemoteMethodCallActionNode": [
     "expression",
     "rightArrowToken",
@@ -438,9 +440,10 @@
     "namedWorkerDeclarations"
   ],
   "BasicLiteralNode": [
-    "kind",
     "literalToken"
   ],
+  "TypeDescriptorNode": [],
+  "NameReferenceNode": [],
   "SimpleNameReferenceNode": [
     "name"
   ],
@@ -450,11 +453,9 @@
     "identifier"
   ],
   "BuiltinSimpleNameReferenceNode": [
-    "kind",
     "name"
   ],
   "TrapExpressionNode": [
-    "kind",
     "trapKeyword",
     "expression"
   ],
@@ -532,17 +533,19 @@
     "expression"
   ],
   "TemplateExpressionNode": [
-    "kind",
     "type",
     "startBacktick",
     "content",
     "endBacktick"
   ],
+  "TemplateMemberNode": [],
+  "XMLItemNode": [],
   "XMLElementNode": [
     "startTag",
     "content",
     "endTag"
   ],
+  "XMLElementTagNode": [],
   "XMLStartTagNode": [
     "ltToken",
     "name",
@@ -555,6 +558,7 @@
     "name",
     "getToken"
   ],
+  "XMLNameNode": [],
   "XMLSimpleNameNode": [
     "name"
   ],
@@ -624,6 +628,7 @@
     "closeParenToken",
     "returnTypeDesc"
   ],
+  "AnonymousFunctionExpressionNode": [],
   "ExplicitAnonymousFunctionExpressionNode": [
     "annotations",
     "qualifierList",
@@ -631,6 +636,7 @@
     "functionSignature",
     "functionBody"
   ],
+  "FunctionBodyNode": [],
   "ExpressionFunctionBodyNode": [
     "rightDoubleArrow",
     "expression",
@@ -646,6 +652,7 @@
     "typedesc",
     "closeParenToken"
   ],
+  "NewExpressionNode": [],
   "ExplicitNewExpressionNode": [
     "newKeyword",
     "typeDescriptor",
@@ -660,6 +667,8 @@
     "arguments",
     "closeParenToken"
   ],
+  "ClauseNode": [],
+  "IntermediateClauseNode": [],
   "QueryConstructTypeNode": [
     "keyword",
     "keySpecifier"
@@ -759,6 +768,7 @@
     "typeDescriptor",
     "bindingPattern"
   ],
+  "BindingPatternNode": [],
   "CaptureBindingPatternNode": [
     "variableName"
   ],
@@ -777,6 +787,7 @@
     "restBindingPattern",
     "closeBrace"
   ],
+  "FieldBindingPatternNode": [],
   "FieldBindingPatternFullNode": [
     "variableName",
     "colon",
@@ -919,6 +930,7 @@
     "content",
     "endBacktick"
   ],
+  "XMLNavigateExpressionNode": [],
   "XMLFilterExpressionNode": [
     "expression",
     "xmlPatternChain"
@@ -996,16 +1008,15 @@
     "equalToken",
     "matchPattern"
   ],
+  "DocumentationNode": [],
   "MarkdownDocumentationNode": [
     "documentationLines"
   ],
   "MarkdownDocumentationLineNode": [
-    "kind",
     "hashToken",
     "documentElements"
   ],
   "MarkdownParameterDocumentationLineNode": [
-    "kind",
     "hashToken",
     "plusToken",
     "parameterName",
@@ -1048,9 +1059,5 @@
     "openBrace",
     "members",
     "closeBrace"
-  ],
-  "__meta__": [
-    "ballerina-swan-lake",
-    "193-entries"
   ]
 }
