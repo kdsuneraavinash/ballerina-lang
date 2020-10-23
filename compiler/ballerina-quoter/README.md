@@ -15,25 +15,25 @@ Therefore, this project aims to list the required API calls to create the given 
 ### Step 1:
 
 Update the [`parameter-names.json`](src/main/resources/parameter-names.json) with the necessary changes. 
-This file can be generated via the python script provided as the `generate-parameter-names.py`.
+This file can be generated via the python script provided as the `generate.py`.
 
 ```bash
-python generate-parameter-names.py
+python generate.py
 ```
 
 ### Step 2:
 
 Change the default properties in the [`quoter-config.properties`](src/main/resources/quoter-config.properties) to customize the output.
 
-| Property Key | Default Value | Description|
-|-|-|--|
-|`external.input.file`| `input.bal` | Input source file |
-|`external.output.file`| `output.txt` | Output file |
-|`external.output.sys.out`| `false` | Whether to print out to the stdout as well. |
-|`external.formatter.name`| `template` | Formatter to use. Choices: `template`, `variable`, `default`, `none`, `group` |
-|`external.formatter.template`*| `template.txt` | Template file to use if `external.formatter.name` is `template` |
-|`external.formatter.template.tab.start`| 2 | Initial indent of code if `external.formatter.name` is `template`|
-|`internal.node.children`| `parameter-names.json` | JSON file containing the generated parameter names. This path points to the `resources` directory. |
+| Property Key                            | Default Value          | Description                                                                                         |
+|-----------------------------------------|------------------------|-----------------------------------------------------------------------------------------------------|
+| `external.input.file`                   | `input.bal`            | Input source file                                                                                   |
+| `external.output.file`                  | `output.txt`           | Output file                                                                                         |
+| `external.output.sys.out`               | `false`                | Whether to print out to the stdout as well.                                                         |
+| `external.formatter.name`               | `template`             | Formatter to use. Choices:  `template`,`variable`,`default`,`none`                                  |
+| `external.formatter.template`           | `template.txt`         | Template file to use if `external.formatter.name` is `template`                                     |
+| `external.formatter.template.tab.start` | `2`                    | Initial indent of code if `external.formatter.name` is `template`                                   |
+| `internal.node.children`                | `parameter-names.json` | JSON file containing the generated parameter names. This path points to the  `resources` directory. |
 
 If used with the template formatter, the code will get replaced on `%s` in the template file given.
 
