@@ -53,7 +53,7 @@ When running the command you can give additional arguments to override the prope
 
 ```bash
 usage: ./gradlew quoter -Props="[OPTIONS]"
- -f,--formatter <arg>   formatter name (none,default,template,variable,group)
+ -f,--formatter <arg>   formatter name (none,default,template,variable)
  -i,--input <arg>       input file path
  -o,--output <arg>      output file path
  -p,--position <arg>    tab position to start (applicable only in template

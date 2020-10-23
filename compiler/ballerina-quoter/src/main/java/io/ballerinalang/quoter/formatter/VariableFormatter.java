@@ -17,71 +17,115 @@
  */
 package io.ballerinalang.quoter.formatter;
 
-import io.ballerinalang.quoter.formatter.variable.NonTerminalVariableNode;
-import io.ballerinalang.quoter.formatter.variable.VariableNode;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
+import io.ballerinalang.quoter.segment.generators.SegmentGenerator;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
+import java.util.Stack;
 
 /**
- * Formats the code so that each line will have one method call.
+ * Grouped Variable formatter.
+ * Groups minutiae with corresponding node.
  */
 public class VariableFormatter extends SegmentFormatter {
-    final Map<String, Integer> variableCount;
+    private HashMap<String, Integer> variableCount;
+    private final SegmentFormatter formatter;
 
-    public VariableFormatter() {
-        this.variableCount = new HashMap<>();
+    /**
+     * Data structure to hold string with an variable name.
+     */
+    private class NamedContent {
+        final String name;
+        String content;
+
+        NamedContent(String type) {
+            // Find the variable name: var, var1, var2, ...
+            String varGenericName = type.substring(0, 1).toLowerCase() + type.substring(1);
+            int varGenericCount = variableCount.getOrDefault(varGenericName, 0);
+            this.name = varGenericName + (varGenericCount == 0 ? "" : String.valueOf(varGenericCount));
+            variableCount.put(varGenericName, varGenericCount + 1);
+        }
+
+        void setContent(String string) {
+            this.content = string;
+        }
+
+        @Override
+        public String toString() {
+            return content;
+        }
+    }
+
+    VariableFormatter() {
+        formatter = new NoFormatter();
     }
 
     @Override
     public String format(Segment segment) {
-        // Must reset the variable counts
-        NonTerminalVariableNode.resetVariableCount();
-        ArrayList<String> lines = new ArrayList<>();
-        Queue<VariableNode> queue = new ArrayDeque<>();
+        variableCount = new HashMap<>();
+        return "MinutiaeList trailingMinutiae, leadingMinutiae;\n\n" +
+                processNode((NodeFactorySegment) segment);
+    }
 
-        if (!(segment instanceof NodeFactorySegment)) {
-            return segment.toString();
+    /**
+     * Processes a token and returns variable name and the content that should come before.
+     */
+    private NamedContent processToken(NodeFactorySegment token) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Stack<Segment> params = new Stack<>();
+        token.forEach(params::push);
+
+        NamedContent namedContent = new NamedContent(token.getType());
+        NodeFactorySegment factorySegment = SegmentGenerator.createFactoryCallSegment(token.getMethodName());
+
+        // Define minutiae
+        stringBuilder.append("trailingMinutiae = ").append(formatter.format(params.pop())).append(";\n");
+        stringBuilder.append("leadingMinutiae = ").append(formatter.format(params.pop())).append(";\n");
+
+        // Add params and minutiae
+        while (!params.isEmpty()) {
+            factorySegment.addParameter(params.remove(0));
         }
-        queue.add(new NonTerminalVariableNode((NodeFactorySegment) segment, null));
+        factorySegment.addParameter(SegmentGenerator.createCodeSegment("leadingMinutiae"));
+        factorySegment.addParameter(SegmentGenerator.createCodeSegment("trailingMinutiae"));
 
-        // Add each child 2 times and on the second time it is added to the node list.
-        // This is to ensure that a node will be added only after all the nodes that
-        // should be defined first is added.
-        // This algorithm is a slight variation of BFS.
-        //
-        // Eg Order of processing for A(B(C())) tree: A -> B -> A[x] -> C -> B[x] -> C[X]
-        // So, A, B, C are defined in this order: c = C(), b = B(c), a = A(b)
-        while (!queue.isEmpty()) {
-            VariableNode current = queue.remove();
+        stringBuilder.append(token.getType()).append(" ").append(namedContent.name)
+                .append(" = ").append(factorySegment).append(";\n\n");
 
-            if (current.isVisited() && current instanceof NonTerminalVariableNode) {
-                lines.add(current.toString());
-            } else if (current instanceof NonTerminalVariableNode) {
-                NonTerminalVariableNode nonTerminalCurrent = (NonTerminalVariableNode) current;
-                for (Segment child : nonTerminalCurrent) {
-                    VariableNode variableNode = VariableNode.create(child, nonTerminalCurrent);
-                    queue.add(variableNode);
-                }
-                nonTerminalCurrent.markAsVisited();
-                queue.add(current);
-            } else if (!current.isVisited()) {
-                current.markAsVisited();
-                queue.add(current);
+        namedContent.setContent(stringBuilder.toString());
+        return namedContent;
+    }
+
+    /**
+     * Processes node and returns variable name and the content that should come before.
+     */
+    private NamedContent processNode(NodeFactorySegment segment) {
+        // If it is a token, handle accordingly
+        if (segment.getMethodName().endsWith("Token")) {
+            return processToken(segment);
+        }
+
+        // Get each child and add the content that should come before
+        StringBuilder stringBuilder = new StringBuilder();
+        NodeFactorySegment factorySegment = SegmentGenerator.createFactoryCallSegment(segment.getMethodName());
+        for (Segment child : segment) {
+            if (child instanceof NodeFactorySegment) {
+                NodeFactorySegment childFactoryCall = (NodeFactorySegment) child;
+                NamedContent namedContent = processNode(childFactoryCall);
+                stringBuilder.append(namedContent.content);
+                factorySegment.addParameter(SegmentGenerator.createCodeSegment(namedContent.name));
+            } else {
+                factorySegment.addParameter(child);
             }
         }
 
-        // Convert to string representation
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = lines.size() - 1; i > -1; i--) {
-            String line = lines.get(i);
-            stringBuilder.append(line).append("\n");
-        }
-        return stringBuilder.toString();
+        // Node definition
+        NamedContent namedContent = new NamedContent(segment.getType());
+        stringBuilder.append(factorySegment.getType()).append(" ").append(namedContent.name)
+                .append(" = ").append(factorySegment).append(";\n\n");
+        namedContent.setContent(stringBuilder.toString());
+        return namedContent;
     }
 }
+
