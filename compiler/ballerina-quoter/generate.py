@@ -5,6 +5,7 @@ import os
 # syntax_tree_descriptor of treegen
 SYNTAX_TREE_DESCRIPTOR = '../ballerina-treegen/src/main/resources/syntax_tree_descriptor.json'
 PARAMETER_NAMES = 'src/main/resources/parameter-names.json'
+PARAMETER_NAMES_TEST = 'src/test/resources/parameter-names.json'
 
 dirname = os.path.dirname(__file__)
 
@@ -26,8 +27,9 @@ def main():
         output[name] = list(attributes)
 
     # Output the json
-    with open(os.path.join(dirname, PARAMETER_NAMES), 'w') as fw:
-        data = json.dump(output, fw)
+    for filename in [PARAMETER_NAMES, PARAMETER_NAMES_TEST]:
+        with open(os.path.join(dirname, filename), 'w') as fw:
+            data = json.dump(output, fw)
 
 
 if __name__ == "__main__":

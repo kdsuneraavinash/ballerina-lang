@@ -61,15 +61,17 @@ public class NonTerminalSegmentGenerator {
         // Get all the possible child names for the current node type
         List<String> parameterName = parameterNameCache.getParameterNames(node.getClass().getSimpleName());
 
+        if (parameterTypes[0] == SyntaxKind.class) {
+            root.addParameter(SegmentGenerator.createSyntaxKindSegment(node.kind()));
+            System.arraycopy(parameterTypes, 1, parameterTypes, 0, parameterTypes.length - 1);
+        }
+
         List<ChildNodeEntry> childNodeEntries = new ArrayList<>(node.childEntries());
         int childNodeEntriesIndex = 0; // Current processing childNodeEntry
         for (int i = 0; i < parameterName.size(); i++) {
             String childName = parameterName.get(i);
 
-            if (parameterTypes[i] == SyntaxKind.class) {
-                root.addParameter(SegmentGenerator.createSyntaxKindSegment(node.kind()));
-                continue;
-            } else if (childNodeEntriesIndex < childNodeEntries.size()) {
+            if (childNodeEntriesIndex < childNodeEntries.size()) {
                 ChildNodeEntry childNodeEntry = childNodeEntries.get(childNodeEntriesIndex);
                 if (childNodeEntry.name().equals(childName)) {
                     childNodeEntriesIndex++;
