@@ -20,6 +20,9 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
+/**
+ * Test statements to segment conversion.
+ */
 public class SegmentFactoryStatementsTest extends AbstractQuoterTest {
     @Test
     public void testBlockStatement() {
@@ -84,7 +87,6 @@ public class SegmentFactoryStatementsTest extends AbstractQuoterTest {
 
     @Test
     public void testMatchStatement() {
-        // TODO: Check if valid bugs
         testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_01");
         testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_02");
         testAssertionFiles("parser/statements/match-stmt", "match_stmt_source_05");

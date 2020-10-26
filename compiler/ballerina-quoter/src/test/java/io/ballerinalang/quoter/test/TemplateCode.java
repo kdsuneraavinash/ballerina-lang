@@ -19,6 +19,9 @@ package io.ballerinalang.quoter.test;
 
 import io.ballerina.compiler.syntax.tree.Node;
 
+/**
+ * Template that will get populated in tests.
+ */
 public interface TemplateCode {
     Node getNode();
 }

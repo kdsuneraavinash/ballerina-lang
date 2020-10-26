@@ -20,10 +20,12 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
+/**
+ * Test misc to segment conversion.
+ */
 public class SegmentFactoryMiscTest extends AbstractQuoterTest {
     @Test
     public void testAmbiguity() {
-        // TODO: Fails because of string interpolation bug
         testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_01");
         testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_04");
         testAssertionFiles("parser/misc/ambiguity", "ambiguity_source_05");
@@ -50,7 +52,6 @@ public class SegmentFactoryMiscTest extends AbstractQuoterTest {
 
     @Test
     public void testDocumentation() {
-        // TODO: Fails because service name of a service can be null
         testAssertionFiles("parser/misc/documentation", "doc_source_01");
         testAssertionFiles("parser/misc/documentation", "doc_source_02");
         testAssertionFiles("parser/misc/documentation", "doc_source_03");

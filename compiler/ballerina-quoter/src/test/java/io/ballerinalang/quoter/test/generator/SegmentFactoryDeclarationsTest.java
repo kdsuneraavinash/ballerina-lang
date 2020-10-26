@@ -20,6 +20,9 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
+/**
+ * Test declarations to segment conversion.
+ */
 public class SegmentFactoryDeclarationsTest extends AbstractQuoterTest {
 
     @Test
@@ -51,7 +54,6 @@ public class SegmentFactoryDeclarationsTest extends AbstractQuoterTest {
 
     @Test
     public void testEnumDecl() {
-        // TODO: Fails because enum declaration bug
         testAssertionFiles("parser/declarations/enum-decl", "enum_decl_source_01");
         testAssertionFiles("parser/declarations/enum-decl", "enum_decl_source_03");
         testAssertionFiles("parser/declarations/enum-decl", "enum_decl_source_05");
@@ -100,7 +102,6 @@ public class SegmentFactoryDeclarationsTest extends AbstractQuoterTest {
 
     @Test
     public void testIsolatedServiceFunctions() {
-        // TODO: Fails because service name is null
         testAssertionFiles("parser/declarations/isolated-service-functions", "isolated_service_func_source_01");
         testAssertionFiles("parser/declarations/isolated-service-functions", "isolated_service_func_source_03");
     }
@@ -140,7 +141,6 @@ public class SegmentFactoryDeclarationsTest extends AbstractQuoterTest {
 
     @Test
     public void testServiceDecl() {
-        // TODO: Fails because service name is null
         testAssertionFiles("parser/declarations/service-decl", "service_decl_source_01");
         testAssertionFiles("parser/declarations/service-decl", "service_decl_source_02");
         testAssertionFiles("parser/declarations/service-decl", "service_decl_source_06");
@@ -148,7 +148,6 @@ public class SegmentFactoryDeclarationsTest extends AbstractQuoterTest {
 
     @Test
     public void testTransactionalResource() {
-        // TODO: Fails because service name is null
         testAssertionFiles("parser/declarations/transactional-resource", "transaction_resource_func_source_01");
     }
 

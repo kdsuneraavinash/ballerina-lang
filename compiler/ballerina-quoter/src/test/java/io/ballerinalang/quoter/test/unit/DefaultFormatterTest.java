@@ -6,6 +6,9 @@ import io.ballerinalang.quoter.segment.Segment;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+/**
+ * Test Default formatter base properties.
+ */
 public class DefaultFormatterTest {
     private void assertTest(String input, String expected) {
         Segment source = new CodeSegment(input);

@@ -20,6 +20,9 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
+/**
+ * Test trivia to segment conversion.
+ */
 public class SegmentFactoryTriviaTest extends AbstractQuoterTest {
     @Test
     public void test() {

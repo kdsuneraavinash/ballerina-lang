@@ -20,10 +20,12 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
+/**
+ * Test module declarations to segment conversion.
+ */
 public class SegmentFactoryModuleDeclarationsTest extends AbstractQuoterTest {
     @Test
     public void testArrayType() {
-        // TODO: Fails because NodeFactory.createEnumDeclarationNode rejects null qualifier (but they can be null)
         testAssertionFiles("parser/module_declarations", "function_name_new");
         testAssertionFiles("parser/module_declarations", "function_name_old");
         testAssertionFiles("parser/module_declarations", "module_declarations_new");

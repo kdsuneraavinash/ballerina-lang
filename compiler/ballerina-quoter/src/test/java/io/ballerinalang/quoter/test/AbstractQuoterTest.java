@@ -34,6 +34,9 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Test Base class with several helper functions.
+ */
 public class AbstractQuoterTest {
     /**
      * Reads a file from the test resource directory.
@@ -45,7 +48,9 @@ public class AbstractQuoterTest {
         ClassLoader classLoader = AbstractQuoterTest.class.getClassLoader();
 
         try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
-            if (inputStream == null) throw new QuoterException("File not found: " + path);
+            if (inputStream == null) {
+                throw new QuoterException("File not found: " + path);
+            }
             Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
             return scanner.hasNext() ? scanner.next() : "";
         } catch (IOException e) {

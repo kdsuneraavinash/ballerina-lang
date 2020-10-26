@@ -20,6 +20,9 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
+/**
+ * Test actions to segment conversion.
+ */
 public class SegmentFactoryActionsTest extends AbstractQuoterTest {
 
     @Test

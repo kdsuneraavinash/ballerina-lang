@@ -20,6 +20,9 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
+/**
+ * Test expressions to segment conversion.
+ */
 public class SegmentFactoryExpressionsTest extends AbstractQuoterTest {
     @Test
     public void testAnonFunc() {
@@ -91,7 +94,6 @@ public class SegmentFactoryExpressionsTest extends AbstractQuoterTest {
 
     @Test
     public void testStringTemplate() {
-        // TODO: Fails because of string template bug
         testAssertionFiles("parser/expressions/string-template", "string_template_source_01");
         testAssertionFiles("parser/expressions/string-template", "string_template_source_02");
     }
@@ -117,7 +119,6 @@ public class SegmentFactoryExpressionsTest extends AbstractQuoterTest {
 
     @Test
     public void testXmlTemplate() {
-        // TODO: Fails because of string template bug
         testAssertionFiles("parser/expressions/xml-template", "xml_template_source_01");
         testAssertionFiles("parser/expressions/xml-template", "xml_template_source_02");
         testAssertionFiles("parser/expressions/xml-template", "xml_template_source_06");
