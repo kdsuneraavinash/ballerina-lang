@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.segment.generators.cache;
+package io.ballerinalang.quoter.segment.factories.cache;
 
 import io.ballerinalang.quoter.config.QuoterConfig;
 
@@ -25,28 +25,33 @@ import java.util.Map;
 
 /**
  * Helper class to load the method param name map.
- * <p>
  * Required because NonTerminalNode does not expose all of its child names.
  * Load each method call with its required parameter names.
  */
-public class ParameterNameCache {
+public class ChildNamesCache {
     private final Map<String, List<String>> cache;
 
-    private ParameterNameCache(Map<String, List<String>> cache) {
+    private ChildNamesCache(Map<String, List<String>> cache) {
         this.cache = cache;
     }
 
     /**
      * Create the cache from the file defined in the config.
+     *
+     * @param config Configuration object with Json location.
+     * @return Created cache.
      */
-    public static ParameterNameCache fromConfig(QuoterConfig config) {
-        return new ParameterNameCache(config.readNodeChildrenJson());
+    public static ChildNamesCache fromConfig(QuoterConfig config) {
+        return new ChildNamesCache(config.readChildNamesJson());
     }
 
     /**
-     * Get the parameter entry names of the given method.
+     * Get the parameter entry names of the given node type.
+     *
+     * @param nodeType Node type to find the child names of.
+     * @return Child name(s) of the node type.
      */
-    public List<String> getParameterNames(String method) {
-        return cache.get(method);
+    public List<String> getChildNames(String nodeType) {
+        return cache.get(nodeType);
     }
 }

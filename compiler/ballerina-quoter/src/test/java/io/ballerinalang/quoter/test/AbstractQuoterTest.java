@@ -25,7 +25,7 @@ import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.formatter.SegmentFormatter;
 import io.ballerinalang.quoter.segment.Segment;
-import io.ballerinalang.quoter.segment.generators.NodeSegmentGenerator;
+import io.ballerinalang.quoter.segment.factories.NodeSegmentFactory;
 import net.openhft.compiler.CachedCompiler;
 import org.testng.Assert;
 
@@ -35,6 +35,12 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class AbstractQuoterTest {
+    /**
+     * Reads a file from the test resource directory.
+     *
+     * @param path Path of the file. (root is test resources directory)
+     * @return Content of the file.
+     */
     protected static String readResource(String path) {
         ClassLoader classLoader = AbstractQuoterTest.class.getClassLoader();
 
@@ -47,15 +53,30 @@ public class AbstractQuoterTest {
         }
     }
 
+    /**
+     * Return the created segment tree root node from the file content.
+     *
+     * @param fileName File to parse.
+     * @param config   Configurations obj.
+     * @return Root segment node.
+     */
     protected Segment getSegmentFromFile(String fileName, QuoterConfig config) {
         String sourceCode = readResource(fileName);
-        NodeSegmentGenerator generator = NodeSegmentGenerator.fromConfig(config);
+        NodeSegmentFactory generator = NodeSegmentFactory.fromConfig(config);
 
         TextDocument sourceCodeDocument = TextDocuments.from(sourceCode);
         Node syntaxTreeNode = SyntaxTree.from(sourceCodeDocument).rootNode();
         return generator.createNodeSegment(syntaxTreeNode);
     }
 
+    /**
+     * Creates a segment tree and run it via dynamic class loading.
+     *
+     * @param balFile      Input .bal source file path. (Root is the test resources)
+     * @param formatter    Base formatter name to use.
+     * @param templateFile Template to use for dynamic class loading.
+     * @return Output from the generated code.
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     protected SyntaxTree createSegmentAndRun(String balFile, String formatter, String templateFile) {
         try {
@@ -79,12 +100,28 @@ public class AbstractQuoterTest {
         }
     }
 
+    /**
+     * Creates a segment tree and run it via dynamic class loading.
+     * Then reads the name and check if the output from the generated code
+     * is the same as the file.
+     *
+     * @param fileName     Name of the file to test.
+     * @param formatter    Base formatter name to use.
+     * @param templateFile Template to use for dynamic class loading.
+     */
     protected void testForSameOutput(String fileName, String formatter, String templateFile) {
         SyntaxTree tree = createSegmentAndRun(fileName, formatter, templateFile);
         String targetCode = readResource(fileName);
         Assert.assertEquals(tree.toSourceCode().trim(), targetCode.trim());
     }
 
+    /**
+     * Tests if the generated code for the given file (after being formatted with all the formatters)
+     * is valid and the generated code creates the same source code when run.
+     *
+     * @param directory  Name of the directory.
+     * @param filePrefix File name without .bal.
+     */
     protected void testAssertionFiles(String directory, String filePrefix) {
         String fileName = directory + "/" + filePrefix + ".bal";
         testForSameOutput(fileName, "default", "template-default.java");

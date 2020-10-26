@@ -48,14 +48,30 @@ public abstract class QuoterConfig {
     public static final String EXTERNAL_OUTPUT_SYS_OUT = "external.output.sys.out";
     public static final String EXTERNAL_FORMATTER_NAME = "external.formatter.name";
 
+    /**
+     * Get the value assigned to the key.
+     * Throw an error if key is not found.
+     *
+     * @param key Property key
+     * @return Value assigned for the key.
+     */
     public abstract String getOrThrow(String key);
 
+    /**
+     * Get the boolean value assigned to the key.
+     * True if value is "true".
+     *
+     * @param key Property key
+     * @return Boolean Value assigned for the key.
+     */
     public boolean getBooleanOrThrow(String key) {
         return getOrThrow(key).equalsIgnoreCase("true");
     }
 
     /**
      * Read the template file specified in the configuration.
+     *
+     * @return The content of the template file.
      */
     public String readTemplateFile() {
         return FileReaderUtils.readFile(getOrThrow(EXTERNAL_FORMATTER_TEMPLATE));
@@ -63,6 +79,8 @@ public abstract class QuoterConfig {
 
     /**
      * Read input from the file specified in the configurations.
+     *
+     * @return The content of the input file.
      */
     public String readInputFile() {
         String inputFileName = getOrThrow(EXTERNAL_INPUT_FILE);
@@ -71,6 +89,9 @@ public abstract class QuoterConfig {
 
     /**
      * Output the content in the way specified in the configurations.
+     * Throws an exception if write failed.
+     *
+     * @param content The content to output.
      */
     public void writeToOutputFile(String content) {
         String outputFileName = getOrThrow(EXTERNAL_OUTPUT_FILE);
@@ -87,8 +108,11 @@ public abstract class QuoterConfig {
 
     /**
      * Get the node children config json specified in the configurations.
+     * Throws an error if not found or invalid format.
+     *
+     * @return Parsed content of the children json file.
      */
-    public Map<String, List<String>> readNodeChildrenJson() {
+    public Map<String, List<String>> readChildNamesJson() {
         String jsonFile = getOrThrow(INTERNAL_NODE_CHILDREN_JSON);
         ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
 

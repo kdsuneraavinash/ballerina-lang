@@ -30,6 +30,9 @@ import java.util.Scanner;
 public class FileReaderUtils {
     /**
      * Reads a file path content from the resources directory.
+     *
+     * @param path path of the file. (root is the resources directory)
+     * @return Content of the file.
      */
     public static String readFileAsResource(String path) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -47,7 +50,10 @@ public class FileReaderUtils {
 
 
     /**
-     * Reads a file path content from cwd.
+     * Reads a file path content from project root.
+     *
+     * @param path path of the file. (root is the project root)
+     * @return Content of the file.
      */
     public static String readFile(String path) {
         try (InputStream inputStream = new FileInputStream(path)) {

@@ -20,7 +20,7 @@ package io.ballerinalang.quoter.segment;
 /**
  * Segment which encompasses a code segment.
  * These can be any random code segments, number literals, etc...
- * Eg: "5", "new ArrayList<>()", "null"
+ * Eg: "5", "null"
  */
 public class CodeSegment extends Segment {
     protected final String content;

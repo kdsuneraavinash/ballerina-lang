@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.segment.generators;
+package io.ballerinalang.quoter.segment.factories;
 
 import io.ballerina.compiler.syntax.tree.Minutiae;
 import io.ballerina.compiler.syntax.tree.MinutiaeList;
@@ -25,37 +25,44 @@ import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
 
 /**
- * Handles Minutiae to Segment conversion.
+ * Handles {@link Minutiae} to {@link Segment} conversion.
  */
-public class MinutiaeSegmentGenerator {
+public class MinutiaeSegmentFactory {
     /**
-     * Converts a MinutiaeList to a Segment.
-     * Used as `MinutiaeSegmentGenerator.createMinutiaeList(token.leadingMinutiae())`
+     * Converts a {@link MinutiaeList} to a {@link Segment}.
+     *
+     * @param minutiaeList Minutiae list to create from.
+     * @return Created minutiae segments.
      */
     public static Segment createMinutiaeListSegment(MinutiaeList minutiaeList) {
         if (minutiaeList.isEmpty()) {
-            return SegmentGenerator.createFactoryCallSegment("createEmptyMinutiaeList");
+            return SegmentFactory.createNodeFactorySegment("createEmptyMinutiaeList");
         }
 
         // If the list is not empty, create the factory segment and add every minutiae segment
-        NodeFactorySegment minutiaeListMethod = SegmentGenerator.createFactoryCallSegment("createMinutiaeList");
+        NodeFactorySegment minutiaeListMethod = SegmentFactory
+                .createNodeFactorySegment("createMinutiaeList");
         minutiaeList.forEach(minutiae -> minutiaeListMethod.addParameter(createMinutiaeSegment(minutiae)));
         return minutiaeListMethod;
     }
 
     /**
-     * Converts a Minutiae to a Segment.
+     * Converts a {@link Minutiae} to a {@link Segment}.
      * Used by `createMinutiaeListSegment` to convert all minutiae elements to segments.
+     * Throws as error if minutiae is unknown or is a INVALID_NODE_MINUTIAE.
+     *
+     * @param minutiae Individual minutiae.
+     * @return Created minutiae Segment.
      */
     private static Segment createMinutiaeSegment(Minutiae minutiae) {
         // Decide on method to use
-        String factoryMethod;
+        String methodName;
         if (minutiae.kind() == SyntaxKind.COMMENT_MINUTIAE) {
-            factoryMethod = "createCommentMinutiae";
+            methodName = "createCommentMinutiae";
         } else if (minutiae.kind() == SyntaxKind.WHITESPACE_MINUTIAE) {
-            factoryMethod = "createWhitespaceMinutiae";
+            methodName = "createWhitespaceMinutiae";
         } else if (minutiae.kind() == SyntaxKind.END_OF_LINE_MINUTIAE) {
-            factoryMethod = "createEndOfLineMinutiae";
+            methodName = "createEndOfLineMinutiae";
         } else if (minutiae.kind() == SyntaxKind.INVALID_NODE_MINUTIAE) {
             throw new QuoterException("Invalid node minutiae found with text: " + minutiae.text());
         } else {
@@ -63,8 +70,8 @@ public class MinutiaeSegmentGenerator {
         }
 
         // All minutiae factory methods accept only the text
-        NodeFactorySegment nodeFactorySegment = SegmentGenerator.createFactoryCallSegment(factoryMethod);
-        nodeFactorySegment.addParameter(SegmentGenerator.createStringSegment(minutiae.text()));
+        NodeFactorySegment nodeFactorySegment = SegmentFactory.createNodeFactorySegment(methodName);
+        nodeFactorySegment.addParameter(SegmentFactory.createStringSegment(minutiae.text()));
         return nodeFactorySegment;
     }
 }

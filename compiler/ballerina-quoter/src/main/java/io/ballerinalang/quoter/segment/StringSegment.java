@@ -29,8 +29,8 @@ public class StringSegment extends CodeSegment {
 
     @Override
     public StringBuilder stringBuilder() {
-        // TODO use the StringEscapeUtils class from Apache Commons Text or something similar
-        String escapedString = super.content.replace("\\", "\\\\")
+        String escapedString = super.content
+                .replace("\\", "\\\\")
                 .replace("\t", "\\t")
                 .replace("\b", "\\b")
                 .replace("\n", "\\n")

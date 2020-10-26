@@ -32,16 +32,12 @@ public class DefaultFormatter extends SegmentFormatter {
     private static final char ESCAPE = '\\';
 
     /**
-     * Special case because of SeparatedNodeList cast.
-     */
-    private boolean separatedNodeListPresent(StringBuilder input, int position) {
-        return (input.length() > position + 18) &&
-                input.substring(position, position + 19).equals("(SeparatedNodeList)");
-    }
-
-    /**
      * Check if there is a comma inside the current parenthesis.
      * Any strings with nested parenthesis inside the closest parenthesis is also taken as true.
+     *
+     * @param input    String to check.
+     * @param position Current parenthesis position.
+     * @return Whether of not there is a comma or a open paren.
      */
     private boolean commaInsideParenPresent(StringBuilder input, int position) {
         for (int i = position + 1; i < input.length(); i++) {
@@ -74,10 +70,6 @@ public class DefaultFormatter extends SegmentFormatter {
             } else if (isCurrentlyInStringLiteral) {
                 // Currently inside a string literal
                 output.append(character);
-            } else if (character == OPEN_PAREN && separatedNodeListPresent(input, position)) {
-                // TODO: Fix for the formatting of (SeparatedNodeList)
-                output.append("(SeparatedNodeList) ");
-                position += 18;
             } else if (character == OPEN_PAREN) {
                 // Opening parenthesis
                 output.append(character);

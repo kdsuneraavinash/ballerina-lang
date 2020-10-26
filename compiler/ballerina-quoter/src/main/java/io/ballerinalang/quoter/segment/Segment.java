@@ -18,11 +18,17 @@
 package io.ballerinalang.quoter.segment;
 
 /**
- * Basic code bloc that can be converted to String and can build any SyntaxAPI call.
+ * Basic code block that can be converted to String and
+ * can build any SyntaxAPI call.
+ * Represents a tree of code, {@link NodeFactorySegment} is
+ * the non terminal nodes.
  */
 public abstract class Segment {
     /**
      * String representation of the segment as a StringBuilder.
+     *
+     * @return The {@link StringBuilder} representation of the
+     * source code of the subtree starting from this segment.
      */
     public abstract StringBuilder stringBuilder();
 

@@ -30,16 +30,27 @@ import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.EXTERNAL_FOR
 public abstract class SegmentFormatter {
     /**
      * Creates a formatter based on the configuration option.
+     * Creates a template formatter with the internal formatter if that option is set.
+     *
+     * @param config Configuration object.
+     * @return Created formatter.
      */
     public static SegmentFormatter getFormatter(QuoterConfig config) {
         if (config.getBooleanOrThrow(EXTERNAL_FORMATTER_USE_TEMPLATE)) {
             return TemplateFormatter.fromConfig(config);
         } else {
-            return getInnerFormatter(config);
+            return getInternalFormatter(config);
         }
     }
 
-    protected static SegmentFormatter getInnerFormatter(QuoterConfig config) {
+    /**
+     * Creates a internal formatter. (A formatter without templates)
+     * Throws an error if the formatter is unknown.
+     *
+     * @param config Configuration object.
+     * @return Created formatter.
+     */
+    protected static SegmentFormatter getInternalFormatter(QuoterConfig config) {
         String formatterName = config.getOrThrow(EXTERNAL_FORMATTER_NAME);
         switch (formatterName) {
             case "none":
@@ -53,5 +64,12 @@ public abstract class SegmentFormatter {
         }
     }
 
+    /**
+     * Formatting method.
+     * Formats a segment into string representation of the required format.
+     *
+     * @param segment Segment root node.
+     * @return String representation.
+     */
     public abstract String format(Segment segment);
 }

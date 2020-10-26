@@ -16,11 +16,12 @@
  * under the License.
  */
 
-package io.ballerinalang.quoter.segment.generators.cache;
+package io.ballerinalang.quoter.segment.factories.cache;
 
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
+import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
-import io.ballerinalang.quoter.segment.generators.SegmentGenerator;
+import io.ballerinalang.quoter.segment.factories.SegmentFactory;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -28,45 +29,70 @@ import java.lang.reflect.Type;
 /**
  * Method reference object to cache the parameter types and generic types.
  */
-public class MethodReference {
+public class NodeFactoryMethodReference {
     private final Method method;
     private final Type[] parameterTypes;
     private final Type[] parameterGenericTypes;
     private final int offset;
 
-    MethodReference(Method method) {
+    NodeFactoryMethodReference(Method method) {
         this.method = method;
         this.parameterTypes = method.getParameterTypes();
         this.parameterGenericTypes = method.getGenericParameterTypes();
         offset = requiresSyntaxKind() ? 1 : 0;
     }
 
+    /**
+     * @return the method name.
+     */
     public String getName() {
         return method.getName();
     }
 
-    public Method getMethod() {
-        return method;
-    }
-
+    /**
+     * Get the type of the parameter with the index.
+     *
+     * @param parameterIndex Index of the parameter to find the type of.
+     *                       (Syntax kind params are ignored when finding the index)
+     * @return Type of the parameter.
+     */
     public Type getParameterType(int parameterIndex) {
         return parameterTypes[parameterIndex + offset];
     }
 
+    /**
+     * Get the generic type of the parameter given.
+     * If the parameter does not have a generic type, throws an error.
+     *
+     * @param parameterIndex Index of the parameter to find the type of.
+     *                       (Syntax kind params are ignored when finding the index)
+     * @return Simple name of the generic type.
+     */
     public String getParameterGeneric(int parameterIndex) {
         String fullParameter = parameterGenericTypes[parameterIndex + offset].getTypeName();
         int lastDot = fullParameter.lastIndexOf('.');
+        if (lastDot == -1) {
+            throw new QuoterException("Attempted to extract generic type of a parameter without generic type");
+        }
         return fullParameter.substring(lastDot + 1, fullParameter.length() - 1);
     }
 
+    /**
+     * Creates a segment from this method call.
+     *
+     * @return Created segment.
+     */
     public NodeFactorySegment toSegment() {
-        return SegmentGenerator.createFactoryCallSegment(getName());
+        return SegmentFactory.createNodeFactorySegment(getName());
     }
 
     /**
-     * Finds the offset (If first param is kind, there is a offset, otherwise no)
+     * @return whether method requires a syntax kind as a parameter.
      */
     public boolean requiresSyntaxKind() {
+        if (parameterTypes.length == 0) {
+            return false;
+        }
         return parameterTypes[0] == SyntaxKind.class;
     }
 }

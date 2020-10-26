@@ -20,9 +20,13 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
-public class SegmentGeneratorTriviaTest extends AbstractQuoterTest {
+public class SegmentFactoryModuleDeclarationsTest extends AbstractQuoterTest {
     @Test
-    public void test() {
-        testAssertionFiles("parser/trivia", "trivia_source_01");
+    public void testArrayType() {
+        // TODO: Fails because NodeFactory.createEnumDeclarationNode rejects null qualifier (but they can be null)
+        testAssertionFiles("parser/module_declarations", "function_name_new");
+        testAssertionFiles("parser/module_declarations", "function_name_old");
+        testAssertionFiles("parser/module_declarations", "module_declarations_new");
+        testAssertionFiles("parser/module_declarations", "module_declarations_old");
     }
 }

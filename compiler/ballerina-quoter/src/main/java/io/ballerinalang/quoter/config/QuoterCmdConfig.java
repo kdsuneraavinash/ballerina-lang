@@ -50,6 +50,8 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
 
     /**
      * Generate the CLI options.
+     *
+     * @return Generated CLI options.
      */
     public static Options getCommandLineOptions() {
         Options options = new Options();
@@ -63,6 +65,13 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
         return options;
     }
 
+    /**
+     * Add a new argument to a given {@link Options} object.
+     *
+     * @param options     Options obj
+     * @param name        Name of the argument
+     * @param description Description of argument.
+     */
     private static void addArgument(Options options, String name, String description) {
         Option option = new Option(name.substring(0, 1), name, true, description);
         option.setRequired(false);
@@ -73,7 +82,7 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
     public String getOrThrow(String key) {
         switch (key) {
             case EXTERNAL_FORMATTER_USE_TEMPLATE:
-                overrideGet(key, formatterUseTemplate);
+                return overrideGet(key, formatterUseTemplate);
             case EXTERNAL_FORMATTER_TEMPLATE:
                 return overrideGet(key, formatterTemplate);
             case EXTERNAL_FORMATTER_TAB_START:
@@ -93,6 +102,15 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
         }
     }
 
+    /**
+     * Get the value assigned to a key from either config file
+     * or a overridden value.
+     * If overridden value is null, reads from the config file instead.
+     *
+     * @param key      Property key
+     * @param override Value to override the config file value with
+     * @return Value assigned to key
+     */
     private String overrideGet(String key, String override) {
         if (Objects.isNull(override)) {
             return super.getOrThrow(key);

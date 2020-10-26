@@ -22,7 +22,7 @@ import io.ballerinalang.quoter.segment.CodeSegment;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.StringSegment;
 import io.ballerinalang.quoter.segment.SyntaxKindSegment;
-import io.ballerinalang.quoter.segment.generators.SegmentGenerator;
+import io.ballerinalang.quoter.segment.factories.SegmentFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -65,15 +65,15 @@ public class SegmentTest {
                 ")" +
                 ")";
 
-        NodeFactorySegment createWhitespaceMinutiae = SegmentGenerator.createFactoryCallSegment("createWhitespaceMinutiae");
-        createWhitespaceMinutiae.addParameter(SegmentGenerator.createStringSegment(" "));
-        NodeFactorySegment createMinutiaeList = SegmentGenerator.createFactoryCallSegment("createMinutiaeList");
+        NodeFactorySegment createWhitespaceMinutiae = SegmentFactory.createNodeFactorySegment("createWhitespaceMinutiae");
+        createWhitespaceMinutiae.addParameter(SegmentFactory.createStringSegment(" "));
+        NodeFactorySegment createMinutiaeList = SegmentFactory.createNodeFactorySegment("createMinutiaeList");
         createMinutiaeList.addParameter(createWhitespaceMinutiae);
-        NodeFactorySegment createToken = SegmentGenerator.createFactoryCallSegment("createToken");
-        createToken.addParameter(SegmentGenerator.createSyntaxKindSegment(SyntaxKind.PUBLIC_KEYWORD));
-        createToken.addParameter(SegmentGenerator.createFactoryCallSegment("createEmptyMinutiaeList"));
+        NodeFactorySegment createToken = SegmentFactory.createNodeFactorySegment("createToken");
+        createToken.addParameter(SegmentFactory.createSyntaxKindSegment(SyntaxKind.PUBLIC_KEYWORD));
+        createToken.addParameter(SegmentFactory.createNodeFactorySegment("createEmptyMinutiaeList"));
         createToken.addParameter(createMinutiaeList);
-        NodeFactorySegment createNodeList = SegmentGenerator.createFactoryCallSegment("createNodeList");
+        NodeFactorySegment createNodeList = SegmentFactory.createNodeFactorySegment("createNodeList");
         createNodeList.addParameter(createToken);
 
         Assert.assertEquals(createNodeList.toString(), expected);
@@ -93,19 +93,19 @@ public class SegmentTest {
                 ")" +
                 ")";
 
-        NodeFactorySegment createIdentifierToken = SegmentGenerator.createFactoryCallSegment("createIdentifierToken");
-        createIdentifierToken.addParameter(SegmentGenerator.createStringSegment("x"));
-        NodeFactorySegment createCaptureBindingPatternNode = SegmentGenerator.createFactoryCallSegment("createCaptureBindingPatternNode");
+        NodeFactorySegment createIdentifierToken = SegmentFactory.createNodeFactorySegment("createIdentifierToken");
+        createIdentifierToken.addParameter(SegmentFactory.createStringSegment("x"));
+        NodeFactorySegment createCaptureBindingPatternNode = SegmentFactory.createNodeFactorySegment("createCaptureBindingPatternNode");
         createCaptureBindingPatternNode.addParameter(createIdentifierToken);
-        NodeFactorySegment createToken = SegmentGenerator.createFactoryCallSegment("createToken");
-        createToken.addParameter(SegmentGenerator.createSyntaxKindSegment(SyntaxKind.VAR_KEYWORD));
-        NodeFactorySegment createSimpleNameReferenceNode = SegmentGenerator.createFactoryCallSegment("createSimpleNameReferenceNode");
+        NodeFactorySegment createToken = SegmentFactory.createNodeFactorySegment("createToken");
+        createToken.addParameter(SegmentFactory.createSyntaxKindSegment(SyntaxKind.VAR_KEYWORD));
+        NodeFactorySegment createSimpleNameReferenceNode = SegmentFactory.createNodeFactorySegment("createSimpleNameReferenceNode");
         createSimpleNameReferenceNode.addParameter(createToken);
-        NodeFactorySegment createTypedBindingPatternNode = SegmentGenerator.createFactoryCallSegment("createTypedBindingPatternNode");
+        NodeFactorySegment createTypedBindingPatternNode = SegmentFactory.createNodeFactorySegment("createTypedBindingPatternNode");
         createTypedBindingPatternNode.addParameter(createSimpleNameReferenceNode);
         createTypedBindingPatternNode.addParameter(createCaptureBindingPatternNode);
-        NodeFactorySegment abcNode = SegmentGenerator.createFactoryCallSegment("createABCNode");
-        abcNode.addParameter(SegmentGenerator.createCodeSegment("null"));
+        NodeFactorySegment abcNode = SegmentFactory.createNodeFactorySegment("createABCNode");
+        abcNode.addParameter(SegmentFactory.createCodeSegment("null"));
         abcNode.addParameter(createTypedBindingPatternNode);
 
         Assert.assertEquals(abcNode.toString(), expected);

@@ -20,6 +20,10 @@ package io.ballerinalang.quoter.test;
 import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.utils.FileReaderUtils;
 
+/**
+ * Configuration file used for testing purposes.
+ * Overrides several parameters with test parameters.
+ */
 public class TestQuoterConfig extends QuoterConfig {
     private final String externalFormatterTemplate;
     private final String externalFormatterTabStart;
@@ -41,7 +45,7 @@ public class TestQuoterConfig extends QuoterConfig {
             case EXTERNAL_FORMATTER_TAB_START:
                 return externalFormatterTabStart;
             case INTERNAL_NODE_CHILDREN_JSON:
-                return "parameter-names.json";
+                return "child-names.json";
             case EXTERNAL_FORMATTER_NAME:
                 return externalFormatterName;
             case EXTERNAL_FORMATTER_USE_TEMPLATE:

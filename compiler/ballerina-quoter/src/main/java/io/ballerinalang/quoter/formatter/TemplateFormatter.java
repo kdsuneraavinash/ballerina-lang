@@ -39,11 +39,14 @@ public class TemplateFormatter extends SegmentFormatter {
 
     /**
      * Create the formatter via config.
+     *
+     * @param config Configuration object.
+     * @return Created formatter.
      */
     public static TemplateFormatter fromConfig(QuoterConfig config) {
         String template = config.readTemplateFile();
         int indent = Integer.parseInt(config.getOrThrow(EXTERNAL_FORMATTER_TAB_START));
-        return new TemplateFormatter(SegmentFormatter.getInnerFormatter(config), template, indent);
+        return new TemplateFormatter(SegmentFormatter.getInternalFormatter(config), template, indent);
     }
 
     @Override

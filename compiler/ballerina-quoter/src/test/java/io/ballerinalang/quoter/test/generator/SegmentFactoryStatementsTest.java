@@ -20,7 +20,7 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
-public class SegmentGeneratorStatementsTest extends AbstractQuoterTest {
+public class SegmentFactoryStatementsTest extends AbstractQuoterTest {
     @Test
     public void testBlockStatement() {
         testAssertionFiles("parser/statements/block-stmt", "block_stmt_source_01");

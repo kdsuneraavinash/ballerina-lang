@@ -30,7 +30,6 @@ import java.util.Properties;
  */
 public class QuoterPropertiesConfig extends QuoterConfig {
     protected static final String QUOTER_GEN_CONFIG_PROPERTIES = "quoter-config.properties";
-
     protected final Properties props;
 
     public QuoterPropertiesConfig() {
@@ -39,6 +38,9 @@ public class QuoterPropertiesConfig extends QuoterConfig {
 
     /**
      * Loads the properties from the resources.
+     * Throws an error if file not found.
+     *
+     * @return Loaded properties object.
      */
     private static Properties loadConfig() {
         String path = QUOTER_GEN_CONFIG_PROPERTIES;
@@ -56,10 +58,6 @@ public class QuoterPropertiesConfig extends QuoterConfig {
         }
     }
 
-    /**
-     * Load the property of the given key.
-     * Throws if not found.
-     */
     @Override
     public String getOrThrow(String key) {
         if (Objects.isNull(key)) {

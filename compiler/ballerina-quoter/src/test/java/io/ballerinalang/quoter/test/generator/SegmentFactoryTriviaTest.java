@@ -15,19 +15,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.segment;
+package io.ballerinalang.quoter.test.generator;
 
-/**
- * Method call of format: "(SeparatedNodeList)NodeFactory.methodName(param1, param2)".
- */
-public class SeparatedNodeListSegment extends NodeFactorySegment {
-    public SeparatedNodeListSegment(String genericType) {
-        super("createSeparatedNodeList", genericType);
-    }
+import io.ballerinalang.quoter.test.AbstractQuoterTest;
+import org.testng.annotations.Test;
 
-    @Override
-    public StringBuilder stringBuilder() {
-        return new StringBuilder().append("(SeparatedNodeList<")
-                .append(genericType).append(">)").append(super.stringBuilder());
+public class SegmentFactoryTriviaTest extends AbstractQuoterTest {
+    @Test
+    public void test() {
+        testAssertionFiles("parser/trivia", "trivia_source_01");
     }
 }

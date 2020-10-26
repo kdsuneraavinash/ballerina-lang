@@ -19,7 +19,7 @@ package io.ballerinalang.quoter.formatter;
 
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
-import io.ballerinalang.quoter.segment.generators.SegmentGenerator;
+import io.ballerinalang.quoter.segment.factories.SegmentFactory;
 
 import java.util.HashMap;
 import java.util.Stack;
@@ -31,6 +31,10 @@ import java.util.Stack;
 public class VariableFormatter extends SegmentFormatter {
     private HashMap<String, Integer> variableCount;
     private final SegmentFormatter formatter;
+
+    VariableFormatter() {
+        formatter = new NoFormatter();
+    }
 
     /**
      * Data structure to hold string with an variable name.
@@ -47,18 +51,10 @@ public class VariableFormatter extends SegmentFormatter {
             variableCount.put(varGenericName, varGenericCount + 1);
         }
 
-        void setContent(String string) {
-            this.content = string;
-        }
-
         @Override
         public String toString() {
             return content;
         }
-    }
-
-    VariableFormatter() {
-        formatter = new NoFormatter();
     }
 
     @Override
@@ -70,6 +66,9 @@ public class VariableFormatter extends SegmentFormatter {
 
     /**
      * Processes a token and returns variable name and the content that should come before.
+     *
+     * @param token Token segment.
+     * @return Created content. (First minutiae, then token)
      */
     private NamedContent processToken(NodeFactorySegment token) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -77,7 +76,7 @@ public class VariableFormatter extends SegmentFormatter {
         token.forEach(params::push);
 
         NamedContent namedContent = new NamedContent(token.getType());
-        NodeFactorySegment factorySegment = SegmentGenerator.createFactoryCallSegment(token.getMethodName());
+        NodeFactorySegment factorySegment = SegmentFactory.createNodeFactorySegment(token.getMethodName());
 
         // Define minutiae
         stringBuilder.append("trailingMinutiae = ").append(formatter.format(params.pop())).append(";\n");
@@ -87,18 +86,21 @@ public class VariableFormatter extends SegmentFormatter {
         while (!params.isEmpty()) {
             factorySegment.addParameter(params.remove(0));
         }
-        factorySegment.addParameter(SegmentGenerator.createCodeSegment("leadingMinutiae"));
-        factorySegment.addParameter(SegmentGenerator.createCodeSegment("trailingMinutiae"));
+        factorySegment.addParameter(SegmentFactory.createCodeSegment("leadingMinutiae"));
+        factorySegment.addParameter(SegmentFactory.createCodeSegment("trailingMinutiae"));
 
         stringBuilder.append(token.getType()).append(" ").append(namedContent.name)
                 .append(" = ").append(factorySegment).append(";\n\n");
 
-        namedContent.setContent(stringBuilder.toString());
+        namedContent.content = stringBuilder.toString();
         return namedContent;
     }
 
     /**
      * Processes node and returns variable name and the content that should come before.
+     *
+     * @param segment Segment to process.
+     * @return Created content. (First parameters, then current)
      */
     private NamedContent processNode(NodeFactorySegment segment) {
         // If it is a token, handle accordingly
@@ -108,13 +110,14 @@ public class VariableFormatter extends SegmentFormatter {
 
         // Get each child and add the content that should come before
         StringBuilder stringBuilder = new StringBuilder();
-        NodeFactorySegment factorySegment = SegmentGenerator.createFactoryCallSegment(segment.getMethodName(), segment.getGenericType());
+        NodeFactorySegment factorySegment =
+                SegmentFactory.createNodeFactorySegment(segment.getMethodName(), segment.getGenericType());
         for (Segment child : segment) {
             if (child instanceof NodeFactorySegment) {
                 NodeFactorySegment childFactoryCall = (NodeFactorySegment) child;
                 NamedContent namedContent = processNode(childFactoryCall);
                 stringBuilder.append(namedContent.content);
-                factorySegment.addParameter(SegmentGenerator.createCodeSegment(namedContent.name));
+                factorySegment.addParameter(SegmentFactory.createCodeSegment(namedContent.name));
             } else {
                 factorySegment.addParameter(child);
             }
@@ -128,7 +131,7 @@ public class VariableFormatter extends SegmentFormatter {
         }
         stringBuilder.append(" ").append(namedContent.name)
                 .append(" = ").append(factorySegment).append(";\n\n");
-        namedContent.setContent(stringBuilder.toString());
+        namedContent.content = stringBuilder.toString();
         return namedContent;
     }
 }

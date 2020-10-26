@@ -20,7 +20,7 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
-public class SegmentGeneratorMiscTest extends AbstractQuoterTest {
+public class SegmentFactoryMiscTest extends AbstractQuoterTest {
     @Test
     public void testAmbiguity() {
         // TODO: Fails because of string interpolation bug

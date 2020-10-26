@@ -15,32 +15,44 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.segment.generators;
+package io.ballerinalang.quoter.segment.factories;
 
 import io.ballerina.compiler.syntax.tree.SyntaxKind;
 import io.ballerinalang.quoter.segment.CodeSegment;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
-import io.ballerinalang.quoter.segment.SeparatedNodeListSegment;
 import io.ballerinalang.quoter.segment.StringSegment;
 import io.ballerinalang.quoter.segment.SyntaxKindSegment;
 
 /**
  * Handles base segment creation through helper methods.
  */
-public class SegmentGenerator {
+public class SegmentFactory {
     /**
-     * Creates a factory method with the given method name.
+     * Creates a factory method to create given node type.
+     *
+     * @param methodName Method name.
+     * @return Created segment node.
      */
-    public static NodeFactorySegment createFactoryCallSegment(String methodName) {
+    public static NodeFactorySegment createNodeFactorySegment(String methodName) {
         return new NodeFactorySegment(methodName);
     }
 
-    public static NodeFactorySegment createFactoryCallSegment(String methodName, String genericType) {
-        return new NodeFactorySegment(methodName, genericType);
+    /**
+     * Creates a factory method to create given node type with the generic type.
+     *
+     * @param nodeType    Method name.
+     * @param genericType Generic type of the node. (Mostly the type of children)
+     * @return Created segment node.
+     */
+    public static NodeFactorySegment createNodeFactorySegment(String nodeType, String genericType) {
+        return new NodeFactorySegment(nodeType, genericType);
     }
 
     /**
      * Create a basic code segment.
+     *
+     * @param code Code segment string representation.
+     * @return Created segment node.
      */
     public static CodeSegment createCodeSegment(String code) {
         return new CodeSegment(code);
@@ -48,6 +60,9 @@ public class SegmentGenerator {
 
     /**
      * Create a string literal segment.
+     *
+     * @param string String literal.
+     * @return Created segment node.
      */
     public static StringSegment createStringSegment(String string) {
         return new StringSegment(string);
@@ -55,6 +70,9 @@ public class SegmentGenerator {
 
     /**
      * Creates a SyntaxKind enum segment.
+     *
+     * @param syntaxKind Enum to convert.
+     * @return Created segment node.
      */
     public static SyntaxKindSegment createSyntaxKindSegment(SyntaxKind syntaxKind) {
         return new SyntaxKindSegment(syntaxKind);
@@ -62,16 +80,10 @@ public class SegmentGenerator {
 
     /**
      * Helper function to create a null code segment.
+     *
+     * @return Created null segment node.
      */
     public static CodeSegment createNullSegment() {
         return createCodeSegment("null");
-    }
-
-
-    /**
-     * Helper function to create a separated node list segment.
-     */
-    public static SeparatedNodeListSegment createSeparatedNodeListSegment(String genericType) {
-        return new SeparatedNodeListSegment(genericType);
     }
 }

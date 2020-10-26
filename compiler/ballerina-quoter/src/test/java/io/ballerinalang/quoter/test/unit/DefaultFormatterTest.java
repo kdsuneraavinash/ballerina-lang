@@ -21,14 +21,6 @@ public class DefaultFormatterTest {
     }
 
     @Test
-    public void testSeparatedNodeListCast() {
-        assertTest("(SeparatedNodeList)A()", "(SeparatedNodeList) A()");
-        assertTest("(SeparatedNodeList)A(SyntaxKind.abc)", "(SeparatedNodeList) A(SyntaxKind.abc)");
-        assertTest("(SeparatedNodeList)A(B())", "(SeparatedNodeList) A(\n\tB()\n)");
-        assertTest("Z((SeparatedNodeList)A())", "Z(\n\t(SeparatedNodeList) A()\n)");
-    }
-
-    @Test
     public void testParenthesis() {
         String source = "A(B())";
         String target = "A(\n\tB()\n)";

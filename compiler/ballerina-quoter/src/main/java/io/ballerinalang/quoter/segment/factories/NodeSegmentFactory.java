@@ -15,49 +15,54 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package io.ballerinalang.quoter.segment.generators;
+package io.ballerinalang.quoter.segment.factories;
 
 import io.ballerina.compiler.syntax.tree.Node;
-import io.ballerina.compiler.syntax.tree.NodeFactory;
 import io.ballerina.compiler.syntax.tree.NonTerminalNode;
 import io.ballerina.compiler.syntax.tree.Token;
 import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.segment.Segment;
-import io.ballerinalang.quoter.segment.generators.cache.MethodCache;
-import io.ballerinalang.quoter.segment.generators.cache.ParameterNameCache;
+import io.ballerinalang.quoter.segment.factories.cache.ChildNamesCache;
+import io.ballerinalang.quoter.segment.factories.cache.NodeFactoryMethodCache;
 
 /**
- * Handles Node to Segment conversion.
+ * Handles {@link Node} to {@link Segment} conversion.
  */
-public class NodeSegmentGenerator {
-    private final NonTerminalSegmentGenerator nonTerminalSegmentGenerator;
+public class NodeSegmentFactory {
+    private final NonTerminalSegmentFactory nonTerminalSegmentFactory;
 
-    private NodeSegmentGenerator(ParameterNameCache parameterNameCache, MethodCache methodCache) {
-        this.nonTerminalSegmentGenerator =
-                new NonTerminalSegmentGenerator(this, parameterNameCache, methodCache);
+    private NodeSegmentFactory(ChildNamesCache childNamesCache, NodeFactoryMethodCache methodCache) {
+        this.nonTerminalSegmentFactory =
+                new NonTerminalSegmentFactory(this, childNamesCache, methodCache);
     }
 
     /**
      * Use the parameter name from the config to create a cache and the factory.
+     *
+     * @param config {@link QuoterConfig} object to load configurations.
+     * @return Created factory.
      */
-    public static NodeSegmentGenerator fromConfig(QuoterConfig config) {
-        return new NodeSegmentGenerator(
-                ParameterNameCache.fromConfig(config),
-                MethodCache.fromClassRef(NodeFactory.class)
+    public static NodeSegmentFactory fromConfig(QuoterConfig config) {
+        return new NodeSegmentFactory(
+                ChildNamesCache.fromConfig(config),
+                NodeFactoryMethodCache.create()
         );
     }
 
     /**
-     * Coverts a Node to a Segment(NonTerminal or a Terminal/Token).
+     * Coverts a {@link Node} to a {@link Segment} (NonTerminal or a Terminal/Token).
+     *
+     * @param node Parent node of the subtree to convert.
+     * @return Parent segment of the converted subtree.
      */
     public Segment createNodeSegment(Node node) {
         if (node == null) {
-            return SegmentGenerator.createNullSegment();
+            return SegmentFactory.createNullSegment();
         } else if (node instanceof Token) {
-            return TokenSegmentGenerator.createTokenSegment((Token) node);
+            return TokenSegmentFactory.createTokenSegment((Token) node);
         } else if (node instanceof NonTerminalNode) {
-            return nonTerminalSegmentGenerator.createSegment((NonTerminalNode) node);
+            return nonTerminalSegmentFactory.createNonTerminalSegment((NonTerminalNode) node);
         } else {
             throw new QuoterException("Expected non terminal or token. " +
                     "Found unexpected node type for: " + node);

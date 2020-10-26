@@ -20,7 +20,7 @@ package io.ballerinalang.quoter.test.generator;
 import io.ballerinalang.quoter.test.AbstractQuoterTest;
 import org.testng.annotations.Test;
 
-public class SegmentGeneratorExpressionsTest extends AbstractQuoterTest {
+public class SegmentFactoryExpressionsTest extends AbstractQuoterTest {
     @Test
     public void testAnonFunc() {
         testAssertionFiles("parser/expressions/anon-func", "anon_func_source_01");

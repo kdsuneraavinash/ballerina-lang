@@ -25,7 +25,7 @@ import io.ballerina.tools.text.TextDocuments;
 import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.formatter.SegmentFormatter;
 import io.ballerinalang.quoter.segment.Segment;
-import io.ballerinalang.quoter.segment.generators.NodeSegmentGenerator;
+import io.ballerinalang.quoter.segment.factories.NodeSegmentFactory;
 
 /**
  * Ballerina Quoter programme main class.
@@ -40,7 +40,7 @@ public class BallerinaQuoter {
             // 1) Get the input file code
             String sourceCode = config.readInputFile();
             // 2) Create the factory
-            NodeSegmentGenerator factory = NodeSegmentGenerator.fromConfig(config);
+            NodeSegmentFactory factory = NodeSegmentFactory.fromConfig(config);
             // 3) Get the formatter
             SegmentFormatter formatter = SegmentFormatter.getFormatter(config);
 
@@ -58,14 +58,19 @@ public class BallerinaQuoter {
     /**
      * Execute the generator.
      * sourceCode -> [nodeSegmentFactory] -> segment -> [formatter] -> generatedCode
+     *
+     * @param sourceCode Ballerina code input.
+     * @param factory    Node segment factory.
+     * @param formatter  Formatter to use.
+     * @return Java code to create the input ballerina code.
      */
-    private static String execute(String sourceCode, NodeSegmentGenerator nodeSegmentGenerator,
+    private static String execute(String sourceCode, NodeSegmentFactory factory,
                                   SegmentFormatter formatter) {
         // Create syntax tree
         TextDocument sourceCodeDocument = TextDocuments.from(sourceCode);
         Node syntaxTreeNode = SyntaxTree.from(sourceCodeDocument).rootNode();
         // Convert tree to segment
-        Segment segment = nodeSegmentGenerator.createNodeSegment(syntaxTreeNode);
+        Segment segment = factory.createNodeSegment(syntaxTreeNode);
         // Format using the formatter
         return formatter.format(segment);
     }
