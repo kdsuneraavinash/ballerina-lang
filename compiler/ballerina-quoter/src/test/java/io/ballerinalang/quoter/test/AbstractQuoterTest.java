@@ -57,12 +57,10 @@ public class AbstractQuoterTest {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected SyntaxTree createSegmentAndRun(String balFile) {
+    protected SyntaxTree createSegmentAndRun(String balFile, String formatter, String templateFile) {
         try {
-            String templateName = "dynamic-loading.java";
-            String formatterName = "default";
             int tabSpace = 2;
-            QuoterConfig config = new TestQuoterConfig(templateName, tabSpace, formatterName);
+            QuoterConfig config = new TestQuoterConfig(templateFile, tabSpace, formatter);
             Segment segment = getSegmentFromFile(balFile, config);
             String javaCode = SegmentFormatter.getFormatter(config).format(segment);
 
@@ -81,13 +79,16 @@ public class AbstractQuoterTest {
         }
     }
 
-    protected void testForSameOutput(String fileName) {
-        SyntaxTree tree = createSegmentAndRun(fileName);
+    protected void testForSameOutput(String fileName, String formatter, String templateFile) {
+        SyntaxTree tree = createSegmentAndRun(fileName, formatter, templateFile);
         String targetCode = readResource(fileName);
         Assert.assertEquals(tree.toSourceCode().trim(), targetCode.trim());
     }
 
     protected void testAssertionFiles(String directory, String filePrefix) {
-        testForSameOutput(directory + "/" + filePrefix + ".bal");
+        String fileName = directory + "/" + filePrefix + ".bal";
+        testForSameOutput(fileName, "default", "template-default.java");
+        testForSameOutput(fileName, "variable", "template-variable.java");
+        testForSameOutput(fileName, "none", "template-default.java");
     }
 }
