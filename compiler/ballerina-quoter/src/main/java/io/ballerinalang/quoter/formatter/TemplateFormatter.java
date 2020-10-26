@@ -20,38 +20,37 @@ package io.ballerinalang.quoter.formatter;
 import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.segment.Segment;
 
-import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.EXTERNAL_FORMATTER_TEMPLATE_TAB_START;
+import static io.ballerinalang.quoter.config.QuoterConfig.EXTERNAL_FORMATTER_TAB_START;
 
 /**
  * Formatter that inserts the default formatter output in a template.
  * Template is defined via configs.
  */
-public class TemplateFormatter extends DefaultFormatter {
+public class TemplateFormatter extends SegmentFormatter {
+    private final SegmentFormatter baseFormatter;
     private final String baseTemplate;
-    private final int tabStart;
+    private final int indent;
 
-    public TemplateFormatter(String baseTemplate, int tabStart) {
+    public TemplateFormatter(SegmentFormatter baseFormatter, String baseTemplate, int indent) {
+        this.baseFormatter = baseFormatter;
         this.baseTemplate = baseTemplate;
-        this.tabStart = tabStart;
+        this.indent = indent;
     }
 
     /**
      * Create the formatter via config.
      */
     public static TemplateFormatter fromConfig(QuoterConfig config) {
-        int tabStart = Integer.parseInt(config.getOrThrow(EXTERNAL_FORMATTER_TEMPLATE_TAB_START));
         String template = config.readTemplateFile();
-        return new TemplateFormatter(template, tabStart);
-    }
-
-    @Override
-    protected int getInitialDepth() {
-        return tabStart;
+        int indent = Integer.parseInt(config.getOrThrow(EXTERNAL_FORMATTER_TAB_START));
+        return new TemplateFormatter(SegmentFormatter.getInnerFormatter(config), template, indent);
     }
 
     @Override
     public String format(Segment segment) {
-        String nodeString = super.format(segment);
-        return String.format(baseTemplate, nodeString);
+        String nodeString = baseFormatter.format(segment);
+        String[] lines = nodeString.split("\n");
+        String indentedLines = String.join("\n" + "\t".repeat(indent), lines);
+        return String.format(baseTemplate, indentedLines);
     }
 }

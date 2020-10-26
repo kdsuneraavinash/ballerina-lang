@@ -28,8 +28,9 @@ import java.util.Objects;
  * Configuration file for CLI application.
  */
 public class QuoterCmdConfig extends QuoterPropertiesConfig {
+    private final String formatterUseTemplate;
     private final String formatterTemplate;
-    private final String formatterTemplateTabStart;
+    private final String formatterTabStart;
     private final String nodeChildren;
     private final String inputFile;
     private final String outputFile;
@@ -37,8 +38,9 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
     private final String formatterName;
 
     public QuoterCmdConfig(CommandLine cmd) {
+        this.formatterUseTemplate = cmd.getOptionValue('u');
         this.formatterTemplate = cmd.getOptionValue('t');
-        this.formatterTemplateTabStart = cmd.getOptionValue('p');
+        this.formatterTabStart = cmd.getOptionValue('p');
         this.nodeChildren = null;
         this.inputFile = cmd.getOptionValue('i');
         this.outputFile = cmd.getOptionValue('o');
@@ -55,6 +57,7 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
         addArgument(options, "output", "output file path");
         addArgument(options, "stdout", "output to stdout (true/false)");
         addArgument(options, "formatter", "formatter name (none,default,template,variable)");
+        addArgument(options, "use template", "whether to use template (true/false)");
         addArgument(options, "template", "template to use (applicable only in template formatter)");
         addArgument(options, "position", "tab position to start (applicable only in template formatter)");
         return options;
@@ -69,10 +72,12 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
     @Override
     public String getOrThrow(String key) {
         switch (key) {
+            case EXTERNAL_FORMATTER_USE_TEMPLATE:
+                overrideGet(key, formatterUseTemplate);
             case EXTERNAL_FORMATTER_TEMPLATE:
                 return overrideGet(key, formatterTemplate);
-            case EXTERNAL_FORMATTER_TEMPLATE_TAB_START:
-                return overrideGet(key, formatterTemplateTabStart);
+            case EXTERNAL_FORMATTER_TAB_START:
+                return overrideGet(key, formatterTabStart);
             case INTERNAL_NODE_CHILDREN_JSON:
                 return overrideGet(key, nodeChildren);
             case EXTERNAL_INPUT_FILE:

@@ -21,12 +21,13 @@ package io.ballerinalang.quoter.segment;
  * Method call of format: "(SeparatedNodeList)NodeFactory.methodName(param1, param2)".
  */
 public class SeparatedNodeListSegment extends NodeFactorySegment {
-    public SeparatedNodeListSegment() {
-        super("createSeparatedNodeList");
+    public SeparatedNodeListSegment(String genericType) {
+        super("createSeparatedNodeList", genericType);
     }
 
     @Override
     public StringBuilder stringBuilder() {
-        return new StringBuilder().append("(SeparatedNodeList)").append(super.stringBuilder());
+        return new StringBuilder().append("(SeparatedNodeList<")
+                .append(genericType).append(">)").append(super.stringBuilder());
     }
 }

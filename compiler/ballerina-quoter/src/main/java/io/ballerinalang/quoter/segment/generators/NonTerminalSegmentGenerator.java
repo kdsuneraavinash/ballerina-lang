@@ -22,14 +22,12 @@ import io.ballerina.compiler.syntax.tree.Node;
 import io.ballerina.compiler.syntax.tree.NodeList;
 import io.ballerina.compiler.syntax.tree.NonTerminalNode;
 import io.ballerina.compiler.syntax.tree.SeparatedNodeList;
-import io.ballerina.compiler.syntax.tree.SyntaxKind;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
 import io.ballerinalang.quoter.segment.generators.cache.MethodCache;
+import io.ballerinalang.quoter.segment.generators.cache.MethodReference;
 import io.ballerinalang.quoter.segment.generators.cache.ParameterNameCache;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,16 +52,14 @@ public class NonTerminalSegmentGenerator {
      * Uses reflection to find the required factory method call in runtime.
      */
     public Segment createSegment(NonTerminalNode node) {
-        Method method = getNonTerminalNodeProcessMethod(node);
-        Type[] parameterTypes = method.getParameterTypes();
-        NodeFactorySegment root = SegmentGenerator.createFactoryCallSegment(method.getName());
+        MethodReference method = getNonTerminalNodeProcessMethod(node);
+        NodeFactorySegment root = method.toSegment();
 
         // Get all the possible child names for the current node type
         List<String> parameterName = parameterNameCache.getParameterNames(node.getClass().getSimpleName());
 
-        if (parameterTypes[0] == SyntaxKind.class) {
+        if (method.requiresSyntaxKind()) {
             root.addParameter(SegmentGenerator.createSyntaxKindSegment(node.kind()));
-            System.arraycopy(parameterTypes, 1, parameterTypes, 0, parameterTypes.length - 1);
         }
 
         List<ChildNodeEntry> childNodeEntries = new ArrayList<>(node.childEntries());
@@ -75,7 +71,7 @@ public class NonTerminalSegmentGenerator {
                 ChildNodeEntry childNodeEntry = childNodeEntries.get(childNodeEntriesIndex);
                 if (childNodeEntry.name().equals(childName)) {
                     childNodeEntriesIndex++;
-                    root.addParameter(createNodeOrNodeList(childNodeEntry, parameterTypes[i]));
+                    root.addParameter(createNodeOrNodeList(childNodeEntry, method, i));
                     continue;
                 }
             }
@@ -89,11 +85,12 @@ public class NonTerminalSegmentGenerator {
 
     /**
      * Create a Node or a NodeList from a given ChildNodeEntry.
-     * Since NodeList can be either SeparatedNodeList or NodeList, type required by the method is taken.
+     * Since NodeList can be either SeparatedNodeList or NodeList, type required by the method is needed.
+     * So the method and the param index is also passed.
      */
-    private Segment createNodeOrNodeList(ChildNodeEntry nodeEntry, Type requiredType) {
+    private Segment createNodeOrNodeList(ChildNodeEntry nodeEntry, MethodReference method, int paramIndex) {
         if (nodeEntry.isList()) {
-            return createNodeListSegment(nodeEntry.nodeList(), requiredType);
+            return createNodeListSegment(nodeEntry.nodeList(), method, paramIndex);
         } else if (nodeEntry.node().isPresent()) {
             Node childNode = nodeEntry.node().get();
             return nodeSegmentGenerator.createNodeSegment(childNode);
@@ -106,17 +103,19 @@ public class NonTerminalSegmentGenerator {
      * Creates a Node List segment if the node is actually a NodeList.
      * Parameter type which is required by the parent function call determines whether to
      * create a SeparatedNodeList or a NodeList.
+     * This is found via method reference and param index.
      */
-    private Segment createNodeListSegment(NodeList<Node> nodes, Type parameterType) {
+    private Segment createNodeListSegment(NodeList<Node> nodes, MethodReference method, int paramIndex) {
         // Create a Segment array list from the child nodes.
         ArrayList<Segment> segments = new ArrayList<>();
         nodes.forEach(node -> segments.add(nodeSegmentGenerator.createNodeSegment(node)));
 
+        String genericType = method.getParameterGeneric(paramIndex);
         // Get if the call requires a NodeList or a SeparatedNodeList.
         // TODO This is a fix for the issue of SeparatedNodeList having a different return type (#26378)
-        NodeFactorySegment root = (parameterType == SeparatedNodeList.class)
-                ? SegmentGenerator.createSeparatedNodeListSegment()
-                : SegmentGenerator.createFactoryCallSegment("createNodeList");
+        NodeFactorySegment root = (method.getParameterType(paramIndex) == SeparatedNodeList.class)
+                ? SegmentGenerator.createSeparatedNodeListSegment(genericType)
+                : SegmentGenerator.createFactoryCallSegment("createNodeList", genericType);
         segments.forEach(root::addParameter);
         return root;
     }
@@ -125,7 +124,7 @@ public class NonTerminalSegmentGenerator {
      * Retrieves the method to process the said node.
      * If the node is a IdentifierToken then it searches for createIdentifierToken.
      */
-    private Method getNonTerminalNodeProcessMethod(NonTerminalNode node) {
+    private MethodReference getNonTerminalNodeProcessMethod(NonTerminalNode node) {
         String methodName = "create" + node.getClass().getSimpleName();
         return methodCache.getMethod(methodName);
     }

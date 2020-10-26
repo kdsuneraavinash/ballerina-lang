@@ -21,6 +21,7 @@ import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.config.QuoterConfig;
 import io.ballerinalang.quoter.segment.Segment;
 
+import static io.ballerinalang.quoter.config.QuoterConfig.EXTERNAL_FORMATTER_USE_TEMPLATE;
 import static io.ballerinalang.quoter.config.QuoterPropertiesConfig.EXTERNAL_FORMATTER_NAME;
 
 /**
@@ -31,14 +32,20 @@ public abstract class SegmentFormatter {
      * Creates a formatter based on the configuration option.
      */
     public static SegmentFormatter getFormatter(QuoterConfig config) {
+        if (config.getBooleanOrThrow(EXTERNAL_FORMATTER_USE_TEMPLATE)) {
+            return TemplateFormatter.fromConfig(config);
+        } else {
+            return getInnerFormatter(config);
+        }
+    }
+
+    protected static SegmentFormatter getInnerFormatter(QuoterConfig config) {
         String formatterName = config.getOrThrow(EXTERNAL_FORMATTER_NAME);
         switch (formatterName) {
             case "none":
                 return new NoFormatter();
             case "default":
                 return new DefaultFormatter();
-            case "template":
-                return TemplateFormatter.fromConfig(config);
             case "variable":
                 return new VariableFormatter();
             default:

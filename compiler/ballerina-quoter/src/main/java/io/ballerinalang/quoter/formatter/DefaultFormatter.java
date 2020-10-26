@@ -32,13 +32,6 @@ public class DefaultFormatter extends SegmentFormatter {
     private static final char ESCAPE = '\\';
 
     /**
-     * Initial tab depth to start the formatter.
-     */
-    protected int getInitialDepth() {
-        return 0;
-    }
-
-    /**
      * Special case because of SeparatedNodeList cast.
      */
     private boolean separatedNodeListPresent(StringBuilder input, int position) {
@@ -69,7 +62,7 @@ public class DefaultFormatter extends SegmentFormatter {
 
         boolean isCurrentlyInStringLiteral = false;
         boolean foundCommaInCurrentParen = false;
-        int depth = getInitialDepth();
+        int depth = 0;
 
         for (int position = 0; position < input.length(); position++) {
             char character = input.charAt(position);

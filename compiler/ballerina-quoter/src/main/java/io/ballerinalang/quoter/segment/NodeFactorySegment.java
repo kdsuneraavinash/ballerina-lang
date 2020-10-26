@@ -30,11 +30,17 @@ import java.util.Objects;
 public class NodeFactorySegment extends Segment implements Iterable<Segment> {
     private final String methodName;
     private final List<Segment> parameters;
+    protected final String genericType;
 
-    public NodeFactorySegment(String methodName) {
+    public NodeFactorySegment(String methodName, String genericType) {
         assert methodName.startsWith("create");
         this.methodName = methodName;
         this.parameters = new ArrayList<>();
+        this.genericType = genericType;
+    }
+
+    public NodeFactorySegment(String methodName) {
+        this(methodName, null);
     }
 
     public void addParameter(Segment parameter) {
@@ -44,7 +50,10 @@ public class NodeFactorySegment extends Segment implements Iterable<Segment> {
     @Override
     public StringBuilder stringBuilder() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("NodeFactory.").append(methodName).append("(");
+        stringBuilder.append("NodeFactory.")
+                .append(genericType != null ? "<" + genericType + ">" : "")
+                .append(getMethodName()).append("(");
+
         // Create comma separated parameter list.
         for (int i = 0; i < parameters.size(); i++) {
             if (i != 0) {
@@ -69,5 +78,9 @@ public class NodeFactorySegment extends Segment implements Iterable<Segment> {
 
     public String getType() {
         return methodName.substring(6);
+    }
+
+    public String getGenericType() {
+        return genericType;
     }
 }

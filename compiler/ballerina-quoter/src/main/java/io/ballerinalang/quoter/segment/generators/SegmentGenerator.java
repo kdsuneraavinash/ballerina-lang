@@ -35,6 +35,10 @@ public class SegmentGenerator {
         return new NodeFactorySegment(methodName);
     }
 
+    public static NodeFactorySegment createFactoryCallSegment(String methodName, String genericType) {
+        return new NodeFactorySegment(methodName, genericType);
+    }
+
     /**
      * Create a basic code segment.
      */
@@ -67,7 +71,7 @@ public class SegmentGenerator {
     /**
      * Helper function to create a separated node list segment.
      */
-    public static SeparatedNodeListSegment createSeparatedNodeListSegment() {
-        return new SeparatedNodeListSegment();
+    public static SeparatedNodeListSegment createSeparatedNodeListSegment(String genericType) {
+        return new SeparatedNodeListSegment(genericType);
     }
 }

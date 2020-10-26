@@ -41,7 +41,8 @@ import java.util.logging.Logger;
 public abstract class QuoterConfig {
     public static final String INTERNAL_NODE_CHILDREN_JSON = "internal.node.children";
     public static final String EXTERNAL_FORMATTER_TEMPLATE = "external.formatter.template";
-    public static final String EXTERNAL_FORMATTER_TEMPLATE_TAB_START = "external.formatter.template.tab.start";
+    public static final String EXTERNAL_FORMATTER_USE_TEMPLATE = "external.formatter.use.template";
+    public static final String EXTERNAL_FORMATTER_TAB_START = "external.formatter.tab.start";
     public static final String EXTERNAL_INPUT_FILE = "external.input.file";
     public static final String EXTERNAL_OUTPUT_FILE = "external.output.file";
     public static final String EXTERNAL_OUTPUT_SYS_OUT = "external.output.sys.out";

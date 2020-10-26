@@ -60,7 +60,7 @@ public class AbstractQuoterTest {
     protected SyntaxTree createSegmentAndRun(String balFile) {
         try {
             String templateName = "dynamic-loading.java";
-            String formatterName = "template";
+            String formatterName = "default";
             int tabSpace = 2;
             QuoterConfig config = new TestQuoterConfig(templateName, tabSpace, formatterName);
             Segment segment = getSegmentFromFile(balFile, config);

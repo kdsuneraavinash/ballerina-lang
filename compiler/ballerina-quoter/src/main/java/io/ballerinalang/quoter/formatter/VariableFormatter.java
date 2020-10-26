@@ -108,7 +108,7 @@ public class VariableFormatter extends SegmentFormatter {
 
         // Get each child and add the content that should come before
         StringBuilder stringBuilder = new StringBuilder();
-        NodeFactorySegment factorySegment = SegmentGenerator.createFactoryCallSegment(segment.getMethodName());
+        NodeFactorySegment factorySegment = SegmentGenerator.createFactoryCallSegment(segment.getMethodName(), segment.getGenericType());
         for (Segment child : segment) {
             if (child instanceof NodeFactorySegment) {
                 NodeFactorySegment childFactoryCall = (NodeFactorySegment) child;
@@ -122,7 +122,11 @@ public class VariableFormatter extends SegmentFormatter {
 
         // Node definition
         NamedContent namedContent = new NamedContent(segment.getType());
-        stringBuilder.append(factorySegment.getType()).append(" ").append(namedContent.name)
+        stringBuilder.append(factorySegment.getType());
+        if (factorySegment.getGenericType() != null) {
+            stringBuilder.append("<").append(factorySegment.getGenericType()).append(">");
+        }
+        stringBuilder.append(" ").append(namedContent.name)
                 .append(" = ").append(factorySegment).append(";\n\n");
         namedContent.setContent(stringBuilder.toString());
         return namedContent;

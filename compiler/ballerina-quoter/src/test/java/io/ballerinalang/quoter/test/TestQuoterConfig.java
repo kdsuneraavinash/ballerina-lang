@@ -22,14 +22,14 @@ import io.ballerinalang.quoter.utils.FileReaderUtils;
 
 public class TestQuoterConfig extends QuoterConfig {
     private final String externalFormatterTemplate;
-    private final String externalFormatterTemplateTabStart;
+    private final String externalFormatterTabStart;
     private final String externalFormatterName;
 
     public TestQuoterConfig(String externalFormatterTemplate,
-                            int externalFormatterTemplateTabStart,
+                            int externalFormatterTabStart,
                             String externalFormatterName) {
         this.externalFormatterTemplate = externalFormatterTemplate;
-        this.externalFormatterTemplateTabStart = String.valueOf(externalFormatterTemplateTabStart);
+        this.externalFormatterTabStart = String.valueOf(externalFormatterTabStart);
         this.externalFormatterName = externalFormatterName;
     }
 
@@ -38,12 +38,14 @@ public class TestQuoterConfig extends QuoterConfig {
         switch (key) {
             case EXTERNAL_FORMATTER_TEMPLATE:
                 return externalFormatterTemplate;
-            case EXTERNAL_FORMATTER_TEMPLATE_TAB_START:
-                return externalFormatterTemplateTabStart;
+            case EXTERNAL_FORMATTER_TAB_START:
+                return externalFormatterTabStart;
             case INTERNAL_NODE_CHILDREN_JSON:
                 return "parameter-names.json";
             case EXTERNAL_FORMATTER_NAME:
                 return externalFormatterName;
+            case EXTERNAL_FORMATTER_USE_TEMPLATE:
+                return "true";
             default:
                 throw new RuntimeException("Unknown key: " + key);
         }
