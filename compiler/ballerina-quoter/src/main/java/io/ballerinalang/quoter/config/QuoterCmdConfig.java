@@ -31,7 +31,6 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
     private final String formatterUseTemplate;
     private final String formatterTemplate;
     private final String formatterTabStart;
-    private final String nodeChildren;
     private final String inputFile;
     private final String outputFile;
     private final String outputSysOut;
@@ -41,7 +40,6 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
         this.formatterUseTemplate = cmd.getOptionValue('u');
         this.formatterTemplate = cmd.getOptionValue('t');
         this.formatterTabStart = cmd.getOptionValue('p');
-        this.nodeChildren = null;
         this.inputFile = cmd.getOptionValue('i');
         this.outputFile = cmd.getOptionValue('o');
         this.outputSysOut = cmd.getOptionValue('s');
@@ -87,8 +85,6 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
                 return overrideGet(key, formatterTemplate);
             case EXTERNAL_FORMATTER_TAB_START:
                 return overrideGet(key, formatterTabStart);
-            case INTERNAL_NODE_CHILDREN_JSON:
-                return overrideGet(key, nodeChildren);
             case EXTERNAL_INPUT_FILE:
                 return overrideGet(key, inputFile);
             case EXTERNAL_OUTPUT_FILE:

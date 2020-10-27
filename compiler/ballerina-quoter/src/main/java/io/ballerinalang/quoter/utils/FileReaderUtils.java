@@ -22,6 +22,8 @@ import io.ballerinalang.quoter.QuoterException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -36,16 +38,10 @@ public class FileReaderUtils {
      */
     public static String readFileAsResource(String path) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-        try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
-            if (inputStream == null) {
-                throw new QuoterException("File not found: " + path);
-            }
-            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
-            return scanner.hasNext() ? scanner.next() : "";
-        } catch (IOException e) {
-            throw new QuoterException("Failed to read " + path + ". Error: " + e.getMessage(), e);
-        }
+        InputStream inputStream = classLoader.getResourceAsStream(path);
+        Objects.requireNonNull(inputStream, "File open failed");
+        Scanner scanner = new Scanner(inputStream, Charset.defaultCharset()).useDelimiter("\\A");
+        return scanner.hasNext() ? scanner.next() : "";
     }
 
 
@@ -57,7 +53,7 @@ public class FileReaderUtils {
      */
     public static String readFile(String path) {
         try (InputStream inputStream = new FileInputStream(path)) {
-            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+            Scanner scanner = new Scanner(inputStream, Charset.defaultCharset()).useDelimiter("\\A");
             return scanner.hasNext() ? scanner.next() : "";
         } catch (IOException e) {
             throw new QuoterException("Failed to read " + path + ". Error: " + e.getMessage(), e);

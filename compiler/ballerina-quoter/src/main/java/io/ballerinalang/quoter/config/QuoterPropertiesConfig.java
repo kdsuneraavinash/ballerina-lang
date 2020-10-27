@@ -33,7 +33,11 @@ public class QuoterPropertiesConfig extends QuoterConfig {
     protected final Properties props;
 
     public QuoterPropertiesConfig() {
-        this.props = loadConfig();
+        try {
+            this.props = loadConfig();
+        } catch (IOException e) {
+            throw new QuoterException("Properties loading failed");
+        }
     }
 
     /**
@@ -42,20 +46,13 @@ public class QuoterPropertiesConfig extends QuoterConfig {
      *
      * @return Loaded properties object.
      */
-    private static Properties loadConfig() {
-        String path = QUOTER_GEN_CONFIG_PROPERTIES;
+    private static Properties loadConfig() throws IOException {
         ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
-
-        try (InputStream inputStream = classLoader.getResourceAsStream(path)) {
-            if (inputStream == null) {
-                throw new QuoterException("File not found: " + path);
-            }
-            Properties props = new Properties();
-            props.load(inputStream);
-            return props;
-        } catch (IOException e) {
-            throw new QuoterException("Project properties loading failed. Reason: " + e, e);
-        }
+        InputStream inputStream = classLoader.getResourceAsStream(QUOTER_GEN_CONFIG_PROPERTIES);
+        Objects.requireNonNull(inputStream, "File open failed");
+        Properties props = new Properties();
+        props.load(inputStream);
+        return props;
     }
 
     @Override

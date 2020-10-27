@@ -18,7 +18,6 @@
 package io.ballerinalang.quoter.config;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import io.ballerinalang.quoter.BallerinaQuoter;
 import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.utils.FileReaderUtils;
@@ -28,10 +27,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,6 +48,10 @@ public abstract class QuoterConfig {
     public static final String EXTERNAL_OUTPUT_FILE = "external.output.file";
     public static final String EXTERNAL_OUTPUT_SYS_OUT = "external.output.sys.out";
     public static final String EXTERNAL_FORMATTER_NAME = "external.formatter.name";
+
+    private static class CacheMap extends HashMap<String, List<String>> {
+        private static final long serialVersionUID = 42L;
+    }
 
     /**
      * Get the value assigned to the key.
@@ -96,7 +101,7 @@ public abstract class QuoterConfig {
     public void writeToOutputFile(String content) {
         String outputFileName = getOrThrow(EXTERNAL_OUTPUT_FILE);
         try (OutputStream outputStream = new FileOutputStream(outputFileName)) {
-            outputStream.write(content.getBytes());
+            outputStream.write(content.getBytes(Charset.defaultCharset()));
         } catch (IOException e) {
             throw new QuoterException("Failed to write " + outputFileName + ". Error: " + e.getMessage(), e);
         }
@@ -115,20 +120,10 @@ public abstract class QuoterConfig {
     public Map<String, List<String>> readChildNamesJson() {
         String jsonFile = getOrThrow(INTERNAL_NODE_CHILDREN_JSON);
         ClassLoader classLoader = BallerinaQuoter.class.getClassLoader();
-
-        try (InputStream inputStream = classLoader.getResourceAsStream(jsonFile)) {
-            if (inputStream == null) {
-                throw new QuoterException("File not found: " + jsonFile);
-            }
-
-            Gson gson = new Gson();
-            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-
-            Type signatureFormat = new TypeToken<Map<String, List<String>>>() {
-            }.getType();
-            return gson.fromJson(reader, signatureFormat);
-        } catch (IOException e) {
-            throw new QuoterException("Failed to read " + jsonFile + ". Error: " + e.getMessage(), e);
-        }
+        InputStream inputStream = classLoader.getResourceAsStream(jsonFile);
+        Gson gson = new Gson();
+        Objects.requireNonNull(inputStream, "File open failed");
+        InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+        return gson.fromJson(reader, CacheMap.class);
     }
 }

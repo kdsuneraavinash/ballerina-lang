@@ -17,11 +17,14 @@
  */
 package io.ballerinalang.quoter.formatter;
 
+import io.ballerinalang.quoter.QuoterException;
 import io.ballerinalang.quoter.segment.NodeFactorySegment;
 import io.ballerinalang.quoter.segment.Segment;
 import io.ballerinalang.quoter.segment.factories.SegmentFactory;
 
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -39,13 +42,13 @@ public class VariableFormatter extends SegmentFormatter {
     /**
      * Data structure to hold string with an variable name.
      */
-    private class NamedContent {
+    private static class NamedContent {
         final String name;
         String content;
 
-        NamedContent(String type) {
+        NamedContent(String type, Map<String, Integer> variableCount) {
             // Find the variable name: var, var1, var2, ...
-            String varGenericName = type.substring(0, 1).toLowerCase() + type.substring(1);
+            String varGenericName = type.substring(0, 1).toLowerCase(Locale.getDefault()) + type.substring(1);
             int varGenericCount = variableCount.getOrDefault(varGenericName, 0);
             this.name = varGenericName + (varGenericCount == 0 ? "" : String.valueOf(varGenericCount));
             variableCount.put(varGenericName, varGenericCount + 1);
@@ -59,9 +62,12 @@ public class VariableFormatter extends SegmentFormatter {
 
     @Override
     public String format(Segment segment) {
-        variableCount = new HashMap<>();
-        return "MinutiaeList trailingMinutiae, leadingMinutiae;\n\n" +
-                processNode((NodeFactorySegment) segment);
+        if (segment instanceof NodeFactorySegment) {
+            variableCount = new HashMap<>();
+            return "MinutiaeList trailingMinutiae, leadingMinutiae;\n\n" +
+                    processNode((NodeFactorySegment) segment);
+        }
+        throw new QuoterException("Expected a valid node segment but fount parsed segment of " + segment);
     }
 
     /**
@@ -75,7 +81,7 @@ public class VariableFormatter extends SegmentFormatter {
         Stack<Segment> params = new Stack<>();
         token.forEach(params::push);
 
-        NamedContent namedContent = new NamedContent(token.getType());
+        NamedContent namedContent = new NamedContent(token.getType(), variableCount);
         NodeFactorySegment factorySegment = SegmentFactory.createNodeFactorySegment(token.getMethodName());
 
         // Define minutiae
@@ -124,7 +130,7 @@ public class VariableFormatter extends SegmentFormatter {
         }
 
         // Node definition
-        NamedContent namedContent = new NamedContent(segment.getType());
+        NamedContent namedContent = new NamedContent(segment.getType(), variableCount);
         stringBuilder.append(factorySegment.getType());
         if (factorySegment.getGenericType() != null) {
             stringBuilder.append("<").append(factorySegment.getGenericType()).append(">");
