@@ -49,10 +49,6 @@ public abstract class QuoterConfig {
     public static final String EXTERNAL_OUTPUT_SYS_OUT = "external.output.sys.out";
     public static final String EXTERNAL_FORMATTER_NAME = "external.formatter.name";
 
-    private static class CacheMap extends HashMap<String, List<String>> {
-        private static final long serialVersionUID = 42L;
-    }
-
     /**
      * Get the value assigned to the key.
      * Throw an error if key is not found.
