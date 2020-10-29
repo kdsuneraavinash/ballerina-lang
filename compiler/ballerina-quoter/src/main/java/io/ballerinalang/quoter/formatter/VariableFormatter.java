@@ -93,11 +93,13 @@ public class VariableFormatter extends SegmentFormatter {
         NodeFactorySegment factorySegment = SegmentFactory.createNodeFactorySegment(token.getMethodName());
 
         // Define minutiae
+        String trailingMinutiae = formatter.format(params.pop());
+        String leadingMinutiae = formatter.format(params.pop());
         stringBuilder.append(LEADING_MINUTIAE).append(EQ_CHAR)
-                .append(formatter.format(params.pop()))
+                .append(leadingMinutiae)
                 .append(SEMICOLON_CHAR).append(NEWLINE_CHAR);
         stringBuilder.append(TRAILING_MINUTIAE).append(EQ_CHAR)
-                .append(formatter.format(params.pop()))
+                .append(trailingMinutiae)
                 .append(SEMICOLON_CHAR).append(NEWLINE_CHAR);
 
         // Add params and minutiae

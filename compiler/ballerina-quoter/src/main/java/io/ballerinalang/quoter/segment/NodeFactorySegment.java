@@ -31,7 +31,7 @@ public class NodeFactorySegment extends Segment implements Iterable<Segment> {
     private static final int CREATE_PREFIX_LENGTH = 6;
     private static final String NODE_FACTORY_PREFIX = "NodeFactory.";
     private static final String GENERIC_OPEN_SIGN = "<";
-    private static final String GENERIC_CLOSE_SIGN = "<";
+    private static final String GENERIC_CLOSE_SIGN = ">";
     private static final String PARAM_OPEN_SIGN = "(";
     private static final String PARAM_SEP_SIGN = ",";
     private static final String PARAM_CLOSE_SIGN = ")";
