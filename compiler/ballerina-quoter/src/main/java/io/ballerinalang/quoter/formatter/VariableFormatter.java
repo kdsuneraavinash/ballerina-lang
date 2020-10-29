@@ -147,9 +147,10 @@ public class VariableFormatter extends SegmentFormatter {
 
         // Node definition
         NamedContent namedContent = new NamedContent(segment.getType(), variableCount);
-        stringBuilder.append(factorySegment.getType());
-        stringBuilder.append(factorySegment.getGenericType());
-        stringBuilder.append(SPACE_CHAR).append(namedContent.name)
+        stringBuilder
+                .append(factorySegment.getType())
+                .append(factorySegment.getGenericType())
+                .append(SPACE_CHAR).append(namedContent.name)
                 .append(EQ_CHAR).append(factorySegment)
                 .append(SEMICOLON_CHAR).append(NEWLINE_CHAR).append(NEWLINE_CHAR);
         namedContent.content = stringBuilder.toString();

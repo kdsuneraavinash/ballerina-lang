@@ -65,7 +65,6 @@ public class NodeFactorySegment extends Segment implements Iterable<Segment> {
     public StringBuilder stringBuilder() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(NODE_FACTORY_PREFIX)
-                .append(getGenericType())
                 .append(getMethodName()).append(PARAM_OPEN_SIGN);
 
         // Create comma separated parameter list.
