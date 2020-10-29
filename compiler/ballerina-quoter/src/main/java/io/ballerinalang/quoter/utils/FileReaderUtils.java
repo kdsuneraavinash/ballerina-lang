@@ -30,6 +30,8 @@ import java.util.Scanner;
  * Reused file IO utils.
  */
 public class FileReaderUtils {
+    private static final String SPECIAL_DELIMITER = "\\A";
+
     /**
      * Reads a file path content from the resources directory.
      *
@@ -40,7 +42,7 @@ public class FileReaderUtils {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(path);
         Objects.requireNonNull(inputStream, "File open failed");
-        Scanner scanner = new Scanner(inputStream, Charset.defaultCharset()).useDelimiter("\\A");
+        Scanner scanner = new Scanner(inputStream, Charset.defaultCharset()).useDelimiter(SPECIAL_DELIMITER);
         return scanner.hasNext() ? scanner.next() : "";
     }
 
@@ -53,7 +55,7 @@ public class FileReaderUtils {
      */
     public static String readFile(String path) {
         try (InputStream inputStream = new FileInputStream(path)) {
-            Scanner scanner = new Scanner(inputStream, Charset.defaultCharset()).useDelimiter("\\A");
+            Scanner scanner = new Scanner(inputStream, Charset.defaultCharset()).useDelimiter(SPECIAL_DELIMITER);
             return scanner.hasNext() ? scanner.next() : "";
         } catch (IOException e) {
             throw new QuoterException("Failed to read " + path + ". Error: " + e.getMessage(), e);

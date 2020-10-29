@@ -28,6 +28,36 @@ import java.util.Objects;
  * Configuration file for CLI application.
  */
 public class QuoterCmdConfig extends QuoterPropertiesConfig {
+    /**
+     * CLI option enum with the name and description.
+     */
+    protected enum CliOption {
+        INPUT("input", "input file path"),
+        OUTPUT("output", "output file path"),
+        STDOUT("stdout", "output to stdout (true/false)"),
+        FORMATTER("formatter", "formatter name (none,default,template,variable)"),
+        USE_TEMPLATE("use template", "whether to use template (true/false)"),
+        TEMPLATE("template", "template to use (applicable only in template formatter)"),
+        POSITION("position", "tab position to start (applicable only in template formatter)");
+
+        final String name;
+        final String description;
+
+        CliOption(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+
+        /**
+         * The option parameter.
+         * This is the first letter of the name.
+         */
+        String option() {
+            return name.substring(0, 1);
+        }
+    }
+
+
     private final String formatterUseTemplate;
     private final String formatterTemplate;
     private final String formatterTabStart;
@@ -37,13 +67,13 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
     private final String formatterName;
 
     public QuoterCmdConfig(CommandLine cmd) {
-        this.formatterUseTemplate = cmd.getOptionValue('u');
-        this.formatterTemplate = cmd.getOptionValue('t');
-        this.formatterTabStart = cmd.getOptionValue('p');
-        this.inputFile = cmd.getOptionValue('i');
-        this.outputFile = cmd.getOptionValue('o');
-        this.outputSysOut = cmd.getOptionValue('s');
-        this.formatterName = cmd.getOptionValue('f');
+        this.formatterUseTemplate = cmd.getOptionValue(CliOption.USE_TEMPLATE.option());
+        this.formatterTemplate = cmd.getOptionValue(CliOption.TEMPLATE.option());
+        this.formatterTabStart = cmd.getOptionValue(CliOption.POSITION.option());
+        this.inputFile = cmd.getOptionValue(CliOption.INPUT.option());
+        this.outputFile = cmd.getOptionValue(CliOption.OUTPUT.option());
+        this.outputSysOut = cmd.getOptionValue(CliOption.STDOUT.option());
+        this.formatterName = cmd.getOptionValue(CliOption.FORMATTER.option());
     }
 
     /**
@@ -53,27 +83,12 @@ public class QuoterCmdConfig extends QuoterPropertiesConfig {
      */
     public static Options getCommandLineOptions() {
         Options options = new Options();
-        addArgument(options, "input", "input file path");
-        addArgument(options, "output", "output file path");
-        addArgument(options, "stdout", "output to stdout (true/false)");
-        addArgument(options, "formatter", "formatter name (none,default,template,variable)");
-        addArgument(options, "use template", "whether to use template (true/false)");
-        addArgument(options, "template", "template to use (applicable only in template formatter)");
-        addArgument(options, "position", "tab position to start (applicable only in template formatter)");
+        for (CliOption op : CliOption.values()) {
+            Option option = new Option(op.option(), op.name, true, op.description);
+            option.setRequired(false);
+            options.addOption(option);
+        }
         return options;
-    }
-
-    /**
-     * Add a new argument to a given {@link Options} object.
-     *
-     * @param options     Options obj
-     * @param name        Name of the argument
-     * @param description Description of argument.
-     */
-    private static void addArgument(Options options, String name, String description) {
-        Option option = new Option(name.substring(0, 1), name, true, description);
-        option.setRequired(false);
-        options.addOption(option);
     }
 
     @Override

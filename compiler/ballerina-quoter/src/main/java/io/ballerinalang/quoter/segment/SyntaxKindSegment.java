@@ -24,6 +24,8 @@ import io.ballerina.compiler.syntax.tree.SyntaxKind;
  * "SyntaxKind.ABC_KIND"
  */
 public class SyntaxKindSegment extends Segment {
+    private static final String SYNTAX_KIND_PREFIX = "SyntaxKind.";
+
     private final SyntaxKind syntaxKind;
 
     public SyntaxKindSegment(SyntaxKind syntaxKind) {
@@ -32,6 +34,6 @@ public class SyntaxKindSegment extends Segment {
 
     @Override
     public StringBuilder stringBuilder() {
-        return new StringBuilder("SyntaxKind.").append(syntaxKind.toString());
+        return new StringBuilder(SYNTAX_KIND_PREFIX).append(syntaxKind.toString());
     }
 }

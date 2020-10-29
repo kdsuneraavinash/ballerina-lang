@@ -35,6 +35,10 @@ import java.util.List;
  * Converts {@link NonTerminalNode} into a {@link Segment}.
  */
 public class NonTerminalSegmentFactory {
+    private static final String CREATE_SEP_NODE_LIST_METHOD_NAME = "createSeparatedNodeList";
+    private static final String CREATE_NODE_LIST_METHOD_NAME = "createNodeList";
+    private static final String CREATE_METHOD_PREFIX = "create";
+
     private final ChildNamesCache childNamesCache;
     private final NodeFactoryMethodCache methodCache;
     private final NodeSegmentFactory nodeSegmentFactory;
@@ -128,8 +132,8 @@ public class NonTerminalSegmentFactory {
 
         String genericType = method.getParameterGeneric(paramIndex);
         String nodeListMethodName = (method.getParameterType(paramIndex) == SeparatedNodeList.class)
-                ? "createSeparatedNodeList"
-                : "createNodeList";
+                ? CREATE_SEP_NODE_LIST_METHOD_NAME
+                : CREATE_NODE_LIST_METHOD_NAME;
         NodeFactorySegment root = SegmentFactory.createNodeFactorySegment(nodeListMethodName, genericType);
         segments.forEach(root::addParameter);
         return root;
@@ -143,6 +147,6 @@ public class NonTerminalSegmentFactory {
      * @return Method reference of the method that creates the node.
      */
     private NodeFactoryMethodReference getNonTerminalNodeProcessMethod(NonTerminalNode node) {
-        return methodCache.getMethod("create" + node.getClass().getSimpleName());
+        return methodCache.getMethod(CREATE_METHOD_PREFIX + node.getClass().getSimpleName());
     }
 }

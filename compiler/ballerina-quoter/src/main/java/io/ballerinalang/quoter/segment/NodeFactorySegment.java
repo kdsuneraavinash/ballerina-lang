@@ -28,6 +28,14 @@ import java.util.Objects;
  * Method call of format: "NodeFactory.<Type>createNodeType(param1, param2)"
  */
 public class NodeFactorySegment extends Segment implements Iterable<Segment> {
+    private static final int CREATE_PREFIX_LENGTH = 6;
+    private static final String NODE_FACTORY_PREFIX = "NodeFactory.";
+    private static final String GENERIC_OPEN_SIGN = "<";
+    private static final String GENERIC_CLOSE_SIGN = "<";
+    private static final String PARAM_OPEN_SIGN = "(";
+    private static final String PARAM_SEP_SIGN = ",";
+    private static final String PARAM_CLOSE_SIGN = ")";
+
     private final String methodName;
     protected final String genericType;
     private final List<Segment> parameters;
@@ -56,18 +64,18 @@ public class NodeFactorySegment extends Segment implements Iterable<Segment> {
     @Override
     public StringBuilder stringBuilder() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("NodeFactory.")
-                .append(genericType != null ? "<" + genericType + ">" : "")
-                .append(getMethodName()).append("(");
+        stringBuilder.append(NODE_FACTORY_PREFIX)
+                .append(getGenericType())
+                .append(getMethodName()).append(PARAM_OPEN_SIGN);
 
         // Create comma separated parameter list.
         for (int i = 0; i < parameters.size(); i++) {
             if (i != 0) {
-                stringBuilder.append(",");
+                stringBuilder.append(PARAM_SEP_SIGN);
             }
             stringBuilder.append(parameters.get(i).stringBuilder());
         }
-        stringBuilder.append(")");
+        stringBuilder.append(PARAM_CLOSE_SIGN);
 
         return stringBuilder;
     }
@@ -89,13 +97,28 @@ public class NodeFactorySegment extends Segment implements Iterable<Segment> {
      * @return Type of the method call. Found via stripping the create part from method name.
      */
     public String getType() {
-        return methodName.substring(6);
+        return methodName.substring(CREATE_PREFIX_LENGTH);
     }
 
     /**
-     * @return Generic type of the method call. null if doesn't have a generic type.
+     * @return Formatted Generic type of the method call.
+     * Empty string if doesn't have a generic type.
+     * If it has a generic type: <GENERIC_TYPE>
      */
     public String getGenericType() {
-        return genericType;
+        if (genericType == null) {
+            return "";
+        }
+        return GENERIC_OPEN_SIGN + genericType + GENERIC_CLOSE_SIGN;
+    }
+
+    /**
+     * Create a copy of the method call.
+     * This will create a method call segment with same name but no args.
+     *
+     * @return Created segment copy.
+     */
+    public NodeFactorySegment createCopy() {
+        return new NodeFactorySegment(methodName, genericType);
     }
 }

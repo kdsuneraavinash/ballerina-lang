@@ -28,6 +28,12 @@ import io.ballerinalang.quoter.segment.Segment;
  * Handles {@link Minutiae} to {@link Segment} conversion.
  */
 public class MinutiaeSegmentFactory {
+    private static final String CREATE_EMPTY_MINUTIAE_LIST_METHOD_NAME = "createEmptyMinutiaeList";
+    private static final String CREATE_MINUTIAE_LIST_METHOD_NAME = "createMinutiaeList";
+    private static final String CREATE_COMMENT_METHOD_NAME = "createCommentMinutiae";
+    private static final String CREATE_WHITESPACE_METHOD_NAME = "createWhitespaceMinutiae";
+    private static final String CREATE_EOL_METHOD_NAME = "createEndOfLineMinutiae";
+
     /**
      * Converts a {@link MinutiaeList} to a {@link Segment}.
      *
@@ -36,12 +42,12 @@ public class MinutiaeSegmentFactory {
      */
     public static Segment createMinutiaeListSegment(MinutiaeList minutiaeList) {
         if (minutiaeList.isEmpty()) {
-            return SegmentFactory.createNodeFactorySegment("createEmptyMinutiaeList");
+            return SegmentFactory.createNodeFactorySegment(CREATE_EMPTY_MINUTIAE_LIST_METHOD_NAME);
         }
 
         // If the list is not empty, create the factory segment and add every minutiae segment
         NodeFactorySegment minutiaeListMethod = SegmentFactory
-                .createNodeFactorySegment("createMinutiaeList");
+                .createNodeFactorySegment(CREATE_MINUTIAE_LIST_METHOD_NAME);
         minutiaeList.forEach(minutiae -> minutiaeListMethod.addParameter(createMinutiaeSegment(minutiae)));
         return minutiaeListMethod;
     }
@@ -58,11 +64,11 @@ public class MinutiaeSegmentFactory {
         // Decide on method to use
         String methodName;
         if (minutiae.kind() == SyntaxKind.COMMENT_MINUTIAE) {
-            methodName = "createCommentMinutiae";
+            methodName = CREATE_COMMENT_METHOD_NAME;
         } else if (minutiae.kind() == SyntaxKind.WHITESPACE_MINUTIAE) {
-            methodName = "createWhitespaceMinutiae";
+            methodName = CREATE_WHITESPACE_METHOD_NAME;
         } else if (minutiae.kind() == SyntaxKind.END_OF_LINE_MINUTIAE) {
-            methodName = "createEndOfLineMinutiae";
+            methodName = CREATE_EOL_METHOD_NAME;
         } else if (minutiae.kind() == SyntaxKind.INVALID_NODE_MINUTIAE) {
             throw new QuoterException("Invalid node minutiae found with text: " + minutiae.text());
         } else {

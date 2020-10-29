@@ -27,6 +27,8 @@ import io.ballerinalang.quoter.segment.SyntaxKindSegment;
  * Handles base segment creation through helper methods.
  */
 public class SegmentFactory {
+    private static final String NULL_LITERAL = "null";
+
     /**
      * Creates a factory method to create given node type.
      *
@@ -84,6 +86,6 @@ public class SegmentFactory {
      * @return Created null segment node.
      */
     public static CodeSegment createNullSegment() {
-        return createCodeSegment("null");
+        return createCodeSegment(NULL_LITERAL);
     }
 }

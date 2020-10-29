@@ -27,6 +27,11 @@ import io.ballerinalang.quoter.segment.NodeFactorySegment;
  * Handles {@link Token}(Leaf Nodes) to {@link NodeFactorySegment} conversion.
  */
 public class TokenSegmentFactory {
+    private static final String CREATE_LITERAL_METHOD_NAME = "createLiteralValueToken";
+    private static final String CREATE_IDENTIFIER_METHOD_NAME = "createIdentifierToken";
+    private static final String CREATE_DOC_LINE_METHOD_NAME = "createDocumentationLineToken";
+    private static final String CREATE_TOKEN_METHOD_NAME = "createToken";
+
     /**
      * Converts Token to Segment.
      * Handles minutia of the token as well.
@@ -41,17 +46,17 @@ public class TokenSegmentFactory {
 
         // Decide on factory call and add parameters(except minutiae)
         if (token instanceof LiteralValueToken) {
-            root = SegmentFactory.createNodeFactorySegment("createLiteralValueToken");
+            root = SegmentFactory.createNodeFactorySegment(CREATE_LITERAL_METHOD_NAME);
             root.addParameter(SegmentFactory.createSyntaxKindSegment(token.kind()));
             root.addParameter(SegmentFactory.createStringSegment(token.text()));
         } else if (token instanceof IdentifierToken) {
-            root = SegmentFactory.createNodeFactorySegment("createIdentifierToken");
+            root = SegmentFactory.createNodeFactorySegment(CREATE_IDENTIFIER_METHOD_NAME);
             root.addParameter(SegmentFactory.createStringSegment(token.text()));
         } else if (token instanceof DocumentationLineToken) {
-            root = SegmentFactory.createNodeFactorySegment("createDocumentationLineToken");
+            root = SegmentFactory.createNodeFactorySegment(CREATE_DOC_LINE_METHOD_NAME);
             root.addParameter(SegmentFactory.createStringSegment(token.text()));
         } else {
-            root = SegmentFactory.createNodeFactorySegment("createToken");
+            root = SegmentFactory.createNodeFactorySegment(CREATE_TOKEN_METHOD_NAME);
             root.addParameter(SegmentFactory.createSyntaxKindSegment(token.kind()));
         }
 

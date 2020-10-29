@@ -32,6 +32,15 @@ import java.util.Stack;
  * Groups minutiae with corresponding node.
  */
 public class VariableFormatter extends SegmentFormatter {
+    private static final String NEWLINE_CHAR = "\n";
+    private static final String SEMICOLON_CHAR = ";";
+    private static final String SPACE_CHAR = " ";
+    private static final String EQ_CHAR = " = ";
+    private static final String MINUTIAE_LIST_DEF = "MinutiaeList trailingMinutiae, leadingMinutiae;\n\n";
+    private static final String LEADING_MINUTIAE = "leadingMinutiae";
+    private static final String TRAILING_MINUTIAE = "trailingMinutiae";
+    private static final String TOKEN_SUFFIX = "Token";
+
     private HashMap<String, Integer> variableCount;
     private final SegmentFormatter formatter;
 
@@ -64,8 +73,7 @@ public class VariableFormatter extends SegmentFormatter {
     public String format(Segment segment) {
         if (segment instanceof NodeFactorySegment) {
             variableCount = new HashMap<>();
-            return "MinutiaeList trailingMinutiae, leadingMinutiae;\n\n" +
-                    processNode((NodeFactorySegment) segment);
+            return MINUTIAE_LIST_DEF + processNode((NodeFactorySegment) segment);
         }
         throw new QuoterException("Expected a valid node segment but fount parsed segment of " + segment);
     }
@@ -85,18 +93,25 @@ public class VariableFormatter extends SegmentFormatter {
         NodeFactorySegment factorySegment = SegmentFactory.createNodeFactorySegment(token.getMethodName());
 
         // Define minutiae
-        stringBuilder.append("trailingMinutiae = ").append(formatter.format(params.pop())).append(";\n");
-        stringBuilder.append("leadingMinutiae = ").append(formatter.format(params.pop())).append(";\n");
+        stringBuilder.append(LEADING_MINUTIAE).append(EQ_CHAR)
+                .append(formatter.format(params.pop()))
+                .append(SEMICOLON_CHAR).append(NEWLINE_CHAR);
+        stringBuilder.append(TRAILING_MINUTIAE).append(EQ_CHAR)
+                .append(formatter.format(params.pop()))
+                .append(SEMICOLON_CHAR).append(NEWLINE_CHAR);
 
         // Add params and minutiae
         while (!params.isEmpty()) {
             factorySegment.addParameter(params.remove(0));
         }
-        factorySegment.addParameter(SegmentFactory.createCodeSegment("leadingMinutiae"));
-        factorySegment.addParameter(SegmentFactory.createCodeSegment("trailingMinutiae"));
+        factorySegment.addParameter(SegmentFactory.createCodeSegment(LEADING_MINUTIAE));
+        factorySegment.addParameter(SegmentFactory.createCodeSegment(TRAILING_MINUTIAE));
 
-        stringBuilder.append(token.getType()).append(" ").append(namedContent.name)
-                .append(" = ").append(factorySegment).append(";\n\n");
+        stringBuilder
+                .append(token.getType()).append(SPACE_CHAR)
+                .append(namedContent.name).append(EQ_CHAR)
+                .append(factorySegment)
+                .append(SEMICOLON_CHAR).append(NEWLINE_CHAR).append(NEWLINE_CHAR);
 
         namedContent.content = stringBuilder.toString();
         return namedContent;
@@ -110,14 +125,13 @@ public class VariableFormatter extends SegmentFormatter {
      */
     private NamedContent processNode(NodeFactorySegment segment) {
         // If it is a token, handle accordingly
-        if (segment.getMethodName().endsWith("Token")) {
+        if (segment.getMethodName().endsWith(TOKEN_SUFFIX)) {
             return processToken(segment);
         }
 
         // Get each child and add the content that should come before
         StringBuilder stringBuilder = new StringBuilder();
-        NodeFactorySegment factorySegment =
-                SegmentFactory.createNodeFactorySegment(segment.getMethodName(), segment.getGenericType());
+        NodeFactorySegment factorySegment = segment.createCopy();
         for (Segment child : segment) {
             if (child instanceof NodeFactorySegment) {
                 NodeFactorySegment childFactoryCall = (NodeFactorySegment) child;
@@ -132,13 +146,11 @@ public class VariableFormatter extends SegmentFormatter {
         // Node definition
         NamedContent namedContent = new NamedContent(segment.getType(), variableCount);
         stringBuilder.append(factorySegment.getType());
-        if (factorySegment.getGenericType() != null) {
-            stringBuilder.append("<").append(factorySegment.getGenericType()).append(">");
-        }
-        stringBuilder.append(" ").append(namedContent.name)
-                .append(" = ").append(factorySegment).append(";\n\n");
+        stringBuilder.append(factorySegment.getGenericType());
+        stringBuilder.append(SPACE_CHAR).append(namedContent.name)
+                .append(EQ_CHAR).append(factorySegment)
+                .append(SEMICOLON_CHAR).append(NEWLINE_CHAR).append(NEWLINE_CHAR);
         namedContent.content = stringBuilder.toString();
         return namedContent;
     }
 }
-

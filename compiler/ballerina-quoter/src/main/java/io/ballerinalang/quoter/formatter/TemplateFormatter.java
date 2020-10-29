@@ -27,6 +27,9 @@ import static io.ballerinalang.quoter.config.QuoterConfig.EXTERNAL_FORMATTER_TAB
  * Template is defined via configs.
  */
 public class TemplateFormatter extends SegmentFormatter {
+    private static final String NEWLINE_CHAR = "\n";
+    private static final String TAB_CHAR = "\t";
+
     private final SegmentFormatter baseFormatter;
     private final String baseTemplate;
     private final int indent;
@@ -52,8 +55,8 @@ public class TemplateFormatter extends SegmentFormatter {
     @Override
     public String format(Segment segment) {
         String nodeString = baseFormatter.format(segment);
-        String[] lines = nodeString.split("\n");
-        String indentedLines = String.join("\n" + "\t".repeat(indent), lines);
+        String[] lines = nodeString.split(NEWLINE_CHAR);
+        String indentedLines = String.join(NEWLINE_CHAR + TAB_CHAR.repeat(indent), lines);
         return String.format(baseTemplate, indentedLines);
     }
 }

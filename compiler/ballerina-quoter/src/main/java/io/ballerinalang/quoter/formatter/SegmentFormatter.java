@@ -52,12 +52,13 @@ public abstract class SegmentFormatter {
      */
     protected static SegmentFormatter getInternalFormatter(QuoterConfig config) {
         String formatterName = config.getOrThrow(EXTERNAL_FORMATTER_NAME);
-        switch (formatterName) {
-            case "none":
+        SegmentFormatterType formatterType = SegmentFormatterType.getSegmentFormatterType(formatterName);
+        switch (formatterType) {
+            case NO_FORMATTER:
                 return new NoFormatter();
-            case "default":
+            case DEFAULT_FORMATTER:
                 return new DefaultFormatter();
-            case "variable":
+            case VARIABLE_FORMATTER:
                 return new VariableFormatter();
             default:
                 throw new QuoterException("Unknown formatter name: " + formatterName);

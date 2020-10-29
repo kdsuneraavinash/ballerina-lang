@@ -50,6 +50,8 @@ public class BallerinaQuoter {
             // 5) Output the generated code
             config.writeToOutputFile(generatedCode);
 
+        } catch (QuoterException exception) {
+            throw exception;
         } catch (Exception exception) {
             throw new QuoterException("There was an Exception when parsing. Please check your code.", exception);
         }

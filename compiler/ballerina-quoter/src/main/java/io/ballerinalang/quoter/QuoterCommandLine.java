@@ -30,6 +30,8 @@ import org.apache.commons.cli.ParseException;
  * CLI Entry point of the programme.
  */
 public class QuoterCommandLine {
+    private static final String HELP_MESSAGE = "./gradlew quoter -Props=\"[OPTIONS]\"";
+
     public static void main(String[] args) throws ParseException {
         Options options = QuoterCmdConfig.getCommandLineOptions();
         CommandLineParser parser = new DefaultParser();
@@ -41,7 +43,7 @@ public class QuoterCommandLine {
             QuoterConfig config = new QuoterCmdConfig(cmd);
             BallerinaQuoter.run(config);
         } catch (ParseException e) {
-            formatter.printHelp("./gradlew quoter -Props=\"[OPTIONS]\"", options);
+            formatter.printHelp(HELP_MESSAGE, options);
             throw e;
         }
     }

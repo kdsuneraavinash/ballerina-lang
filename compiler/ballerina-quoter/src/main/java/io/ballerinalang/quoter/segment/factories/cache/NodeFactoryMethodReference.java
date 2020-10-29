@@ -30,6 +30,8 @@ import java.lang.reflect.Type;
  * Method reference object to cache the parameter types and generic types.
  */
 public class NodeFactoryMethodReference {
+    private static final char DOT_CHAR = '.';
+
     private final Method method;
     private final Type[] parameterTypes;
     private final Type[] parameterGenericTypes;
@@ -70,7 +72,7 @@ public class NodeFactoryMethodReference {
      */
     public String getParameterGeneric(int parameterIndex) {
         String fullParameter = parameterGenericTypes[parameterIndex + offset].getTypeName();
-        int lastDot = fullParameter.lastIndexOf('.');
+        int lastDot = fullParameter.lastIndexOf(DOT_CHAR);
         if (lastDot == -1) {
             throw new QuoterException("Attempted to extract generic type of a parameter without generic type");
         }
