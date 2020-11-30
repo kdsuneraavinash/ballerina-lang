@@ -2,7 +2,7 @@
 
 ## Invoker
 
-![Preprocessor](../docs/sequence.png)
+![Preprocessor](../../docs/sequence.png)
 
 Currently, the approach is as follows. The overview sequence diagram is shown above as well.
 
