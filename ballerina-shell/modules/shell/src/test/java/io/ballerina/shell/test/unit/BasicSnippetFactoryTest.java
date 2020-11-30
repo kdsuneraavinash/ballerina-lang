@@ -34,6 +34,9 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Test snippet factory use cases.
+ */
 public class BasicSnippetFactoryTest {
     private static final String IMPORT_TESTCASES = "testcases/snippet.import.json";
     private static final String EXPRESSION_TESTCASES = "testcases/snippet.expression.json";

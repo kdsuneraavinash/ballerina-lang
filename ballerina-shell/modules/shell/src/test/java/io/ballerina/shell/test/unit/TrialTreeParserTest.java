@@ -23,15 +23,18 @@ import io.ballerina.compiler.syntax.tree.ImportDeclarationNode;
 import io.ballerina.compiler.syntax.tree.ModuleMemberDeclarationNode;
 import io.ballerina.compiler.syntax.tree.Node;
 import io.ballerina.compiler.syntax.tree.StatementNode;
-import io.ballerina.shell.test.TestUtils;
 import io.ballerina.shell.exceptions.TreeParserException;
 import io.ballerina.shell.parser.TreeParser;
 import io.ballerina.shell.parser.TrialTreeParser;
+import io.ballerina.shell.test.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Test tree parser use cases.
+ */
 public class TrialTreeParserTest {
     private static final String STATEMENT_TESTCASES = "testcases/treeparser.statement.json";
     private static final String IMPORT_TESTCASES = "testcases/treeparser.import.json";

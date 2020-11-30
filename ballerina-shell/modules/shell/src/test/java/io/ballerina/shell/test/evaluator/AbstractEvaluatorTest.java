@@ -35,6 +35,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+/**
+ * Base class for evaluator tests.
+ */
 public abstract class AbstractEvaluatorTest {
     private static class TestCaseLine {
         String code;

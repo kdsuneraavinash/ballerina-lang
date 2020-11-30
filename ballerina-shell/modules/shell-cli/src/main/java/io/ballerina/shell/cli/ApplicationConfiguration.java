@@ -25,16 +25,12 @@ import io.ballerina.shell.parser.TrialTreeParser;
 import io.ballerina.shell.preprocessor.SeparatorPreprocessor;
 import io.ballerina.shell.snippet.factory.BasicSnippetFactory;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
  * Configuration that uses command utils to provide options.
  */
 public class ApplicationConfiguration extends Configuration {
-    private static final Path BALLERINA_HOME_PATH = Paths.get("home");
-
     /**
      * Modes to create the evaluator.
      */

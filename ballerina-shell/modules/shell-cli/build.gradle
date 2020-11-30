@@ -23,17 +23,9 @@ description = 'Ballerina - Ballerina Shell CLI'
 group = 'io.ballerina'
 version = '0.0.1-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-    flatDir {
-        dirs "${rootProject.projectDir}/libs"
-    }
-}
-
 dependencies {
     implementation project(":ballerina-shell:shell")
     implementation(group: 'org.jline', name: 'jline', version: '3.17.1')
-    implementation('info.picocli:picocli')
 
     testImplementation('org.testng:testng')
 }
