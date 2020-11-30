@@ -1,0 +1,22 @@
+[
+  {
+    "code": "12",
+    "expr": "12"
+  },
+  {
+    "code": "\"Hello\"",
+    "expr": "\"Hello\""
+  },
+  {
+    "code": "12.3",
+    "expr": "12.3"
+  },
+  {
+    "code": "string `hello world`",
+    "expr": "hello world"
+  },
+  {
+    "code": "false",
+    "expr": "false"
+  }
+]
