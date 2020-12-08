@@ -82,12 +82,11 @@ public class ClassLoadInvoker extends Invoker {
     protected final String contextId;
 
     /**
-     * Creates a class load invoker. Ballerina home should be set first.
+     * Creates a class load invoker from the given ballerina home.
      * Ballerina home should be tha path that contains repo directory.
      * It is expected that the runtime is added in the class path.
      */
     public ClassLoadInvoker() {
-        // TODO: Set ballerina home using system prop.
         this.contextId = UUID.randomUUID().toString();
         this.imports = new HashMap<>();
         this.moduleDclns = new ArrayList<>();
@@ -119,9 +118,16 @@ public class ClassLoadInvoker extends Invoker {
     public Pair<Boolean, Optional<Object>> execute(Snippet newSnippet) throws InvokerException {
         Map<String, String> newVariables = new HashMap<>();
 
-        newSnippet.modify(new GlobalLoadModifier(globalVars));
+        // TODO: Fix the closure bug. Following will not work with isolated functions.
+        // newSnippet.modify(new GlobalLoadModifier(globalVars));
 
         if (newSnippet.isVariableDeclaration()) {
+            assert newSnippet instanceof VariableDeclarationSnippet;
+
+            // If the type can be inferred without compiling, do so.
+            ((VariableDeclarationSnippet) newSnippet).findVariableNamesAndTypes()
+                    .forEach(p -> newVariables.put(quotedIdentifier(p.getFirst()), p.getSecond()));
+
             // This is a variable declaration.
             // So we have to compile once and know the names and types of variables.
             // The reason is some types (var) are determined at compile time.
@@ -134,7 +140,9 @@ public class ClassLoadInvoker extends Invoker {
             for (BLangSimpleVariable variable : compilation.defaultModuleBLangPackage().getGlobalVariables()) {
                 // If the variable is a init var or a known global var, add it.
                 String variableName = quotedIdentifier(variable.name.value);
-                if (!INIT_VAR_NAMES.contains(variableName) && !globalVars.containsKey(variableName)) {
+                if (!INIT_VAR_NAMES.contains(variableName)
+                        && !globalVars.containsKey(variableName)
+                        && !newVariables.containsKey(variableName)) {
                     newVariables.put(variableName, variable.type.toString());
                 }
             }
@@ -142,6 +150,7 @@ public class ClassLoadInvoker extends Invoker {
             // This is an import. A test import is done to check for errors.
             // It should not give 'module not found' error.
             // Only compilation is done to verify package resolution.
+            assert newSnippet instanceof ImportDeclarationSnippet;
             ImportDeclarationSnippet importDcln = (ImportDeclarationSnippet) newSnippet;
 
             ClassLoadContext importCheckingContext = createImportCheckingContext(importDcln);

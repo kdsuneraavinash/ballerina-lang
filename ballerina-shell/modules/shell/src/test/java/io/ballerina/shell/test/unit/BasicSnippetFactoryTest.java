@@ -22,7 +22,6 @@ import io.ballerina.compiler.syntax.tree.Node;
 import io.ballerina.shell.exceptions.SnippetException;
 import io.ballerina.shell.exceptions.TreeParserException;
 import io.ballerina.shell.parser.TreeParser;
-import io.ballerina.shell.parser.TrialTreeParser;
 import io.ballerina.shell.snippet.Snippet;
 import io.ballerina.shell.snippet.SnippetKind;
 import io.ballerina.shell.snippet.factory.BasicSnippetFactory;
@@ -82,7 +81,7 @@ public class BasicSnippetFactoryTest {
         // TODO: Improve this test to check for the sub kinds, errors and ignores
         //  after implementing them in the Snippets.
         List<TestCase> testCases = TestUtils.loadTestCases(fileName, TestCases.class);
-        TreeParser treeParser = new TrialTreeParser();
+        TreeParser treeParser = TestUtils.getTestTreeParser();
         SnippetFactory snippetFactory = new BasicSnippetFactory();
         for (TestCase testCase : testCases) {
             try {

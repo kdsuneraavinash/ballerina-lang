@@ -18,14 +18,12 @@
 
 package io.ballerina.shell.test.evaluator;
 
+import io.ballerina.shell.DiagnosticKind;
 import io.ballerina.shell.Evaluator;
+import io.ballerina.shell.EvaluatorBuilder;
 import io.ballerina.shell.exceptions.BallerinaShellException;
-import io.ballerina.shell.invoker.Invoker;
 import io.ballerina.shell.invoker.classload.ClassLoadInvoker;
 import io.ballerina.shell.invoker.classload.NoExitVmSecManager;
-import io.ballerina.shell.parser.TrialTreeParser;
-import io.ballerina.shell.preprocessor.SeparatorPreprocessor;
-import io.ballerina.shell.snippet.factory.BasicSnippetFactory;
 import io.ballerina.shell.test.TestUtils;
 import org.testng.Assert;
 
@@ -33,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 /**
@@ -40,9 +39,10 @@ import java.util.ArrayList;
  */
 public abstract class AbstractEvaluatorTest {
     private static class TestCaseLine {
+        String description;
         String code;
-        String stdout = "";
         String expr;
+        String stdout = "";
         int exitCode = 0;
     }
 
@@ -51,7 +51,7 @@ public abstract class AbstractEvaluatorTest {
 
     private static class TestInvoker extends ClassLoadInvoker {
         private String output;
-        private int expectingExitCode;
+        private TestCaseLine testCaseLine;
 
         @Override
         protected int invokeMethod(Method method) throws IllegalAccessException {
@@ -62,16 +62,16 @@ public abstract class AbstractEvaluatorTest {
             ByteArrayOutputStream stdOutBaOs = new ByteArrayOutputStream();
             NoExitVmSecManager secManager = new NoExitVmSecManager(System.getSecurityManager());
             try {
-                System.setErr(new PrintStream(new ByteArrayOutputStream()));
-                System.setOut(new PrintStream(stdOutBaOs));
+                System.setErr(new PrintStream(new ByteArrayOutputStream(), true, Charset.defaultCharset()));
+                System.setOut(new PrintStream(stdOutBaOs, true, Charset.defaultCharset()));
                 System.setSecurityManager(secManager);
                 return (int) method.invoke(null, new Object[]{args});
             } catch (InvocationTargetException ignored) {
-                Assert.assertEquals(secManager.getExitCode(), expectingExitCode, "Exit code was unexpected");
-                return 0;
+                Assert.assertEquals(secManager.getExitCode(), testCaseLine.exitCode, testCaseLine.description);
+                return secManager.getExitCode();
             } finally {
                 // Restore everything
-                this.output = new String(stdOutBaOs.toByteArray());
+                this.output = stdOutBaOs.toString(Charset.defaultCharset());
                 System.setSecurityManager(null);
                 System.setErr(stdErr);
                 System.setOut(stdOut);
@@ -81,26 +81,38 @@ public abstract class AbstractEvaluatorTest {
 
     protected void testEvaluate(String fileName) throws BallerinaShellException {
         TestInvoker invoker = getInvoker();
-        Evaluator evaluator = getEvaluator(invoker);
+        Evaluator evaluator = new EvaluatorBuilder()
+                .treeParser(TestUtils.getTestTreeParser())
+                .invoker(invoker).build();
         TestCase testCase = TestUtils.loadTestCases(fileName, TestCase.class);
         for (TestCaseLine testCaseLine : testCase) {
-            invoker.expectingExitCode = testCaseLine.exitCode;
-            String expr = evaluator.evaluate(testCaseLine.code);
-            Assert.assertEquals(invoker.output, testCaseLine.stdout);
-            Assert.assertEquals(expr, testCaseLine.expr);
+            try {
+                invoker.testCaseLine = testCaseLine;
+                String expr = evaluator.evaluate(testCaseLine.code);
+                Assert.assertEquals(invoker.output, testCaseLine.stdout, testCaseLine.description);
+                Assert.assertEquals(expr, testCaseLine.expr, testCaseLine.description);
+            } catch (BallerinaShellException e) {
+                StringBuilder diagnosticsStr = new StringBuilder();
+                evaluator.diagnostics().stream()
+                        .filter(d -> d.getKind() == DiagnosticKind.ERROR)
+                        .map(s -> s + "\n")
+                        .forEach(diagnosticsStr::append);
+                Assert.fail(
+                        "Exception occurred in:" + bracketed(testCaseLine.description) +
+                                "err:" + bracketed(e.getMessage()) +
+                                "diagnostics:" + bracketed(diagnosticsStr));
+                throw e;
+            } finally {
+                evaluator.resetDiagnostics();
+            }
         }
+    }
+
+    protected static String bracketed(Object input) {
+        return " [" + input + "] ";
     }
 
     private TestInvoker getInvoker() {
         return new TestInvoker();
-    }
-
-    private Evaluator getEvaluator(Invoker invoker) {
-        Evaluator evaluator = new Evaluator();
-        evaluator.setSnippetFactory(new BasicSnippetFactory());
-        evaluator.setTreeParser(new TrialTreeParser());
-        evaluator.setPreprocessor(new SeparatorPreprocessor());
-        evaluator.setInvoker(invoker);
-        return evaluator;
     }
 }

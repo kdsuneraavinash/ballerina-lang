@@ -25,7 +25,6 @@ import io.ballerina.compiler.syntax.tree.Node;
 import io.ballerina.compiler.syntax.tree.StatementNode;
 import io.ballerina.shell.exceptions.TreeParserException;
 import io.ballerina.shell.parser.TreeParser;
-import io.ballerina.shell.parser.TrialTreeParser;
 import io.ballerina.shell.test.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -79,7 +78,7 @@ public class TrialTreeParserTest {
 
     private void testParse(String fileName, Class<?> parentClazz) {
         TestCases testCases = TestUtils.loadTestCases(fileName, TestCases.class);
-        TreeParser treeParser = new TrialTreeParser();
+        TreeParser treeParser = TestUtils.getTestTreeParser();
         for (TestCase testCase : testCases) {
             try {
                 Node node = treeParser.parse(testCase.input);
