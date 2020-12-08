@@ -1,6 +1,6 @@
 package io.ballerina.cli.cmd;
 
-import io.ballerina.shell.cli.ApplicationConfiguration;
+import io.ballerina.shell.cli.Configuration;
 import io.ballerina.shell.cli.ReplShellApplication;
 import org.ballerinalang.tool.BLauncherCmd;
 import picocli.CommandLine;
@@ -27,7 +27,8 @@ public class ShellCommand implements BLauncherCmd {
     @Override
     public void execute() {
         try {
-            ReplShellApplication.execute(isDebug, ApplicationConfiguration.EvaluatorMode.CLASSLOAD);
+            Configuration configuration = new Configuration(isDebug, Configuration.EvaluatorMode.DEFAULT);
+            ReplShellApplication.execute(configuration);
         } catch (Exception e) {
             errStream.println("Something went wrong: " + e.getMessage());
         }
