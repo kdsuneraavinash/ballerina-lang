@@ -20,7 +20,6 @@ package org.ballerinalang.testerina.core;
 
 import com.github.difflib.DiffUtils;
 import com.github.difflib.UnifiedDiffUtils;
-import com.github.difflib.algorithm.DiffException;
 import com.github.difflib.patch.Patch;
 import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.values.BArray;
@@ -81,7 +80,7 @@ public class AssertionDiffEvaluator {
             Patch<String> patch = DiffUtils.diff(expectedValueList, getValueList(actual.toString()));
             difference = UnifiedDiffUtils.generateUnifiedDiff("expected", "actual",
                     expectedValueList, patch, MAX_ARG_LENGTH);
-        } catch (DiffException e) {
+        } catch (Exception e) {
             output = "\nWarning: Could not generate diff.";
         }
         if (difference != null) {

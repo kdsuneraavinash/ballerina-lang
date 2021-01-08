@@ -175,7 +175,7 @@ public class InteropValidator {
                 // ignore
             }
         }
-        return new URLClassLoader(dependentJars.toArray(new URL[]{}), ClassLoader.getPlatformClassLoader());
+        return new URLClassLoader(dependentJars.toArray(new URL[]{}), Thread.currentThread().getContextClassLoader());
     }
 
     /**
