@@ -25,7 +25,7 @@ version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation project(":ballerina-shell:shell-core")
-    implementation(group: 'io.github.spencerpark', name: 'jupyter-jvm-basekernel', version: '2.3.0')
+    implementation("io.github.spencerpark:jupyter-jvm-basekernel")
 
     testImplementation('org.testng:testng')
     testImplementation('com.google.code.gson:gson')

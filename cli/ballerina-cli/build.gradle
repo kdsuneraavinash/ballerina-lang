@@ -43,6 +43,7 @@ dependencies {
     implementation project(':testerina:testerina-runtime')
     implementation project(':maven-resolver')
     implementation project(':ballerina-shell:shell-cli')
+    implementation project(':ballerina-shell:shell-jupyter')
 
     testCompile 'org.testng:testng'
     testCompile 'org.mockito:mockito-all'
