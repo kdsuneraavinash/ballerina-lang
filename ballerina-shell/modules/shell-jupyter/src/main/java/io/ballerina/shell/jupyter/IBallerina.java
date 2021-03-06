@@ -1,5 +1,6 @@
 package io.ballerina.shell.jupyter;
 
+import java.io.PrintStream;
 import java.nio.file.Path;
 
 /**
@@ -26,17 +27,17 @@ public interface IBallerina {
     void runJupyterKernel(Path connectionFile) throws Exception;
 
     /**
-     * Pseudo jupyter command to be directly run via Ballerina.
-     * This will be similar to `jupyter ***` call but the notebooks
-     * or other calls will be using iballerina as the kernel.
      * On first run, this will install the iballerina kernel in jupyter.
      * However, for this call to success the user will have to have
      * other prerequisites already installed in the system.
+     * If already installed, this will output instructions on
+     * how to start the instance.
      * <p>
      * This will directly run some shell commands to spin-up the
      * kernels and output instructions if it were to fail.
      *
+     * @param outStream Output stream to use.
      * @throws Exception If running the shell/kernel failed.
      */
-    void jupyter(String... args) throws Exception;
+    void install(PrintStream outStream) throws Exception;
 }

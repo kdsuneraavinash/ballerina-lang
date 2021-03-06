@@ -24,11 +24,11 @@ group = 'io.ballerina'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
+    implementation('com.google.code.gson:gson')
     implementation project(":ballerina-shell:shell-core")
     implementation("io.github.spencerpark:jupyter-jvm-basekernel")
 
     testImplementation('org.testng:testng')
-    testImplementation('com.google.code.gson:gson')
 }
 
 compileJava {

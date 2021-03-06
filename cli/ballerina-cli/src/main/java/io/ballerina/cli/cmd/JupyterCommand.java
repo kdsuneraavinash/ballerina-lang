@@ -23,7 +23,6 @@ import picocli.CommandLine;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.Objects;
 
 import static io.ballerina.cli.cmd.Constants.JUPYTER_COMMAND;
 
@@ -32,18 +31,15 @@ import static io.ballerina.cli.cmd.Constants.JUPYTER_COMMAND;
  *
  * @since 2.0.0
  */
-@CommandLine.Command(name = JUPYTER_COMMAND, description = "Run ballerina Jupyter kernel services")
+@CommandLine.Command(name = JUPYTER_COMMAND, description = "Install/Run ballerina jupyter kernel")
 public class JupyterCommand implements BLauncherCmd {
     private PrintStream errStream;
-
-    @CommandLine.ArgGroup(exclusive = false)
-    private KernelModeGroups kernelModeGroups;
 
     @CommandLine.Option(names = {"--help", "-h", "?"}, hidden = true)
     private boolean helpFlag;
 
-    @CommandLine.Parameters(description = "CLI arguments to jupyter command.")
-    private String[] args;
+    @CommandLine.Option(names = {"-f", "--file"}, description = "Connection file path.")
+    private File file;
 
     public JupyterCommand() {
         errStream = System.err;
@@ -63,13 +59,12 @@ public class JupyterCommand implements BLauncherCmd {
 
         try {
             IBallerina iBallerina = IBallerina.create();
-            if (kernelModeGroups != null && kernelModeGroups.kernelMode) {
-                Objects.requireNonNull(kernelModeGroups.file, "Connection file parameter is required");
-                iBallerina.runJupyterKernel(kernelModeGroups.file.toPath());
+            if (file != null) {
+                iBallerina.runJupyterKernel(file.toPath());
                 return;
             }
 
-            iBallerina.jupyter(args);
+            iBallerina.install(errStream);
         } catch (Exception e) {
             errStream.println(e.getMessage());
         }
@@ -82,23 +77,15 @@ public class JupyterCommand implements BLauncherCmd {
 
     @Override
     public void printLongDesc(StringBuilder out) {
-        out.append("Run ballerina Jupyter kernel services");
+        out.append("Install/Run ballerina jupyter kernel");
     }
 
     @Override
     public void printUsage(StringBuilder out) {
-        out.append("  bal jupyter [-k|--kernel-mode -f|--file <file-name>]\n");
+        out.append("  bal jupyter [-f|--file <file-name>]\n");
     }
 
     @Override
     public void setParentCmdParser(CommandLine parentCmdParser) {
-    }
-
-    private static class KernelModeGroups {
-        @CommandLine.Option(names = {"-k", "--kernel-mode"}, description = "Whether to only run the kernel.")
-        private boolean kernelMode = false;
-
-        @CommandLine.Option(names = {"-f", "--file"}, description = "Connection file path.", required = true)
-        private File file;
     }
 }
