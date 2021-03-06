@@ -1,7 +1,5 @@
 package io.ballerina.shell.jupyter;
 
-import io.ballerina.shell.exceptions.BallerinaShellException;
-
 import java.io.PrintStream;
 
 /**
@@ -27,9 +25,9 @@ public abstract class IBallerinaInstaller {
      * This will directly run some shell commands to spin-up the
      * kernels and output instructions if it were to fail.
      *
-     * @throws BallerinaShellException If running the shell/kernel failed.
+     * @throws Exception If running the shell/kernel failed.
      */
-    public void install() throws BallerinaShellException {
+    public void install() throws Exception {
         preKernelInstall();
         if (!isKernelInstalled()) {
             kernelInstall();
@@ -42,9 +40,9 @@ public abstract class IBallerinaInstaller {
      * For example, this may check if jupyter is installed.
      * If any of the prerequisites are not fulfilled, this call will fail.
      *
-     * @throws BallerinaShellException If requirements are not satisfied.
+     * @throws Exception If requirements are not satisfied.
      */
-    protected abstract void preKernelInstall() throws BallerinaShellException;
+    protected abstract void preKernelInstall() throws Exception;
 
     /**
      * This will check whether the jupyter ballerina kernel is already installed.
@@ -52,18 +50,18 @@ public abstract class IBallerinaInstaller {
      * {@code preKernelInstall} prior to calling this method.
      *
      * @return Whether the kernel is already there.
-     * @throws BallerinaShellException If something went wrong with process calls.
+     * @throws Exception If something went wrong with process calls.
      */
-    protected abstract boolean isKernelInstalled() throws BallerinaShellException;
+    protected abstract boolean isKernelInstalled() throws Exception;
 
     /**
      * Installs the jupyter ballerina kernel. This may create any files/directories
      * necessary for installation. It is required to run
      * {@code preKernelInstall} prior to calling this method.
      *
-     * @throws BallerinaShellException If something went wrong with process calls.
+     * @throws Exception If something went wrong with process calls.
      */
-    protected abstract void kernelInstall() throws BallerinaShellException;
+    protected abstract void kernelInstall() throws Exception;
 
     /**
      * Runs anything that should be done after installation.
