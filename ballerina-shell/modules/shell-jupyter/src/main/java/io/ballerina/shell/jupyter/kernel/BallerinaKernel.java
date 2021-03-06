@@ -6,6 +6,9 @@ import io.ballerina.shell.Evaluator;
 import io.ballerina.shell.EvaluatorBuilder;
 import io.ballerina.shell.exceptions.BallerinaShellException;
 import io.ballerina.shell.jupyter.exceptions.IBallerinaException;
+import io.ballerina.shell.jupyter.magics.MagicCommandManager;
+import io.ballerina.shell.jupyter.magics.impl.ResetMagic;
+import io.ballerina.shell.jupyter.magics.impl.Resettable;
 import io.github.spencerpark.jupyter.kernel.BaseKernel;
 import io.github.spencerpark.jupyter.kernel.LanguageInfo;
 import io.github.spencerpark.jupyter.kernel.display.DisplayData;
@@ -20,17 +23,25 @@ import java.util.stream.Collectors;
  *
  * @since 2.0.0
  */
-public class BallerinaKernel extends BaseKernel {
+public class BallerinaKernel extends BaseKernel implements Resettable {
+    private final MagicCommandManager magicCommandManager;
     private final Evaluator evaluator;
 
     public BallerinaKernel() throws BallerinaShellException {
         this.evaluator = new EvaluatorBuilder().build();
         evaluator.initialize();
+        this.magicCommandManager = new MagicCommandManager();
+        this.magicCommandManager.register(new ResetMagic(this));
     }
 
     @Override
     public DisplayData eval(String expr) throws Exception {
-        return new DisplayData(directEval(expr));
+        String result = directEval(expr);
+        DisplayData displayData = new DisplayData();
+        if (result != null) {
+            displayData.putText(result);
+        }
+        return displayData;
     }
 
     @Override
@@ -49,6 +60,10 @@ public class BallerinaKernel extends BaseKernel {
      */
     protected String directEval(String expr) throws Exception {
         try {
+            String[] args = expr.split(" ");
+            if (magicCommandManager.shouldHandle(args)) {
+                return magicCommandManager.handle(args);
+            }
             return evaluator.evaluate(expr);
         } catch (BallerinaShellException e) {
             if (evaluator.hasErrors()) {
@@ -72,5 +87,11 @@ public class BallerinaKernel extends BaseKernel {
                     .collect(Collectors.toList());
         }
         return super.formatError(e);
+    }
+
+    @Override
+    public void reset() throws BallerinaShellException {
+        evaluator.reset();
+        evaluator.initialize();
     }
 }
