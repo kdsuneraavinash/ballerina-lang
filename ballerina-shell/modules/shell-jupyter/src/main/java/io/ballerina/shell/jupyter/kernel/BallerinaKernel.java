@@ -1,11 +1,17 @@
 package io.ballerina.shell.jupyter.kernel;
 
+import io.ballerina.shell.Diagnostic;
+import io.ballerina.shell.DiagnosticKind;
 import io.ballerina.shell.Evaluator;
 import io.ballerina.shell.EvaluatorBuilder;
 import io.ballerina.shell.exceptions.BallerinaShellException;
+import io.ballerina.shell.jupyter.exceptions.IBallerinaException;
 import io.github.spencerpark.jupyter.kernel.BaseKernel;
 import io.github.spencerpark.jupyter.kernel.LanguageInfo;
 import io.github.spencerpark.jupyter.kernel.display.DisplayData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Ballerina Kernel base class.
@@ -42,6 +48,30 @@ public class BallerinaKernel extends BaseKernel {
      * @throws Exception If expression contains errors.
      */
     protected String directEval(String expr) throws Exception {
-        return evaluator.evaluate(expr);
+        try {
+            return evaluator.evaluate(expr);
+        } catch (BallerinaShellException e) {
+            if (evaluator.hasErrors()) {
+                List<Diagnostic> diagnostics = new ArrayList<>(evaluator.diagnostics());
+                evaluator.resetDiagnostics();
+                throw new IBallerinaException(diagnostics, e);
+            }
+            throw e;
+        }
+    }
+
+    @Override
+    public List<String> formatError(Exception e) {
+        if (e instanceof IBallerinaException) {
+            IBallerinaException iBallerinaException = (IBallerinaException) e;
+            List<String> formattedErrors = new ArrayList<>();
+            for (Diagnostic diagnostic : iBallerinaException.getDiagnostics()) {
+                if (DiagnosticKind.ERROR.equals(diagnostic.getKind())) {
+                    formattedErrors.add(errorStyler.secondary(diagnostic.toString()));
+                }
+            }
+            return formattedErrors;
+        }
+        return super.formatError(e);
     }
 }
