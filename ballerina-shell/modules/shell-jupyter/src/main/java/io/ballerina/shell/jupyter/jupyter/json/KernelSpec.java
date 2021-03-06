@@ -17,12 +17,12 @@ public class KernelSpec {
     @SerializedName("display_name")
     @Expose
     private String displayName;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("language")
     @Expose
     private String language;
-    @SerializedName("interrupt_mode")
-    @Expose
-    private String interruptMode;
 
     public List<String> getArgv() {
         return argv;
@@ -48,11 +48,11 @@ public class KernelSpec {
         this.language = language;
     }
 
-    public String getInterruptMode() {
-        return interruptMode;
+    public String getName() {
+        return name;
     }
 
-    public void setInterruptMode(String interruptMode) {
-        this.interruptMode = interruptMode;
+    public void setName(String name) {
+        this.name = name;
     }
 }
