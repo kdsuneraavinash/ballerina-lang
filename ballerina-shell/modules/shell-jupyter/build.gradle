@@ -47,7 +47,7 @@ test {
     }
 }
 
-def mainCliClass = 'io.ballerina.shell.jupyter.IBallerinaRunner'
+def mainCliClass = 'io.ballerina.shell.jupyter.IBallerina'
 task fatJar(type: Jar) {
     dependsOn loadDistributionCache
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

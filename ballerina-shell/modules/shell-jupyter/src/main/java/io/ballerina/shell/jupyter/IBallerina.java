@@ -12,7 +12,7 @@ import java.util.logging.Level;
 /**
  * The entry point for Ballerina Shell Kernel.
  */
-public class IBallerinaRunner {
+public class IBallerina {
     private static BallerinaKernel kernel = null;
 
     /**
@@ -24,20 +24,16 @@ public class IBallerinaRunner {
      * one has not yet (or already created and finished) been created.
      */
     public static BallerinaKernel getKernelInstance() {
-        return IBallerinaRunner.kernel;
+        return IBallerina.kernel;
     }
 
-    public static void main(String[] args) throws Exception {
-        // The first argument must contain the connection file
-        // required to connect.
-        if (args.length < 1) {
-            throw new IllegalArgumentException("Missing connection file argument");
-        }
-        Path connectionFile = Paths.get(args[0]);
-        if (!Files.isRegularFile(connectionFile)) {
-            throw new IllegalArgumentException("Connection file '" + connectionFile + "' isn't a file.");
-        }
-
+    /**
+     * Run the jupyter Ballerina kernel via the connection file.
+     *
+     * @param connectionFile Connection file.
+     * @throws Exception If running the shell failed.
+     */
+    public static void run(Path connectionFile) throws Exception {
         // Create the jupyter connection.
         String contents = new String(Files.readAllBytes(connectionFile));
         JupyterSocket.JUPYTER_LOGGER.setLevel(Level.WARNING);
@@ -52,6 +48,18 @@ public class IBallerinaRunner {
 
         // Dispose of kernel.
         kernel = null;
-        System.exit(0);
+    }
+
+    public static void main(String[] args) throws Exception {
+        // The first argument must contain the connection file
+        // required to connect.
+        if (args.length < 1) {
+            throw new IllegalArgumentException("Missing connection file argument");
+        }
+        Path connectionFile = Paths.get(args[0]);
+        if (!Files.isRegularFile(connectionFile)) {
+            throw new IllegalArgumentException("Connection file '" + connectionFile + "' isn't a file.");
+        }
+        run(connectionFile);
     }
 }
