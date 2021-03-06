@@ -19,6 +19,7 @@ package io.ballerina.cli.cmd;
 
 import io.ballerina.cli.BLauncherCmd;
 import io.ballerina.shell.jupyter.IBallerina;
+import io.ballerina.shell.jupyter.IBallerinaInstaller;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -58,13 +59,13 @@ public class JupyterCommand implements BLauncherCmd {
         }
 
         try {
-            IBallerina iBallerina = IBallerina.create();
             if (file != null) {
-                iBallerina.runJupyterKernel(file.toPath());
-                return;
+                IBallerina iBallerina = IBallerina.create();
+                iBallerina.run(file.toPath());
+            } else {
+                IBallerinaInstaller iBallerinaInstaller = IBallerinaInstaller.create(errStream);
+                iBallerinaInstaller.install();
             }
-
-            iBallerina.install(errStream);
         } catch (Exception e) {
             errStream.println(e.getMessage());
         }
