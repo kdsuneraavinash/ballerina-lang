@@ -50,4 +50,4 @@ BALLERINA COMMANDS
         version         Print Ballerina version
         bindgen         Generate Ballerina bindings for Java APIs
         shell           Run ballerina interactive REPL [EXPERIMENTAL]
-        run-kernel      Run iballerina jupyter kernel [EXPERIMENTAL]
+        jupyter         Run iballerina jupyter kernel services [EXPERIMENTAL]

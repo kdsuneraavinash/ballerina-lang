@@ -1,0 +1,22 @@
+NAME
+       ballerina-jupyter - Run iballerina jupyter kernel services
+
+SYNOPSIS
+       bal jupyter [-k|--kernel-mode -f|--file <file-name>]
+
+DESCRIPTION
+       Executes commands to run jupyter commands via iBallerina kernel.
+       If run in kernel mode, shell runs only a iBallerina kernel instance that can be
+       connected with a Jupyter Notebook Client using a connection file.
+
+       Please note that this is an experimental feature.
+
+OPTIONS
+       --kernel-mode
+           Whether to run in kernel mode.
+       --file
+           Connection file to use. Only used in kernel mode.
+
+EXAMPLES
+       Run iballerina kernel.
+          $ bal run-kernel -k -f filename

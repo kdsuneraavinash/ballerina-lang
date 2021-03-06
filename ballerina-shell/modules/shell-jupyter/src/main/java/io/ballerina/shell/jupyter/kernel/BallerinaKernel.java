@@ -1,4 +1,4 @@
-package io.ballerina.shell.jupyter;
+package io.ballerina.shell.jupyter.kernel;
 
 import io.ballerina.shell.Evaluator;
 import io.ballerina.shell.EvaluatorBuilder;
@@ -9,6 +9,10 @@ import io.github.spencerpark.jupyter.kernel.display.DisplayData;
 
 /**
  * The Ballerina Kernel base class.
+ * This will be the kernel that will connect to shell core to
+ * run the expression evaluations.
+ *
+ * @since 2.0.0
  */
 public class BallerinaKernel extends BaseKernel {
     private final Evaluator evaluator;
