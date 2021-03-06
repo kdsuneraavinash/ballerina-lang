@@ -57,7 +57,7 @@ class IBallerinaInstallerImpl extends IBallerinaInstaller {
                         .get(BALLERINA_KERNEL_NAME).getResourceDir();
                 return Files.exists(Paths.get(resourceDir));
             }
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException e) {
             throw new IBallerinaCmdException("" +
                     "Command failed because: " + e.getMessage() + "\n" +
                     "Seems like you don't have jupyter installed correctly.\n" +
@@ -90,12 +90,12 @@ class IBallerinaInstallerImpl extends IBallerinaInstaller {
             Path kernelDirectory = tmpDirectory.resolve(BALLERINA_KERNEL_NAME);
             Files.createDirectory(kernelDirectory);
             Path kernelFile = kernelDirectory.resolve("kernel.json");
-            try (FileWriter fileWriter = new FileWriter(kernelFile.toFile())) {
+            try (FileWriter fileWriter = new FileWriter(kernelFile.toFile(), Charset.defaultCharset())) {
                 fileWriter.write(iBallerinaJson);
             }
             runCommand("jupyter", "kernelspec", "install", "--user",
                     kernelDirectory.toAbsolutePath().toString());
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException e) {
             throw new IBallerinaCmdException("" +
                     "Kernel installation failed: " + e.toString() + "\n" +
                     "Seems like you don't have jupyter/ballerina installed correctly.\n" +
@@ -146,9 +146,8 @@ class IBallerinaInstallerImpl extends IBallerinaInstaller {
      * @return Stream content.
      */
     private String getStreamContent(InputStream inputStream) {
-        try (Scanner scanner = new Scanner(inputStream,
-                Charset.defaultCharset()).useDelimiter(SPECIAL_DELIMITER)) {
-            return scanner.next();
-        }
+        Scanner scanner = new Scanner(inputStream,
+                Charset.defaultCharset()).useDelimiter(SPECIAL_DELIMITER);
+        return scanner.next();
     }
 }

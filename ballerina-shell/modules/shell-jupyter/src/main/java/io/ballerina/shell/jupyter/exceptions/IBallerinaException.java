@@ -1,6 +1,5 @@
 package io.ballerina.shell.jupyter.exceptions;
 
-import io.ballerina.shell.Diagnostic;
 import io.ballerina.shell.exceptions.BallerinaShellException;
 
 import java.util.List;
@@ -11,14 +10,14 @@ import java.util.List;
  * @since 2.0.0
  */
 public class IBallerinaException extends BallerinaShellException {
-    private final List<Diagnostic> diagnostics;
+    private final List<String> errorDiagnostics;
 
-    public IBallerinaException(List<Diagnostic> diagnostics, Throwable e) {
+    public IBallerinaException(List<String> errorDiagnostics, Throwable e) {
         super(e);
-        this.diagnostics = diagnostics;
+        this.errorDiagnostics = errorDiagnostics;
     }
 
-    public List<Diagnostic> getDiagnostics() {
-        return diagnostics;
+    public List<String> getErrorDiagnostics() {
+        return errorDiagnostics;
     }
 }

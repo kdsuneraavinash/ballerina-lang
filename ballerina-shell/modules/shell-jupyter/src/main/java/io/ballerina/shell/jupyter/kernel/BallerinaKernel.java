@@ -10,8 +10,8 @@ import io.github.spencerpark.jupyter.kernel.BaseKernel;
 import io.github.spencerpark.jupyter.kernel.LanguageInfo;
 import io.github.spencerpark.jupyter.kernel.display.DisplayData;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The Ballerina Kernel base class.
@@ -52,7 +52,10 @@ public class BallerinaKernel extends BaseKernel {
             return evaluator.evaluate(expr);
         } catch (BallerinaShellException e) {
             if (evaluator.hasErrors()) {
-                List<Diagnostic> diagnostics = new ArrayList<>(evaluator.diagnostics());
+                List<String> diagnostics = evaluator.diagnostics().stream()
+                        .filter(d -> DiagnosticKind.ERROR.equals(d.getKind()))
+                        .map(Diagnostic::toString)
+                        .collect(Collectors.toList());
                 evaluator.resetDiagnostics();
                 throw new IBallerinaException(diagnostics, e);
             }
@@ -64,13 +67,9 @@ public class BallerinaKernel extends BaseKernel {
     public List<String> formatError(Exception e) {
         if (e instanceof IBallerinaException) {
             IBallerinaException iBallerinaException = (IBallerinaException) e;
-            List<String> formattedErrors = new ArrayList<>();
-            for (Diagnostic diagnostic : iBallerinaException.getDiagnostics()) {
-                if (DiagnosticKind.ERROR.equals(diagnostic.getKind())) {
-                    formattedErrors.add(errorStyler.secondary(diagnostic.toString()));
-                }
-            }
-            return formattedErrors;
+            return iBallerinaException.getErrorDiagnostics().stream()
+                    .map(errorStyler::secondary)
+                    .collect(Collectors.toList());
         }
         return super.formatError(e);
     }

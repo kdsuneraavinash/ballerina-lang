@@ -5,6 +5,7 @@ import io.github.spencerpark.jupyter.channels.JupyterConnection;
 import io.github.spencerpark.jupyter.channels.JupyterSocket;
 import io.github.spencerpark.jupyter.kernel.KernelConnectionProperties;
 
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Level;
@@ -18,7 +19,7 @@ class IBallerinaImpl implements IBallerina {
     @Override
     public void run(Path connectionFile) throws Exception {
         // Create the jupyter connection.
-        String contents = new String(Files.readAllBytes(connectionFile));
+        String contents = Files.readString(connectionFile, Charset.defaultCharset());
         JupyterSocket.JUPYTER_LOGGER.setLevel(Level.WARNING);
         KernelConnectionProperties connProps = KernelConnectionProperties.parse(contents);
         JupyterConnection connection = new JupyterConnection(connProps);
