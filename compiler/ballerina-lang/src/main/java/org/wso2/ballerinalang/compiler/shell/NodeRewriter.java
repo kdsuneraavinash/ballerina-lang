@@ -21,6 +21,7 @@ package org.wso2.ballerinalang.compiler.shell;
 import org.ballerinalang.model.clauses.OnClauseNode;
 import org.ballerinalang.model.clauses.OrderKeyNode;
 import org.ballerinalang.model.tree.expressions.ExpressionNode;
+import org.ballerinalang.model.tree.expressions.RecordLiteralNode;
 import org.ballerinalang.model.tree.statements.VariableDefinitionNode;
 import org.wso2.ballerinalang.compiler.tree.BLangAnnotation;
 import org.wso2.ballerinalang.compiler.tree.BLangAnnotationAttachment;
@@ -1245,7 +1246,15 @@ public abstract class NodeRewriter extends BLangNodeVisitor {
 
     @Override
     public void visit(BLangRecordLiteral.BLangMapLiteral node) {
-        // Ignore
+        List<RecordLiteralNode.RecordField> fields = node.fields;
+        for (int i = 0, fieldsSize = fields.size(); i < fieldsSize; i++) {
+            RecordLiteralNode.RecordField recordField = fields.get(i);
+            if (recordField instanceof BLangRecordLiteral.BLangRecordKeyValueField) {
+                recordField = rewrite((BLangRecordLiteral.BLangRecordKeyValueField) recordField);
+            }
+            fields.set(i, recordField);
+        }
+        node.fields = fields;
     }
 
     @Override

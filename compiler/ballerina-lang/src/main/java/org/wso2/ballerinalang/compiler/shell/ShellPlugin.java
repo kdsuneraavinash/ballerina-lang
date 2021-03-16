@@ -22,6 +22,7 @@ import org.ballerinalang.compiler.CompilerPhase;
 import org.wso2.ballerinalang.compiler.semantics.analyzer.Types;
 import org.wso2.ballerinalang.compiler.semantics.model.SymbolTable;
 import org.wso2.ballerinalang.compiler.semantics.model.symbols.BInvokableSymbol;
+import org.wso2.ballerinalang.compiler.tree.BLangBlockFunctionBody;
 import org.wso2.ballerinalang.compiler.tree.BLangFunction;
 import org.wso2.ballerinalang.compiler.tree.BLangPackage;
 import org.wso2.ballerinalang.compiler.tree.expressions.BLangExpression;
@@ -29,11 +30,14 @@ import org.wso2.ballerinalang.compiler.tree.expressions.BLangSimpleVarRef;
 import org.wso2.ballerinalang.compiler.tree.statements.BLangAssignment;
 import org.wso2.ballerinalang.compiler.tree.statements.BLangExpressionStmt;
 import org.wso2.ballerinalang.compiler.tree.statements.BLangSimpleVariableDef;
+import org.wso2.ballerinalang.compiler.tree.statements.BLangStatement;
 import org.wso2.ballerinalang.compiler.util.CompilerContext;
 import org.wso2.ballerinalang.compiler.util.CompilerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.ballerinalang.compiler.CompilerOptionName.SHELL_MODE;
 
@@ -109,7 +113,7 @@ public class ShellPlugin extends NodeRewriter {
         // Prepare parameters of the invocation
         ArrayList<BLangExpression> parameters = new ArrayList<>();
         parameters.add(NodeUtils.createStringLiteral(symTable, variable.varSymbol.name.value));
-        parameters.add(NodeUtils.createTypeCastExpr(rewrite(expression), symTable.anyOrErrorType));
+        parameters.add(NodeUtils.createTypeCastExpr(expression, symTable.anyOrErrorType));
 
         // Statement with the memorize invocation: MEM(a, b)
         BLangExpression memorizeExpr = NodeUtils.createInvocation(memorizeFunction, parameters);
@@ -151,6 +155,16 @@ public class ShellPlugin extends NodeRewriter {
     }
 
     /**
+     * @return whether the expression is a package variable reference.
+     */
+    private boolean isProcessablePkgVariable(BLangExpression varRef) {
+        if (varRef instanceof BLangSimpleVarRef.BLangPackageVarRef) {
+            return shouldProcessPkgVariable((BLangSimpleVarRef.BLangPackageVarRef) varRef);
+        }
+        return false;
+    }
+
+    /**
      * All the functions, except for ones starting with
      * {@code ..<init>} are processed.
      *
@@ -185,6 +199,37 @@ public class ShellPlugin extends NodeRewriter {
                 && memorizeFunction != null;
     }
 
+    /**
+     * Rewrite generated init functions. The package variables defined inside
+     * would be appended to the end of function as MEMORIZE calls.
+     *
+     * @param initFunction Init function to process.
+     */
+    public void rewriteInitFunction(BLangFunction initFunction) {
+        if (initFunction == null) {
+            return;
+        }
+        if (!(initFunction.body instanceof BLangBlockFunctionBody)) {
+            return;
+        }
+
+        // Find all the variables initialized inside the init.
+        BLangBlockFunctionBody initFunctionBody = (BLangBlockFunctionBody) initFunction.body;
+        Set<BLangSimpleVarRef.BLangPackageVarRef> varRefs = initFunctionBody.stmts.stream()
+                .filter(stmt -> stmt instanceof BLangAssignment)
+                .map(stmt -> (BLangAssignment) stmt)
+                .filter(bLangAssignment -> isProcessablePkgVariable(bLangAssignment.varRef))
+                .map(bLangAssignment -> (BLangSimpleVarRef.BLangPackageVarRef) bLangAssignment.varRef)
+                .collect(Collectors.toSet());
+
+        // Add all MEMORIZE calls at the end of the body, just before return statement.
+        BLangStatement returnStmt = initFunctionBody.stmts.remove(initFunctionBody.stmts.size() - 1);
+        for (BLangSimpleVarRef.BLangPackageVarRef varRef : varRefs) {
+            initFunctionBody.addStatement(memorizeInvocation(varRef, varRef));
+        }
+        initFunctionBody.addStatement(returnStmt);
+    }
+
     // Visitor overrides
 
     @Override
@@ -199,6 +244,16 @@ public class ShellPlugin extends NodeRewriter {
             return;
         }
 
+        // Rewrite init functions (.<init> and ..<init>N) to add memorize("a", a) to the end
+        // for any global variable that is initialized in the init function
+        // since that change will not be reflected in the global memory.
+        rewriteInitFunction(pkgNode.initFunction);
+        for (BLangFunction function : pkgNode.functions) {
+            if (function.name.value.startsWith(INIT_FUNCTION_PREFIX)) {
+                rewriteInitFunction(function);
+            }
+        }
+
         super.visit(pkgNode);
         pkgNode.completedPhases.add(CompilerPhase.SHELL_PLUGIN);
     }
@@ -206,12 +261,10 @@ public class ShellPlugin extends NodeRewriter {
     @Override
     public void visit(BLangAssignment assignNode) {
         // Replace assignments with MEM("x", expr) nodes
-        if (assignNode.varRef instanceof BLangSimpleVarRef.BLangPackageVarRef) {
+        if (isProcessablePkgVariable(assignNode.varRef)) {
             BLangSimpleVarRef.BLangPackageVarRef varRef = (BLangSimpleVarRef.BLangPackageVarRef) assignNode.varRef;
-            if (shouldProcessPkgVariable(varRef)) {
-                result = memorizeInvocation(varRef, assignNode.expr);
-                return;
-            }
+            result = memorizeInvocation(varRef, rewrite(assignNode.expr));
+            return;
         }
         super.visit(assignNode);
     }
@@ -221,11 +274,6 @@ public class ShellPlugin extends NodeRewriter {
         if (shouldProcessPkgVariable(packageVarRef)) {
             result = recallInvocation(packageVarRef);
         }
-    }
-
-    @Override
-    public void visit(BLangSimpleVariableDef varDefNode) {
-        // Do not visit children, otherwise var ref can get written on
     }
 
     @Override
