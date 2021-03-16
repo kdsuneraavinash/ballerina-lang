@@ -178,8 +178,6 @@ public class ClassLoadInvoker extends ShellSnippetsInvoker {
 
         newImports.clear();
 
-        // TODO: (#28036) Fix the closure bug.
-
         Map<VariableDeclarationSnippet, Set<QuotedIdentifier>> variableDeclarations = new HashMap<>();
         Map<QuotedIdentifier, ModuleMemberDeclarationSnippet> moduleDeclarations = new HashMap<>();
         List<ExecutableSnippet> executableSnippets = new ArrayList<>();

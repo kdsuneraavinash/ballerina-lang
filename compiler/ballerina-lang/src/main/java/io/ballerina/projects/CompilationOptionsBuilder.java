@@ -91,6 +91,6 @@ class CompilationOptionsBuilder {
 
     public CompilationOptions build() {
         return new CompilationOptions(skipTests, buildOffline, experimental, observabilityIncluded, dumpBir,
-                dumpBirFile, cloud, taintCheck, listConflictedClasses);
+                dumpBirFile, cloud, taintCheck, listConflictedClasses, shellMode);
     }
 }

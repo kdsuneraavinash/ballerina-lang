@@ -50,10 +50,10 @@ import static org.ballerinalang.compiler.CompilerOptionName.SHELL_MODE;
 public class ShellPlugin extends NodeRewriter {
     private static final CompilerContext.Key<ShellPlugin> SHELL_PLUGIN_KEY = new CompilerContext.Key<>();
     private static final String INIT_FUNCTION_PREFIX = "..<init>";
-    private static final String RECALL_ANY_NAME = "recall_any";
-    private static final String RECALL_ANY_ERROR_NAME = "recall_any_error";
-    private static final String MEMORIZE_NAME = "memorize_h";
-    private static final String CONTEXT_ID_NAME = "context_id";
+    private static final String RECALL_ANY_NAME = "__recall_any";
+    private static final String RECALL_ANY_ERROR_NAME = "__recall_any_error";
+    private static final String MEMORIZE_NAME = "__memorize";
+    private static final String CONTEXT_ID_NAME = "__last__";
     private static final String DOLLAR = "$";
 
     private final SymbolTable symTable;

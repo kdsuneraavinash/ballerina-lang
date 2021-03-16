@@ -207,7 +207,8 @@ public abstract class ShellSnippetsInvoker extends DiagnosticReporter {
     protected Project getProject(String source, boolean isOffline) throws InvokerException {
         try {
             File mainBal = writeToFile(source);
-            BuildOptions buildOptions = new BuildOptionsBuilder().offline(isOffline).build();
+            BuildOptions buildOptions = new BuildOptionsBuilder()
+                    .offline(isOffline).shellMode(true).build();
             return SingleFileProject.load(mainBal.toPath(), buildOptions);
         } catch (IOException e) {
             addErrorDiagnostic("File writing failed: " + e.getMessage());
