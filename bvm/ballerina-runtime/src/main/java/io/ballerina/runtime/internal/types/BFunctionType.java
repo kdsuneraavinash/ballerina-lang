@@ -22,6 +22,7 @@ import io.ballerina.runtime.api.TypeTags;
 import io.ballerina.runtime.api.flags.SymbolFlags;
 import io.ballerina.runtime.api.types.FunctionType;
 import io.ballerina.runtime.api.types.Type;
+import io.ballerina.runtime.api.utils.IdentifierUtils;
 
 import java.util.Arrays;
 
@@ -42,6 +43,13 @@ public class BFunctionType extends BAnnotatableType implements FunctionType {
         this.paramTypes = new Type[0];
         this.retType = PredefinedTypes.TYPE_NULL;
         this.flags = 0;
+    }
+
+    public BFunctionType(long flags) {
+        super("function", null, Object.class);
+        this.paramTypes = null;
+        this.retType = null;
+        this.flags = flags;
     }
 
     public BFunctionType(Type[] paramTypes, Type restType, Type retType, long flags) {
@@ -141,7 +149,7 @@ public class BFunctionType extends BAnnotatableType implements FunctionType {
 
     @Override
     public String getAnnotationKey() {
-        return this.typeName;
+        return IdentifierUtils.decodeIdentifier(this.typeName);
     }
 
     @Override

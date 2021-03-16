@@ -870,6 +870,7 @@ public abstract class STTreeModifier extends STNodeTransformer<STNode> {
     public STModuleVariableDeclarationNode transform(
             STModuleVariableDeclarationNode moduleVariableDeclarationNode) {
         STNode metadata = modifyNode(moduleVariableDeclarationNode.metadata);
+        STNode visibilityQualifier = modifyNode(moduleVariableDeclarationNode.visibilityQualifier);
         STNode qualifiers = modifyNode(moduleVariableDeclarationNode.qualifiers);
         STNode typedBindingPattern = modifyNode(moduleVariableDeclarationNode.typedBindingPattern);
         STNode equalsToken = modifyNode(moduleVariableDeclarationNode.equalsToken);
@@ -877,6 +878,7 @@ public abstract class STTreeModifier extends STNodeTransformer<STNode> {
         STNode semicolonToken = modifyNode(moduleVariableDeclarationNode.semicolonToken);
         return moduleVariableDeclarationNode.modify(
                 metadata,
+                visibilityQualifier,
                 qualifiers,
                 typedBindingPattern,
                 equalsToken,
@@ -2290,12 +2292,10 @@ public abstract class STTreeModifier extends STNodeTransformer<STNode> {
             STListMatchPatternNode listMatchPatternNode) {
         STNode openBracket = modifyNode(listMatchPatternNode.openBracket);
         STNode matchPatterns = modifyNode(listMatchPatternNode.matchPatterns);
-        STNode restMatchPattern = modifyNode(listMatchPatternNode.restMatchPattern);
         STNode closeBracket = modifyNode(listMatchPatternNode.closeBracket);
         return listMatchPatternNode.modify(
                 openBracket,
                 matchPatterns,
-                restMatchPattern,
                 closeBracket);
     }
 
@@ -2316,12 +2316,10 @@ public abstract class STTreeModifier extends STNodeTransformer<STNode> {
             STMappingMatchPatternNode mappingMatchPatternNode) {
         STNode openBraceToken = modifyNode(mappingMatchPatternNode.openBraceToken);
         STNode fieldMatchPatterns = modifyNode(mappingMatchPatternNode.fieldMatchPatterns);
-        STNode restMatchPattern = modifyNode(mappingMatchPatternNode.restMatchPattern);
         STNode closeBraceToken = modifyNode(mappingMatchPatternNode.closeBraceToken);
         return mappingMatchPatternNode.modify(
                 openBraceToken,
                 fieldMatchPatterns,
-                restMatchPattern,
                 closeBraceToken);
     }
 
@@ -2402,17 +2400,57 @@ public abstract class STTreeModifier extends STNodeTransformer<STNode> {
     }
 
     @Override
-    public STDocumentationReferenceNode transform(
-            STDocumentationReferenceNode documentationReferenceNode) {
-        STNode referenceType = modifyNode(documentationReferenceNode.referenceType);
-        STNode startBacktick = modifyNode(documentationReferenceNode.startBacktick);
-        STNode backtickContent = modifyNode(documentationReferenceNode.backtickContent);
-        STNode endBacktick = modifyNode(documentationReferenceNode.endBacktick);
-        return documentationReferenceNode.modify(
+    public STBallerinaNameReferenceNode transform(
+            STBallerinaNameReferenceNode ballerinaNameReferenceNode) {
+        STNode referenceType = modifyNode(ballerinaNameReferenceNode.referenceType);
+        STNode startBacktick = modifyNode(ballerinaNameReferenceNode.startBacktick);
+        STNode nameReference = modifyNode(ballerinaNameReferenceNode.nameReference);
+        STNode endBacktick = modifyNode(ballerinaNameReferenceNode.endBacktick);
+        return ballerinaNameReferenceNode.modify(
                 referenceType,
                 startBacktick,
-                backtickContent,
+                nameReference,
                 endBacktick);
+    }
+
+    @Override
+    public STInlineCodeReferenceNode transform(
+            STInlineCodeReferenceNode inlineCodeReferenceNode) {
+        STNode startBacktick = modifyNode(inlineCodeReferenceNode.startBacktick);
+        STNode codeReference = modifyNode(inlineCodeReferenceNode.codeReference);
+        STNode endBacktick = modifyNode(inlineCodeReferenceNode.endBacktick);
+        return inlineCodeReferenceNode.modify(
+                startBacktick,
+                codeReference,
+                endBacktick);
+    }
+
+    @Override
+    public STMarkdownCodeBlockNode transform(
+            STMarkdownCodeBlockNode markdownCodeBlockNode) {
+        STNode startLineHashToken = modifyNode(markdownCodeBlockNode.startLineHashToken);
+        STNode startBacktick = modifyNode(markdownCodeBlockNode.startBacktick);
+        STNode langAttribute = modifyNode(markdownCodeBlockNode.langAttribute);
+        STNode codeLines = modifyNode(markdownCodeBlockNode.codeLines);
+        STNode endLineHashToken = modifyNode(markdownCodeBlockNode.endLineHashToken);
+        STNode endBacktick = modifyNode(markdownCodeBlockNode.endBacktick);
+        return markdownCodeBlockNode.modify(
+                startLineHashToken,
+                startBacktick,
+                langAttribute,
+                codeLines,
+                endLineHashToken,
+                endBacktick);
+    }
+
+    @Override
+    public STMarkdownCodeLineNode transform(
+            STMarkdownCodeLineNode markdownCodeLineNode) {
+        STNode hashToken = modifyNode(markdownCodeLineNode.hashToken);
+        STNode codeDescription = modifyNode(markdownCodeLineNode.codeDescription);
+        return markdownCodeLineNode.modify(
+                hashToken,
+                codeDescription);
     }
 
     @Override

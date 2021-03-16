@@ -33,17 +33,15 @@ public class GlobalVarNegativeTest {
     public void testGlobalVarNegatives() {
         CompileResult resultNegative = BCompileUtil.compile(
                 "test-src/statements/variabledef/global_variable_negative.bal");
-        Assert.assertEquals(resultNegative.getErrorCount(), 9);
+        Assert.assertEquals(resultNegative.getErrorCount(), 7);
         int i = 0;
         BAssertUtil.validateError(resultNegative, i++, "missing non-defaultable required record field 'x'", 22, 12);
         BAssertUtil.validateError(resultNegative, i++, "invalid character ':' in field access expression", 23, 15);
-        BAssertUtil.validateError(resultNegative, i++, "invalid qualifier 'public'", 27, 8);
-        BAssertUtil.validateError(resultNegative, i++, "invalid qualifier 'public'", 29, 8);
-        BAssertUtil.validateError(resultNegative, i++, "missing equal token", 31, 46);
-        BAssertUtil.validateError(resultNegative, i++, "missing identifier", 31, 46);
-        BAssertUtil.validateError(resultNegative, i++, "missing equal token", 33, 59);
-        BAssertUtil.validateError(resultNegative, i++, "missing identifier", 33, 59);
-        BAssertUtil.validateError(resultNegative, i++, "invalid cyclic type reference in '[Listener, Listener]'", 35,
+        BAssertUtil.validateError(resultNegative, i++, "missing equal token", 27, 46);
+        BAssertUtil.validateError(resultNegative, i++, "missing identifier", 27, 46);
+        BAssertUtil.validateError(resultNegative, i++, "missing equal token", 29, 59);
+        BAssertUtil.validateError(resultNegative, i++, "missing identifier", 29, 59);
+        BAssertUtil.validateError(resultNegative, i++, "invalid cyclic type reference in '[Listener, Listener]'", 31,
                 1);
     }
 
@@ -84,10 +82,10 @@ public class GlobalVarNegativeTest {
         BAssertUtil.validateError(result, i++, "configurable variable cannot be declared with var", 20, 1);
         BAssertUtil.validateError(result, i++, "type of configurable variable must be anydata&readonly", 22, 22);
         BAssertUtil.validateError(result, i++, "type of configurable variable must be anydata&readonly", 24, 14);
-        BAssertUtil.validateError(result, i++, "missing close brace token", 31, 1);
-        BAssertUtil.validateError(result, i++, "invalid token '}'", 35, 1);
+        BAssertUtil.validateError(result, i++, "missing close brace token", 27, 1);
+        BAssertUtil.validateError(result, i++, "invalid token '}'", 31, 1);
         BAssertUtil.validateError(result, i++, "configurable variable currently not supported for " +
-                "'(Person & readonly)'", 35, 14);
+                "'(xml & readonly)'", 31, 14);
         Assert.assertEquals(result.getErrorCount(), i);
     }
 }

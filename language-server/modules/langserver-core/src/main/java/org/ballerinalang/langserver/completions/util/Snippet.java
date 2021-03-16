@@ -100,7 +100,9 @@ public enum Snippet {
 //
 //    DEF_RESOURCE_WEBSUB_NOTIFY(SnippetGenerator.getWebSubResourceOnNotificationSnippet()),
 
-    DEF_SERVICE(SnippetGenerator.getServiceDefSnippet()),
+    DEF_SERVICE(SnippetGenerator.getHttpServiceDefSnippet()),
+
+    DEF_SERVICE_COMMON(SnippetGenerator.getCommonServiceSnippet()),
 
 //    DEF_SERVICE_VAR(SnippetGenerator.getServiceVarSnippet()),
 
@@ -212,6 +214,8 @@ public enum Snippet {
 
     KW_FINAL(SnippetGenerator.getFinalKeywordSnippet()),
 
+    KW_CONFIGURABLE(SnippetGenerator.getConfigurableKeywordSnippet()),
+
     KW_FAIL(SnippetGenerator.getFailKeywordSnippet()),
 
     KW_REMOTE(SnippetGenerator.getRemoteKeywordSnippet()),
@@ -289,6 +293,10 @@ public enum Snippet {
     KW_SOURCE_LISTENER(SnippetGenerator.getKeywordSnippet("source listener")),
 
     KW_SOURCE_WORKER(SnippetGenerator.getKeywordSnippet("source worker")),
+
+    KW_TRUE(SnippetGenerator.getKeywordSnippet("true")),
+
+    KW_FALSE(SnippetGenerator.getKeywordSnippet("false")),
 
     // Statement Snippets
     STMT_BREAK(SnippetGenerator.getBreakSnippet()),

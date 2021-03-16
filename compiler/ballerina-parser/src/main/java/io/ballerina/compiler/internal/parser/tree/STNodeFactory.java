@@ -822,6 +822,7 @@ public class STNodeFactory extends STAbstractNodeFactory {
 
     public static STNode createModuleVariableDeclarationNode(
             STNode metadata,
+            STNode visibilityQualifier,
             STNode qualifiers,
             STNode typedBindingPattern,
             STNode equalsToken,
@@ -830,6 +831,7 @@ public class STNodeFactory extends STAbstractNodeFactory {
 
         return new STModuleVariableDeclarationNode(
                 metadata,
+                visibilityQualifier,
                 qualifiers,
                 typedBindingPattern,
                 equalsToken,
@@ -2131,13 +2133,11 @@ public class STNodeFactory extends STAbstractNodeFactory {
     public static STNode createListMatchPatternNode(
             STNode openBracket,
             STNode matchPatterns,
-            STNode restMatchPattern,
             STNode closeBracket) {
 
         return new STListMatchPatternNode(
                 openBracket,
                 matchPatterns,
-                restMatchPattern,
                 closeBracket);
     }
 
@@ -2155,13 +2155,11 @@ public class STNodeFactory extends STAbstractNodeFactory {
     public static STNode createMappingMatchPatternNode(
             STNode openBraceToken,
             STNode fieldMatchPatterns,
-            STNode restMatchPattern,
             STNode closeBraceToken) {
 
         return new STMappingMatchPatternNode(
                 openBraceToken,
                 fieldMatchPatterns,
-                restMatchPattern,
                 closeBraceToken);
     }
 
@@ -2237,17 +2235,54 @@ public class STNodeFactory extends STAbstractNodeFactory {
                 documentElements);
     }
 
-    public static STNode createDocumentationReferenceNode(
+    public static STNode createBallerinaNameReferenceNode(
             STNode referenceType,
             STNode startBacktick,
-            STNode backtickContent,
+            STNode nameReference,
             STNode endBacktick) {
 
-        return new STDocumentationReferenceNode(
+        return new STBallerinaNameReferenceNode(
                 referenceType,
                 startBacktick,
-                backtickContent,
+                nameReference,
                 endBacktick);
+    }
+
+    public static STNode createInlineCodeReferenceNode(
+            STNode startBacktick,
+            STNode codeReference,
+            STNode endBacktick) {
+
+        return new STInlineCodeReferenceNode(
+                startBacktick,
+                codeReference,
+                endBacktick);
+    }
+
+    public static STNode createMarkdownCodeBlockNode(
+            STNode startLineHashToken,
+            STNode startBacktick,
+            STNode langAttribute,
+            STNode codeLines,
+            STNode endLineHashToken,
+            STNode endBacktick) {
+
+        return new STMarkdownCodeBlockNode(
+                startLineHashToken,
+                startBacktick,
+                langAttribute,
+                codeLines,
+                endLineHashToken,
+                endBacktick);
+    }
+
+    public static STNode createMarkdownCodeLineNode(
+            STNode hashToken,
+            STNode codeDescription) {
+
+        return new STMarkdownCodeLineNode(
+                hashToken,
+                codeDescription);
     }
 
     public static STNode createOrderByClauseNode(
