@@ -38,6 +38,7 @@ public class ClosureEvaluatorTest extends AbstractEvaluatorTest {
 
     @Test
     public void testClosureBbe() throws BallerinaShellException {
+        // TODO: Cannot define and evaluate test cases at same line because #29243
         testEvaluate(CLOSURE_BBE_TESTCASE);
     }
 

@@ -16,18 +16,34 @@
     "code": "function functionPointers(int a) returns (function (int) returns (function (int) returns int)) { return function (int b) returns (function (int) returns int) { return function (int c) returns int { return a + b + c; }; }; }"
   },
   {
-    "description": "Use basic closure.",
-    "code": "var foo = basicClosure(); foo(3)",
+    "description": "Use basic closure AI.",
+    "code": "var foo = basicClosure()"
+  },
+  {
+    "description": "Use basic closure AII.",
+    "code": "foo(3)",
     "expr": "48"
   },
   {
-    "description": "Use multilevel closure.",
-    "code": "var bar = multilevelClosure(); bar(5)",
+    "description": "Use multilevel closure I.",
+    "code": "var bar = multilevelClosure()"
+  },
+  {
+    "description": "Use multilevel closure II.",
+    "code": "bar(5)",
     "expr": "72"
   },
   {
-    "description": "Use basic closure.",
-    "code": "var baz1 = functionPointers(7); var baz2 = baz1(5);  baz2(3); ",
+    "description": "Use basic closure B.",
+    "code": "var baz1 = functionPointers(7)"
+  },
+  {
+    "description": "Use basic closure BII.",
+    "code": "var baz2 = baz1(5)"
+  },
+  {
+    "description": "Use basic closure BIII.",
+    "code": "baz2(3); ",
     "expr": "15"
   }
 ]
